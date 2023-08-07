@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/presentation/view/chat_details/widgets/chat_details_app_bar_title.dart';
 
 import 'widgets/chat_details_app_bar_leading.dart';
+import 'widgets/chat_details_app_bar_title.dart';
 import 'widgets/chat_details_body.dart';
 
 class ChatDetailsScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class ChatDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildChatDetailsAppBar(),
-      body: const ChatDetailsBody(),
+      body: ChatDetailsBody(themeColors: themeColors),
     );
   }
 

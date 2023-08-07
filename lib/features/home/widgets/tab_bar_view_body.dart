@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
 
-import '../calls_screen.dart';
-import '../chats_screen.dart';
+import '../../call/view/calls_screen.dart';
+import '../../chat/view/chats_screen.dart';
+
+
+
 
 class TabBarViewBody extends StatelessWidget {
   const TabBarViewBody({

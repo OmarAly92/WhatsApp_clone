@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
 
-import '../../../core/themes/theme_color.dart';
+import '../../../../core/themes/theme_color.dart';
 import 'widgets/chat_item.dart';
 
 class ChatsScreen extends StatelessWidget {

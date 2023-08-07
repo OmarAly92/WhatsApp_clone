@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/presentation/view/home_screens/tab_bar_view.dart';
 
-import '../../presentation/view/chat_details/chat_details_screen.dart';
+import '../../features/chat/view/chat_details_screen.dart';
+import '../../features/home/tab_bar_view.dart';
 
 abstract class AppRouter {
   static const String homeScreen = '/';
@@ -19,7 +19,6 @@ abstract class AppRouter {
             );
           },
         );
-
       case chatDetail:
         return MaterialPageRoute(
           builder: (context) {

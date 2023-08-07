@@ -43,6 +43,7 @@ dependencies:
   dio: ^5.3.2
   get_it: ^7.6.0
   cached_network_image: ^3.2.3
+  custom_clippers: ^2.0.0
 
 dev_dependencies:
   flutter_test:

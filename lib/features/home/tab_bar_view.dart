@@ -6,6 +6,8 @@ import 'package:whats_app_clone/core/themes/theme_color.dart';
 
 import 'widgets/tab_bar_view_body.dart';
 
+
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, required this.themeColors});
 

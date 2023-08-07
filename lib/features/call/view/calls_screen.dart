@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/presentation/view/home_screens/widgets/call_body_section.dart';
+
+import 'widgets/call_body_section.dart';
+
 
 class CallsScreen extends StatelessWidget {
   const CallsScreen({Key? key, required this.themeColors}) : super(key: key);

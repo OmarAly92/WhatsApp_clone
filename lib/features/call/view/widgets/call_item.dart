@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/themes/theme_color.dart';
 import 'call_item_body.dart';
-import 'chat_item_image.dart';
+import '../../../chat/view/widgets/chat_item_image.dart';
 
 class CallItem extends StatelessWidget {
   const CallItem({super.key, required this.themeColors});
