@@ -43,7 +43,7 @@ class ChatDetailsAppBarLeading extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30.r),
-                    child: Image.asset(kTestOmar),
+                    child: Image.asset(kTestOmar,fit: BoxFit.fill),
                   ),
                 ),
               ),

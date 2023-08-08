@@ -45,6 +45,14 @@ class ThemeColors {
   late final Color hisMessageTime;
   late final Color hisMessage;
   late final Color privateChatAppBarColor;
+
+
+  late final Color updatesEditFloatingActionButtonColor;
+
+
+  late final Color updatesEditIconColor;
+
+
   late final String chatBackGroundImage;
   final String kDarkChatBackGround1 = kDarkChatBackGround;
   final String kLightChatBackGround1 = kLightChatBackGround;
@@ -78,6 +86,10 @@ class ThemeColors {
     hisMessageTime = isDarkMode ? const   Color(0xff89969e) : const Color(0xff7a8f7e);
     hisMessage = isDarkMode ? const Color(0xff1f2c34) : const Color(0xffffffff);
     privateChatAppBarColor = isDarkMode ? const Color(0xfff0f6f5) : const Color(0xfff0f6f5);
+
+    updatesEditFloatingActionButtonColor = isDarkMode ? const Color(0xff3C4A55) : const Color(0xffE0FEF2);
+    updatesEditIconColor = isDarkMode ? const Color(0xffD2D6DA) : const Color(0xff017F68);
+
     chatBackGroundImage = isDarkMode ? kDarkChatBackGround1 : kLightChatBackGround1;
   }
 }

@@ -22,12 +22,15 @@ class ChatDetailsBody extends StatelessWidget {
             filterQuality: FilterQuality.high),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MessageBubble(themeColors: themeColors, isTheSender: true),
-          MessageBubble(themeColors: themeColors, isTheSender: false),
-          MessageBubble(themeColors: themeColors, isTheSender: true),
-          MessageBubble(themeColors: themeColors, isTheSender: false),
+      Column(
+        children: [
+          SizedBox(height: 10),
+          MessageBubble(themeColors: themeColors, isTheSender: false, message: 'ازيك كيف حالك؟',),
+          MessageBubble(themeColors: themeColors, isTheSender: true, message: 'مرحبًا أحمد! أنا بخير، شكرًا. وأنت؟',),
+        ],
+      ),
           ChatTextFormAndMicButton(themeColors: themeColors),
         ],
       ),

@@ -7,11 +7,12 @@ import '../../../../core/themes/text_style/text_styles.dart';
 class MessageBubbleBody extends StatelessWidget {
   const MessageBubbleBody({
     super.key,
-    required this.themeColors, required this.isTheSender,
+    required this.themeColors, required this.isTheSender, required this.message,
   });
 
   final ThemeColors themeColors;
   final bool isTheSender;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class MessageBubbleBody extends StatelessWidget {
         direction: Axis.horizontal,
         children: [
           Text(
-            'Hi how are you',
+            message,
             softWrap: true,
             style: Styles.textStyle16.copyWith(fontWeight: FontWeight.w500),
           ),

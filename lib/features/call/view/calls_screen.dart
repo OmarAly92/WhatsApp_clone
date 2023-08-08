@@ -16,13 +16,7 @@ class CallsScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CallBodySection(themeColors: themeColors),
-        FloatingActionButton(
-          onPressed: () {},
-          child: Icon(
-            Icons.add_call,
-            color: themeColors.backgroundColor,
-          ),
-        ),
+
       ],
     );
   }

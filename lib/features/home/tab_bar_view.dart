@@ -5,68 +5,107 @@ import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
 
 import 'widgets/tab_bar_view_body.dart';
+import 'widgets/tabs_floating_action_button.dart';
 
-
-
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.themeColors});
 
   final ThemeColors themeColors;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabChange);
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_handleTabChange);
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: buildHomeAppBar(),
-        body: TabBarViewBody(themeColors: themeColors),
+        floatingActionButton: TabsFloatingActionButton(
+            tabController: _tabController, themeColors: widget.themeColors),
+        appBar: _buildHomeAppBar(),
+        body: TabBarViewBody(
+          themeColors: widget.themeColors,
+          tabController: _tabController,
+        ),
       ),
     );
   }
 
-  AppBar buildHomeAppBar() {
+  AppBar _buildHomeAppBar() {
+    List<Widget> actions = [
+      IconButton(onPressed: () {}, icon: const Icon(Icons.camera_alt_outlined)),
+      _tabController.index == 1
+          ? const SizedBox()
+          : IconButton(
+              onPressed: () {},
+              icon: const Icon(CupertinoIcons.search),
+            ),
+      IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+    ];
     return AppBar(
       title: const Text('WhatsApp'),
-      actions: [
-        IconButton(
-            onPressed: () {}, icon: const Icon(Icons.camera_alt_outlined)),
-        IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.search)),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
-      ],
-      bottom: TabBar(
-        unselectedLabelColor: themeColors.appbarTextColor,
-        indicatorSize: TabBarIndicatorSize.tab,
-        tabs: [
-          Tab(
-            child: Text(
-              'Chats',
-              style: Styles.textStyle14.copyWith(
-                fontWeight: FontWeight.w500,
-                fontSize: 15.sp,
-              ),
-            ),
-          ),
-          Tab(
-            child: Text(
-              'Updates',
-              style: Styles.textStyle14.copyWith(
-                fontWeight: FontWeight.w500,
-                fontSize: 15.sp,
-              ),
-            ),
-          ),
-          Tab(
-            child: Text(
-              'Calls',
-              style: Styles.textStyle14.copyWith(
-                fontWeight: FontWeight.w500,
-                fontSize: 15.sp,
-              ),
-            ),
-          ),
-        ],
-      ),
+      actions: actions,
+      bottom: _tabBar(),
     );
   }
-}
 
+  TabBar _tabBar() {
+    return TabBar(
+      controller: _tabController,
+      unselectedLabelColor: widget.themeColors.appbarTextColor,
+      indicatorSize: TabBarIndicatorSize.tab,
+      tabs: [
+        Tab(
+          child: Text(
+            'Chats',
+            style: Styles.textStyle14.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 15.sp,
+            ),
+          ),
+        ),
+        Tab(
+          child: Text(
+            'Updates',
+            style: Styles.textStyle14.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 15.sp,
+            ),
+          ),
+        ),
+        Tab(
+          child: Text(
+            'Calls',
+            style: Styles.textStyle14.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 15.sp,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _handleTabChange() {
+    setState(() {});
+  }
+}

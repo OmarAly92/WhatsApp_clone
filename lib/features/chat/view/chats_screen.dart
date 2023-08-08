@@ -19,13 +19,6 @@ class ChatsScreen extends StatelessWidget {
           onTap: () => Navigator.pushNamed(context, AppRouter.chatDetail),
           child: ChatItem(themeColors: themeColors),
         ),
-        FloatingActionButton(
-          onPressed: () {},
-          child: Icon(
-            Icons.message,
-            color: themeColors.backgroundColor,
-          ),
-        ),
       ],
     );
   }

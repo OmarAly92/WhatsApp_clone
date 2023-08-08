@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/utils/assets_data.dart';
+import '../utils/assets_data.dart';
 
-class ChatItemImage extends StatelessWidget {
-  const ChatItemImage({
+class CustomCircleImage extends StatelessWidget {
+  const CustomCircleImage({
     super.key,
   });
 

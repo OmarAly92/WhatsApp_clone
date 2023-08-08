@@ -18,7 +18,7 @@ abstract class Styles {
   );
   static TextStyle textStyle16 = TextStyle(
     fontSize: 16.sp,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
   );
   static TextStyle textStyle18 = TextStyle(
     fontSize: 18.sp,
@@ -27,7 +27,7 @@ abstract class Styles {
 
   static TextStyle textStyle20 = TextStyle(
     fontSize: 20.sp,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w600,
   );
 
   static TextStyle textStyle22 = TextStyle(

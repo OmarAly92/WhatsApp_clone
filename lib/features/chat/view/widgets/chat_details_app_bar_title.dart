@@ -23,7 +23,7 @@ class ChatDetailsAppBarTitle extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: Text(
-              'Mohamed Badr',
+              'Mohamed Ahmed',
               style: Styles.textStyle18.copyWith(
                 color: themeColors.privateChatAppBarColor,
               ),

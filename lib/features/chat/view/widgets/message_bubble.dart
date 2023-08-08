@@ -8,10 +8,11 @@ class MessageBubble extends StatelessWidget {
   const MessageBubble({
     Key? key,
     required this.themeColors,
-    required this.isTheSender,
+    required this.isTheSender, required this.message,
   }) : super(key: key);
   final ThemeColors themeColors;
   final bool isTheSender;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class MessageBubble extends StatelessWidget {
             clipper: UpperNipMessageClipperTwo(
                 isTheSender ? MessageType.send : MessageType.receive),
             child: MessageBubbleBody(
-                themeColors: themeColors, isTheSender: isTheSender),
+                themeColors: themeColors, isTheSender: isTheSender, message: message),
           ),
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/themes/theme_color.dart';
 import 'chat_item_body.dart';
-import 'chat_item_image.dart';
+import '../../../../core/widgets/custom_circle_image.dart';
 
 class ChatItem extends StatelessWidget {
   const ChatItem({
@@ -17,7 +17,7 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const ChatItemImage(),
+        const CustomCircleImage(),
         SizedBox(width: 13.w),
         ChatItemBody(themeColors: themeColors),
       ],
