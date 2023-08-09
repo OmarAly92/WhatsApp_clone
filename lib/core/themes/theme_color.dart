@@ -45,6 +45,7 @@ class ThemeColors {
   late final Color hisMessageTime;
   late final Color hisMessage;
   late final Color privateChatAppBarColor;
+  late final Color theAuthorTextColor;
 
 
   late final Color updatesEditFloatingActionButtonColor;
@@ -75,11 +76,11 @@ class ThemeColors {
     appbarTextColor =
         isDarkMode ? const Color(0xff8b9a9f) : const Color(0xfface1d9);
     bodyTextColor =
-        isDarkMode ? const Color(0xff8b9a9f) : const Color(0xff85969e);
+        isDarkMode ? const Color(0xff8596A0) : const Color(0xff85969e);
     bodyIconColor =
         isDarkMode ? const Color(0xff889093) : const Color(0xff84979e);
     dividerColor =
-        isDarkMode ? const Color(0xff1c252c) : const Color(0xfff7f8fa);
+        isDarkMode ? const Color(0xff607d8b) : const Color(0xff9e9e9e);
     greenColor = isDarkMode ? const Color(0xff00a884) : const Color(0xff008069);
     myMessage = isDarkMode ? const Color(0xff005C4B) : const Color(0xffe7ffdb);
     myMessageTime = isDarkMode ? const  Color(0xff91cac1) : const Color(0xff7a8f7e);
@@ -89,6 +90,8 @@ class ThemeColors {
 
     updatesEditFloatingActionButtonColor = isDarkMode ? const Color(0xff3C4A55) : const Color(0xffE0FEF2);
     updatesEditIconColor = isDarkMode ? const Color(0xffD2D6DA) : const Color(0xff017F68);
+    theAuthorTextColor = isDarkMode ? const Color(0xffBEBFC0) : const Color(0xff000000);
+
 
     chatBackGroundImage = isDarkMode ? kDarkChatBackGround1 : kLightChatBackGround1;
   }

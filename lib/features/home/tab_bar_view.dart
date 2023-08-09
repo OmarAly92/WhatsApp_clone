@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/core/app_router/app_router.dart';
 import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
 
@@ -59,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen>
               onPressed: () {},
               icon: const Icon(CupertinoIcons.search),
             ),
-      IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+      IconButton(onPressed: () {
+        Navigator.pushNamed(context, AppRouter.settingsScreen);
+      }, icon: const Icon(Icons.more_vert)),
     ];
     return AppBar(
       title: const Text('WhatsApp'),

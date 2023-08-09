@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/themes/text_style/text_styles.dart';
 import '../../../../core/themes/theme_color.dart';
-import 'status_item_body.dart';
+import '../../../../core/widgets/custom_body_titles_widget.dart';
 import 'status_item_image.dart';
 
 class StatusItem extends StatelessWidget {
@@ -27,13 +28,18 @@ class StatusItem extends StatelessWidget {
         SizedBox(
           width: 4.w,
         ),
-        StatusItemBody(
-          textTitle: textTitle,
-          textSubTitle: textSubTitle,
+        CustomBodyTitlesWidget(
+          textTitle: Text(textTitle, style: Styles.textStyle16),
+          textSubTitle: Text(
+            textSubTitle,
+            style: Styles.textStyle14.copyWith(
+              color: themeColors.bodyTextColor,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           themeColors: themeColors,
         ),
       ],
     );
   }
 }
-
