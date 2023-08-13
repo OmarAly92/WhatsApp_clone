@@ -60,9 +60,11 @@ class _HomeScreenState extends State<HomeScreen>
               onPressed: () {},
               icon: const Icon(CupertinoIcons.search),
             ),
-      IconButton(onPressed: () {
-        Navigator.pushNamed(context, AppRouter.settingsScreen);
-      }, icon: const Icon(Icons.more_vert)),
+      IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, AppRouter.settingsScreen);
+          },
+          icon: const Icon(Icons.more_vert)),
     ];
     return AppBar(
       title: const Text('WhatsApp'),

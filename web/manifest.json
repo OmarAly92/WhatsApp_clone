@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "WhatsApp Clone is a messaging application designed to mimic the popular messaging platform WhatsApp. It is developed by an independent developer or organization and aims to provide users with a similar user experience as the original WhatsApp.",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
