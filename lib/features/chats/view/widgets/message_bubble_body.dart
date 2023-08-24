@@ -7,12 +7,16 @@ import '../../../../core/themes/text_style/text_styles.dart';
 class MessageBubbleBody extends StatelessWidget {
   const MessageBubbleBody({
     super.key,
-    required this.themeColors, required this.isTheSender, required this.message,
+    required this.themeColors,
+    required this.isTheSender,
+    required this.message,
+    required this.time,
   });
 
   final ThemeColors themeColors;
   final bool isTheSender;
   final String message;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +24,11 @@ class MessageBubbleBody extends StatelessWidget {
       padding: EdgeInsets.only(
         top: 4.h,
         bottom: 2.h,
-        left:isTheSender ? 9.w:24.w,
-        right:isTheSender ? 24.w:9.w,
+        left: isTheSender ? 9.w : 24.w,
+        right: isTheSender ? 24.w : 9.w,
       ),
       decoration: BoxDecoration(
-        color: isTheSender ?themeColors.myMessage:themeColors.hisMessage
-      ),
+          color: isTheSender ? themeColors.myMessage : themeColors.hisMessage),
       child: Wrap(
         alignment: WrapAlignment.end,
         direction: Axis.horizontal,
@@ -41,16 +44,20 @@ class MessageBubbleBody extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '11:05 am',
+                  time,
                   style: Styles.textStyle12.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: isTheSender ? themeColors.myMessageTime:themeColors.hisMessageTime,
+                    color: isTheSender
+                        ? themeColors.myMessageTime
+                        : themeColors.hisMessageTime,
                   ),
                 ),
                 Icon(
                   Icons.done,
                   size: 17,
-                  color: isTheSender ? themeColors.myMessageTime:themeColors.hisMessageTime,
+                  color: isTheSender
+                      ? themeColors.myMessageTime
+                      : themeColors.hisMessageTime,
                 )
               ],
             ),

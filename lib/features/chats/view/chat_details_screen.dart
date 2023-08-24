@@ -7,16 +7,24 @@ import 'widgets/chat_details_app_bar_title.dart';
 import 'widgets/chat_details_body.dart';
 
 class ChatDetailsScreen extends StatelessWidget {
-  const ChatDetailsScreen({Key? key, required this.themeColors})
+  const ChatDetailsScreen(
+      {Key? key,
+      required this.themeColors,
+      required this.chatIndex,
+      })
       : super(key: key);
 
   final ThemeColors themeColors;
+  final int chatIndex;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildChatDetailsAppBar(),
-      body: ChatDetailsBody(themeColors: themeColors),
+      body: ChatDetailsBody(
+        themeColors: themeColors,
+        chatIndex: chatIndex,
+      ),
     );
   }
 

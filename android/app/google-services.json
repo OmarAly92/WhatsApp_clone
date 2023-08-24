@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:284791684819:android:6b98c82b53cb3aaf719e26",
+        "mobilesdk_app_id": "1:284791684819:android:2437147319faa1ab719e26",
         "android_client_info": {
           "package_name": "com.example.whats_app_clone"
         }
@@ -29,6 +29,13 @@
             {
               "client_id": "284791684819-8egfkeejkth4qnq3o84e17htfcchlgdl.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "284791684819-km23ttvhaeic0ueam3i8igi47u2pq0vb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.whatsAppClone"
+              }
             }
           ]
         }

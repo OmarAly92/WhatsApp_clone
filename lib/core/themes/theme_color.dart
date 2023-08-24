@@ -37,6 +37,7 @@ class ThemeColors {
   late final Color appbarColor;
   late final Color appbarTextColor;
   late final Color bodyTextColor;
+  late final Color regularTextColor;
   late final Color bodyIconColor;
   late final Color dividerColor;
   late final Color greenColor;
@@ -95,6 +96,7 @@ class ThemeColors {
     theAuthorTextColor = isDarkMode ? const Color(0xffBEBFC0) : const Color(0xff000000);
     greenButton = isDarkMode ? const Color(0xff00A884) : const Color(0xff0f9c7c);
     secondaryButton = isDarkMode ? const Color(0xff182329) : const Color(0xfff7f8fa);
+    regularTextColor = isDarkMode ? const Color(0xffffffff) : const Color(0xff000000);
 
 
     chatBackGroundImage = isDarkMode ? kDarkChatBackGround1 : kLightChatBackGround1;

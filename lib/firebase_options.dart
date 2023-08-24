@@ -45,17 +45,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyB6lAalfgsUpgspCGTAYPlH2Q3pC8VhBEw',
-    appId: '1:284791684819:web:6d4bfaaf76323c83719e26',
+    appId: '1:284791684819:web:2a71745639b5a54f719e26',
     messagingSenderId: '284791684819',
     projectId: 'whats-app-clone-4fe8a',
     authDomain: 'whats-app-clone-4fe8a.firebaseapp.com',
     storageBucket: 'whats-app-clone-4fe8a.appspot.com',
-    measurementId: 'G-B04MVE99MX',
+    measurementId: 'G-NVRE3NE7P6',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAcREdwziOrVo8T7KuDY44B08tC3dT8C9Y',
-    appId: '1:284791684819:android:6b98c82b53cb3aaf719e26',
+    appId: '1:284791684819:android:2437147319faa1ab719e26',
     messagingSenderId: '284791684819',
     projectId: 'whats-app-clone-4fe8a',
     storageBucket: 'whats-app-clone-4fe8a.appspot.com',
@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBFybXFUNZJDChlEnMdK6GXVBXeidNSimU',
-    appId: '1:284791684819:ios:dbcfcc1822ed136b719e26',
+    appId: '1:284791684819:ios:3e2a48e39159b610719e26',
     messagingSenderId: '284791684819',
     projectId: 'whats-app-clone-4fe8a',
     storageBucket: 'whats-app-clone-4fe8a.appspot.com',
@@ -74,7 +74,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBFybXFUNZJDChlEnMdK6GXVBXeidNSimU',
-    appId: '1:284791684819:ios:865ea1ab4ede039b719e26',
+    appId: '1:284791684819:ios:5828573302177a81719e26',
     messagingSenderId: '284791684819',
     projectId: 'whats-app-clone-4fe8a',
     storageBucket: 'whats-app-clone-4fe8a.appspot.com',

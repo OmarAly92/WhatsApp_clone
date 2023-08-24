@@ -4,15 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
 
 import 'core/themes/themes.dart';
+import 'firebase_options.dart';
 
-void main() async{
+late String initialScreen;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+
+  AppRouter appRouter = AppRouter();
+  runApp(MyApp(appRouter: appRouter, ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.appRouter});
+final  AppRouter appRouter;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,8 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         theme: MyThemes.lightTheme,
         darkTheme: MyThemes.darkTheme,
-        onGenerateRoute: AppRouter.generateRoute,
+        onGenerateRoute: appRouter.generateRoute,
+        initialRoute: '/welcomeScreen',
       ),
     );
   }

@@ -40,8 +40,10 @@ class PhoneAuthScreenTopTitleSection extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                  text: 'WhatsApp will need to verify your account. ',
-                  style: Styles.textStyle12),
+                text: 'WhatsApp will need to verify your account. ',
+                style: Styles.textStyle12
+                    .copyWith(color: themeColors.regularTextColor),
+              ),
               TextSpan(
                 text: 'What\'s my number?',
                 style: Styles.textStyle12.copyWith(

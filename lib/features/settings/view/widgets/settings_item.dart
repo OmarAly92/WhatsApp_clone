@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/core/app_router/app_router.dart';
 import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
+import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.dart';
 
 import 'custom_list_tile.dart';
 
@@ -94,6 +97,27 @@ class SettingsItem extends StatelessWidget {
           title: Text('Invite a friend', style: Styles.textStyle16),
           minLeadingWidth: 28.w,
           onTap: () {},
+        ),
+        BlocProvider<AuthenticationCubit>(
+          create: (context) => AuthenticationCubit(),
+          child: ListTile(
+            leading: const Icon(Icons.people_rounded, color: Colors.red),
+            title: Text(
+              'Logout',
+              style: Styles.textStyle16.copyWith(
+                color: Colors.red,
+              ),
+            ),
+            minLeadingWidth: 28.w,
+            onTap: () {
+              AuthenticationCubit authenticationCubit = AuthenticationCubit();
+              authenticationCubit.logOut();
+              Navigator.pushReplacementNamed(
+                context,
+                AppRouter.welcomeScreen,
+              );
+            },
+          ),
         ),
       ],
     );
