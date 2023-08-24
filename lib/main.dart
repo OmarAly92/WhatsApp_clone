@@ -13,6 +13,8 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   AppRouter appRouter = AppRouter();
+
+
   runApp(MyApp(appRouter: appRouter));
 }
 
@@ -33,7 +35,7 @@ final  AppRouter appRouter;
         theme: MyThemes.lightTheme,
         darkTheme: MyThemes.darkTheme,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: '/',
+        initialRoute: '/welcomeScreen',
       ),
     );
   }
