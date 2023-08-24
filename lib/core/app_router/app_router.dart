@@ -12,7 +12,7 @@ import '../../features/home/tab_bar_view.dart';
 import '../../features/settings/view/settings_screen.dart';
 
 class AppRouter {
-  static const String welcomeScreen = '/welcomeScreen';
+  static const String welcomeScreen = '/';
   static const String homeScreen = '/homeScreen';
   static const String phoneAuthScreen = '/phoneAuthScreen';
   static const String otpScreen = '/otpScreen';

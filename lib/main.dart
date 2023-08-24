@@ -12,9 +12,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-
   AppRouter appRouter = AppRouter();
-  runApp(MyApp(appRouter: appRouter, ));
+  runApp(MyApp(appRouter: appRouter));
 }
 
 class MyApp extends StatelessWidget {
@@ -34,7 +33,7 @@ final  AppRouter appRouter;
         theme: MyThemes.lightTheme,
         darkTheme: MyThemes.darkTheme,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: '/welcomeScreen',
+        initialRoute: '/',
       ),
     );
   }
