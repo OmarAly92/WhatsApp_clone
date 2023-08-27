@@ -29,13 +29,15 @@ class WelcomeBody extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 19.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            WelcomeIconImageSection(themeColors: themeColors),
-            WelcomeTitleAndSubtitleSection(themeColors: themeColors),
-            WelcomeButtonsSection(themeColors: themeColors)
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              WelcomeIconImageSection(themeColors: themeColors),
+              WelcomeTitleAndSubtitleSection(themeColors: themeColors),
+              WelcomeButtonsSection(themeColors: themeColors)
+            ],
+          ),
         ),
       ),
     );

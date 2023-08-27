@@ -3,6 +3,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:whats_app_clone/data/model/user_model/user_model.dart';
 
 import '../../../../core/functions/filtering.dart';
@@ -21,7 +22,7 @@ class ChatsCubit extends Cubit<ChatsState> {
 
     try {
       final String myPhoneNumber =
-          firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+      firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
 
       await getUserData(myPhoneNumber: myPhoneNumber);
       await getChats(myPhoneNumber: myPhoneNumber);
@@ -68,11 +69,11 @@ class ChatsCubit extends Cubit<ChatsState> {
     final userSnapshot = fireBaseInit.collection('users');
 
     List<UserModel> fireBaseUsers =
-        await gettingFireBaseUsersData(userSnapshot);
+    await gettingFireBaseUsersData(userSnapshot);
 
     List<UserModel> contactsList =
-        await filteringFirebaseContactsAndLocalContacts(
-            fireBaseUsers, myPhoneNumber);
+    await filteringFirebaseContactsAndLocalContacts(
+        fireBaseUsers, myPhoneNumber);
 
     UserModel myUserData = await getMyUserData(userSnapshot, myPhoneNumber);
     creatingChatRoom(
@@ -98,31 +99,39 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   Future<List<UserModel>> filteringFirebaseContactsAndLocalContacts(
       List<UserModel> fireBaseUsers, String myPhoneNumber) async {
-    List<Contact> localContacts = await ContactsService.getContacts();
 
-    Set<String> contactsPhoneNumbers =
-        Filtering.extractContactsPhoneNumbers(localContacts);
-    Set<String> userPhoneNumbersSet =
-        Filtering.extractUserPhoneNumbers(fireBaseUsers);
-    Set<String> commonPhoneNumbers = Filtering.findCommonPhoneNumbers(
-      contactsPhoneNumbers,
-      userPhoneNumbersSet,
-    );
 
-    List<UserModel> contactsList = Filtering.filterUserPhoneNumber(
-      fireBaseUsers,
-      commonPhoneNumbers,
-      myPhoneNumber,
-    );
-    return contactsList;
+    final PermissionStatus status = await Permission.contacts.request(); // Request the permission
+    if (status.isGranted) {
+      List<Contact> localContacts = await ContactsService.getContacts();
+
+      Set<String> contactsPhoneNumbers =
+      Filtering.extractContactsPhoneNumbers(localContacts);
+      Set<String> userPhoneNumbersSet =
+      Filtering.extractUserPhoneNumbers(fireBaseUsers);
+      Set<String> commonPhoneNumbers = Filtering.findCommonPhoneNumbers(
+        contactsPhoneNumbers,
+        userPhoneNumbersSet,
+      );
+
+      List<UserModel> contactsList = Filtering.filterUserPhoneNumber(
+        fireBaseUsers,
+        commonPhoneNumbers,
+        myPhoneNumber,
+      );
+      return contactsList;
+    } else {
+    throw Exception();
+    }
+
   }
 
   Future<UserModel> getMyUserData(
-    CollectionReference<Map<String, dynamic>> userSnapshot,
-    String myPhoneNumber,
-  ) async {
+      CollectionReference<Map<String, dynamic>> userSnapshot,
+      String myPhoneNumber,
+      ) async {
     var myData =
-        await userSnapshot.where('userPhone', isEqualTo: myPhoneNumber).get();
+    await userSnapshot.where('userPhone', isEqualTo: myPhoneNumber).get();
     UserModel myUserData = UserModel.fromQuerySnapshot(myData);
     return myUserData;
   }
@@ -132,9 +141,16 @@ class ChatsCubit extends Cubit<ChatsState> {
     required String myPhoneNumber,
     required UserModel myUserData,
   }) async {
-        final chatSnapshot = fireBaseInit.collection('chats');
-        for (final contact in contactsList) {
-          await chatSnapshot.doc(contact.userPhone).update({
+    final chatSnapshot = fireBaseInit.collection('chats');
+    try {
+
+      for (int i = 0; i < contactsList.length; i++) {
+        DocumentSnapshot snapshot =
+        await chatSnapshot.doc(contactsList[i].userPhone).get();
+        if (snapshot.exists) {
+          print('Document exists OMAR');
+        } else {
+          await chatSnapshot.doc(contactsList[i].userPhone).update({
             'chatType': 'private',
             'messages': [
               {
@@ -146,9 +162,9 @@ class ChatsCubit extends Cubit<ChatsState> {
             ],
             'users': [
               {
-                'userId': contact.userId,
-                'userName': contact.userName,
-                'userPhone': contact.userPhone,
+                'userId': contactsList[i].userId,
+                'userName': contactsList[i].userName,
+                'userPhone': contactsList[i].userPhone,
               },
               {
                 'userId': myUserData.userId,
@@ -158,7 +174,14 @@ class ChatsCubit extends Cubit<ChatsState> {
             ],
           });
         }
+      }
+    } catch (e) {
+      emit(ChatsFailure(failureMessage: e.toString()));
+    }
   }
+  }
+
+
   //   try {
   //
   //     for (int i = 0; i < contactsList.length; i++) {
@@ -197,4 +220,3 @@ class ChatsCubit extends Cubit<ChatsState> {
   //   }
   // }
 
-}

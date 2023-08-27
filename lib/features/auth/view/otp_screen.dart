@@ -4,8 +4,11 @@ import 'package:whats_app_clone/core/themes/theme_color.dart';
 import 'widgets/otp_body.dart';
 
 class OtpScreen extends StatelessWidget {
-  const OtpScreen(
-      {super.key, required this.themeColors, required this.phoneNumber});
+  const OtpScreen({
+    super.key,
+    required this.themeColors,
+    required this.phoneNumber,
+  });
 
   final ThemeColors themeColors;
   final String phoneNumber;

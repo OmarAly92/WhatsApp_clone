@@ -69,7 +69,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await _auth.signInWithCredential(credential);
 
       CollectionReference createUser =
-          FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
       var userId = _auth.currentUser!.uid;
       createUser.doc(phoneNumber).set({
         'isOnline': true,

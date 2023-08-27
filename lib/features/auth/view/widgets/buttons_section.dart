@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
 import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
@@ -27,8 +28,8 @@ class WelcomeButtonsSection extends StatelessWidget {
               backgroundColor: themeColors.greenButton,
               foregroundColor: Colors.white,
             ),
-            onPressed: () {
-              Navigator.pushNamed(context, AppRouter.phoneAuthScreen);
+            onPressed: () async {
+              GoRouter.of(context).push(AppRouter.phoneAuthScreen);
             },
             child: Text(
               'Agree and continue',
@@ -50,13 +51,18 @@ class WelcomeButtonsSection extends StatelessWidget {
             children: [
               Icon(Icons.language, color: themeColors.greenButton),
               const SizedBox(width: 9),
-              Text('English',
-                  style: Styles.textStyle14.copyWith(
-                      color: themeColors.greenButton,
-                      fontWeight: FontWeight.w500)),
+              Text(
+                'English',
+                style: Styles.textStyle14.copyWith(
+                  color: themeColors.greenButton,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               const SizedBox(width: 9),
-              Icon(Icons.keyboard_arrow_down_rounded,
-                  color: themeColors.greenButton)
+              Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: themeColors.greenButton,
+              )
             ],
           ),
         ),

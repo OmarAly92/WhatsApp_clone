@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/themes/theme_color.dart';
 import '../../../core/app_router/app_router.dart';
@@ -41,11 +42,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     var item = state.chats[index];
                     if (item.messages.isNotEmpty) {
                       return InkWell(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRouter.chatDetailScreen,
-                          arguments: index,
-                        ),
+                        onTap: () {
+                          GoRouter.of(context)
+                              .push(AppRouter.chatDetailScreen, extra: index);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ChatItem(
