@@ -16,19 +16,19 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   var fireBaseInit = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  late List<ChatModel> chats;
 
   Future<void> getContacts() async {
     emit(ChatsLoading());
 
     try {
       final String myPhoneNumber =
-      firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+          firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
 
       await getUserData(myPhoneNumber: myPhoneNumber);
       await getChats(myPhoneNumber: myPhoneNumber);
-    } catch (e) {
-      print('Error in getContacts: $e'); // Log the error for debugging
-      emit(ChatsFailure(failureMessage: e.toString()));
+    } catch (failureMessage) {
+      emit(ChatsFailure(failureMessage: '$failureMessage OMAR'));
     }
   }
 
@@ -39,7 +39,9 @@ class ChatsCubit extends Cubit<ChatsState> {
     required String time,
   }) async {
     try {
-      fireBaseInit.collection('chats').doc(phoneNumber).update({
+      List<String> sortedNumber = [phoneNumber, myPhoneNumber]..sort();
+
+      fireBaseInit.collection('chats').doc(sortedNumber.join('-')).update({
         'messages': FieldValue.arrayUnion([
           {
             'isSeen': false,
@@ -49,18 +51,23 @@ class ChatsCubit extends Cubit<ChatsState> {
           },
         ])
       });
+
     } catch (failureMessage) {
-      emit(ChatsFailure(failureMessage: failureMessage.toString()));
+      emit(ChatsFailure(failureMessage: '$failureMessage OMAR'));
     }
   }
 
   Future<void> getChats({required String myPhoneNumber}) async {
-    final chatsSnapshot = fireBaseInit.collection('chats');
+    final chatsSnapshot = fireBaseInit.collection('chats').where(
+          'usersPhones',
+          arrayContains: myPhoneNumber,
+        );
+
     chatsSnapshot.snapshots().listen((event) async {
       List<ChatModel> chats = List<ChatModel>.from(
           (event.docs).map((e) => ChatModel.fromSnapshot(e)).toList());
       ChatModel.getOtherUser(myPhoneNumber, chats);
-
+      this.chats = chats;
       emit(ChatsSuccess(chats: chats, myPhoneNumber: myPhoneNumber));
     });
   }
@@ -69,11 +76,11 @@ class ChatsCubit extends Cubit<ChatsState> {
     final userSnapshot = fireBaseInit.collection('users');
 
     List<UserModel> fireBaseUsers =
-    await gettingFireBaseUsersData(userSnapshot);
+        await gettingFireBaseUsersData(userSnapshot);
 
     List<UserModel> contactsList =
-    await filteringFirebaseContactsAndLocalContacts(
-        fireBaseUsers, myPhoneNumber);
+        await filteringFirebaseContactsAndLocalContacts(
+            fireBaseUsers, myPhoneNumber);
 
     UserModel myUserData = await getMyUserData(userSnapshot, myPhoneNumber);
     creatingChatRoom(
@@ -99,16 +106,13 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   Future<List<UserModel>> filteringFirebaseContactsAndLocalContacts(
       List<UserModel> fireBaseUsers, String myPhoneNumber) async {
-
-
-    final PermissionStatus status = await Permission.contacts.request(); // Request the permission
+    final PermissionStatus status = await Permission.contacts.request();
     if (status.isGranted) {
       List<Contact> localContacts = await ContactsService.getContacts();
-
       Set<String> contactsPhoneNumbers =
-      Filtering.extractContactsPhoneNumbers(localContacts);
+          Filtering.extractContactsPhoneNumbers(localContacts);
       Set<String> userPhoneNumbersSet =
-      Filtering.extractUserPhoneNumbers(fireBaseUsers);
+          Filtering.extractUserPhoneNumbers(fireBaseUsers);
       Set<String> commonPhoneNumbers = Filtering.findCommonPhoneNumbers(
         contactsPhoneNumbers,
         userPhoneNumbersSet,
@@ -119,19 +123,19 @@ class ChatsCubit extends Cubit<ChatsState> {
         commonPhoneNumbers,
         myPhoneNumber,
       );
+
       return contactsList;
     } else {
-    throw Exception();
+      throw Exception();
     }
-
   }
 
   Future<UserModel> getMyUserData(
-      CollectionReference<Map<String, dynamic>> userSnapshot,
-      String myPhoneNumber,
-      ) async {
+    CollectionReference<Map<String, dynamic>> userSnapshot,
+    String myPhoneNumber,
+  ) async {
     var myData =
-    await userSnapshot.where('userPhone', isEqualTo: myPhoneNumber).get();
+        await userSnapshot.where('userPhone', isEqualTo: myPhoneNumber).get();
     UserModel myUserData = UserModel.fromQuerySnapshot(myData);
     return myUserData;
   }
@@ -144,13 +148,20 @@ class ChatsCubit extends Cubit<ChatsState> {
     final chatSnapshot = fireBaseInit.collection('chats');
     try {
 
+
       for (int i = 0; i < contactsList.length; i++) {
-        DocumentSnapshot snapshot =
-        await chatSnapshot.doc(contactsList[i].userPhone).get();
+
+
+        List<String> sortedNumber = [contactsList[i].userPhone, myPhoneNumber]..sort();
+
+        DocumentSnapshot snapshot = await chatSnapshot.doc(sortedNumber.join('-'))
+            .get();
         if (snapshot.exists) {
           print('Document exists OMAR');
         } else {
-          await chatSnapshot.doc(contactsList[i].userPhone).update({
+          await chatSnapshot
+              .doc(sortedNumber.join('-'))
+              .set({
             'chatType': 'private',
             'messages': [
               {
@@ -172,51 +183,30 @@ class ChatsCubit extends Cubit<ChatsState> {
                 'userPhone': myUserData.userPhone,
               },
             ],
+            'usersPhones': [contactsList[i].userPhone, myUserData.userPhone]
           });
         }
       }
-    } catch (e) {
-      emit(ChatsFailure(failureMessage: e.toString()));
+    } catch (failureMessage) {
+      emit(ChatsFailure(failureMessage: '$failureMessage OMAR'));
     }
   }
+
+  Future<UserModel> checkUserNameIsNotEmpty() async {
+    String myPhoneNumber =
+        firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+    var userQuerySnapshot = await fireBaseInit
+        .collection('users')
+        .where('userPhone', isEqualTo: myPhoneNumber)
+        .get();
+    UserModel user = UserModel.fromQuerySnapshot(userQuerySnapshot);
+    return user;
   }
 
-
-  //   try {
-  //
-  //     for (int i = 0; i < contactsList.length; i++) {
-  //       DocumentSnapshot snapshot =
-  //           await chatSnapshot.doc(contactsList[i].userPhone).get();
-  //       if (snapshot.exists) {
-  //         print('Document exists');
-  //       } else {
-  //         await chatSnapshot.doc(contactsList[i].userPhone).update({
-  //           'chatType': 'private',
-  //           'messages': [
-  //             {
-  //               'isSeen': false,
-  //               'message': '',
-  //               'theSender': '',
-  //               'time': '',
-  //             },
-  //           ],
-  //           'users': [
-  //             {
-  //               'userId': contactsList[i].userId,
-  //               'userName': contactsList[i].userName,
-  //               'userPhone': contactsList[i].userPhone,
-  //             },
-  //             {
-  //               'userId': myUserData.userId,
-  //               'userName': myUserData.userName,
-  //               'userPhone': myUserData.userPhone,
-  //             },
-  //           ],
-  //         });
-  //       }
-  //     }
-  //   } catch (e) {
-  //     emit(ChatsFailure(failureMessage: e.toString()));
-  //   }
-  // }
-
+  void sendUserName(String userName) {
+    var userQuerySnapshot = fireBaseInit.collection('users').doc();
+    userQuerySnapshot.update({
+      'userName': userName,
+    });
+  }
+}

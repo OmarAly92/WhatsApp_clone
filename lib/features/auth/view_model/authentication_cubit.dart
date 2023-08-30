@@ -69,14 +69,21 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await _auth.signInWithCredential(credential);
 
       CollectionReference createUser =
-      FirebaseFirestore.instance.collection('users');
-      var userId = _auth.currentUser!.uid;
-      createUser.doc(phoneNumber).set({
-        'isOnline': true,
-        'userId': userId,
-        'userName': '',
-        'userPhone': phoneNumber,
-      });
+          FirebaseFirestore.instance.collection('users');
+
+      DocumentSnapshot documentSnapshot =
+          await createUser.doc(phoneNumber).get();
+      if (documentSnapshot.exists) {
+        print('documentSnapshot exists signIn');
+      } else {
+        var userId = _auth.currentUser!.uid;
+        createUser.doc(phoneNumber).set({
+          'isOnline': true,
+          'userId': userId,
+          'userName': '',
+          'userPhone': phoneNumber,
+        });
+      }
 
       emit(PhoneOTPVerified());
     } catch (failureMessage) {

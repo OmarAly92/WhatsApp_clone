@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../core/app_router/app_router.dart';
@@ -88,8 +87,10 @@ class OtpBody extends StatelessWidget {
         if (state is AuthenticationLoading) {
           showProgressIndicator(context);
         } else if (state is PhoneOTPVerified) {
-          GoRouter.of(context).pop();
-          GoRouter.of(context).push(AppRouter.homeScreen);
+          Navigator.pop(context);
+          // GoRouter.of(context).pop();
+          // GoRouter.of(context).push(AppRouter.homeScreen);
+          Navigator.pushReplacementNamed(context, AppRouter.homeScreen);
         } else if (state is AuthenticationFailure) {
           // GoRouter.of(context).pop();
 

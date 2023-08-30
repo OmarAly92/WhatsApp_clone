@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+
 // import 'package:intl/intl.dart';
 import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
@@ -13,7 +15,9 @@ import 'mic_and_send_button.dart';
 class ChatTextFormAndMicButton extends StatefulWidget {
   const ChatTextFormAndMicButton({
     super.key,
-    required this.themeColors, required this.myPhoneNumber, required this.phoneNumber,
+    required this.themeColors,
+    required this.myPhoneNumber,
+    required this.phoneNumber,
   });
 
   final ThemeColors themeColors;
@@ -32,7 +36,7 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
 
   @override
   Widget build(BuildContext context) {
-    // String formattedDateTime = DateFormat('yyyy-MM-dd hh:mm a').format(now);
+    String formattedDateTime = DateFormat('yyyy-MM-dd hh:mm a').format(now);
     return Padding(
       padding: EdgeInsets.only(right: 5.w),
       child: Row(
@@ -57,9 +61,8 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
                           phoneNumber: widget.phoneNumber,
                           message: chatController.text,
                           myPhoneNumber: widget.myPhoneNumber,
-                          time: DateTime.now().toString(),
+                          time: formattedDateTime,
                         );
-
                         chatController.clear();
                       })
                   : MicAndSendButton(icons: Icons.mic, onPressed: () {})),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:whats_app_clone/data/model/user_model/user_model.dart';
+import 'package:whats_app_clone/features/chats/view/widgets/chat_screen_user_name_alert_dialog.dart';
+import 'package:whats_app_clone/features/chats/view/widgets/chats_list_view.dart';
 
 import '../../../../core/themes/theme_color.dart';
-import '../../../core/app_router/app_router.dart';
 import '../view_model/chats_cubit/chats_cubit.dart';
-import 'widgets/chat_item.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key, required this.themeColors});
@@ -18,8 +18,35 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
+  void checkUserNameIsNotEmpty({
+    required UserModel userModel,
+    required ThemeColors themeColors,
+  }) async {
+    if (userModel.userName.isEmpty) {
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return UserNameAlertDialogWidget(
+            themeColors: themeColors,
+            userModel: userModel,
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> getUserModel() async {
+    UserModel userModel =
+        await BlocProvider.of<ChatsCubit>(context).checkUserNameIsNotEmpty();
+    checkUserNameIsNotEmpty(
+      userModel: userModel,
+      themeColors: widget.themeColors,
+    );
+  }
+
   @override
   void initState() {
+    getUserModel();
     super.initState();
   }
 
@@ -36,36 +63,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
               if (state is ChatsLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is ChatsSuccess) {
-                return ListView.builder(
-                  itemCount: state.chats.length,
-                  itemBuilder: (context, index) {
-                    var item = state.chats[index];
-                    if (item.messages.isNotEmpty) {
-                      return InkWell(
-                        onTap: () {
-                          GoRouter.of(context)
-                              .push(AppRouter.chatDetailScreen, extra: index);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ChatItem(
-                            themeColors: widget.themeColors,
-                            contactName: item.users.last.userName,
-                            // Access the last user's name
-                            time: item.messages.last.time.length >= 11
-                                ? item.messages.last.time
-                                    .replaceRange(0, 11, '')
-                                : item.messages.last.time,
-
-                            lastMessage: item.messages.last.message,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return const SizedBox
-                          .shrink(); // Return an empty widget if users or messages are empty
-                    }
-                  },
+                return ChatsListView(
+                  chatsLength: state.chats.length,
+                  themeColors: widget.themeColors,
+                  chats: state.chats,
                 );
               } else if (state is ChatsFailure) {
                 return Center(child: Text(state.failureMessage));

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
 import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.dart';
@@ -56,16 +55,16 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
         if (state is AuthenticationLoading) {
           showProgressIndicator(context);
         } else if (state is PhoneNumberSubmitted) {
-    GoRouter.of(context).pop();
-    GoRouter.of(context).push( AppRouter.otpScreen,extra:  phoneNumberController.text);
-
-          Navigator.pushNamed(
-            context,
-            AppRouter.otpScreen,
-            arguments: phoneNumberController.text,
-          );
+          // GoRouter.of(context).pop();
+          Navigator.pop(context);
+          // GoRouter.of(context)
+          //     .push(AppRouter.otpScreen, extra: phoneNumberController.text);
+          Navigator.pushNamed(context, AppRouter.otpScreen,
+              arguments: phoneNumberController.text);
         } else if (state is AuthenticationFailure) {
           Navigator.pop(context);
+          // GoRouter.of(context).pop();
+
           print('errOMAR ${state.failureMessage}');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -82,10 +81,13 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
 
   Future<void> _register(BuildContext context) async {
     if (!_phoneFormKey.currentState!.validate()) {
-      GoRouter.of(context).pop();
+      // GoRouter.of(context).pop();
+      Navigator.pop(context);
+
       return;
     } else {
-      GoRouter.of(context).pop();
+      // GoRouter.of(context).pop();
+      Navigator.pop(context);
       _phoneFormKey.currentState!.save();
       BlocProvider.of<AuthenticationCubit>(context)
           .submitPhoneNumber(phoneNumber: phoneNumberController.text);
@@ -139,7 +141,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
 
   String generateCountryFlag({required String countryCode}) {
     String flag = countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'),
-            (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397));
+        (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397));
     return flag;
   }
 

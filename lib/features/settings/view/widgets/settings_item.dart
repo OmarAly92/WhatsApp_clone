@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
 import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
@@ -113,9 +112,8 @@ class SettingsItem extends StatelessWidget {
             onTap: () {
               AuthenticationCubit authenticationCubit = AuthenticationCubit();
               authenticationCubit.logOut();
-              GoRouter.of(context).pushReplacement(AppRouter.welcomeScreen);
-
-
+              // GoRouter.of(context).pushReplacement(AppRouter.welcomeScreen);
+              Navigator.pushReplacementNamed(context, AppRouter.welcomeScreen);
             },
           ),
         ),

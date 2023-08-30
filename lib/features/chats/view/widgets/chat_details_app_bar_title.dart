@@ -6,10 +6,11 @@ import 'package:whats_app_clone/core/themes/theme_color.dart';
 class ChatDetailsAppBarTitle extends StatelessWidget {
   const ChatDetailsAppBarTitle({
     super.key,
-    required this.themeColors,
+    required this.themeColors, required this.name,
   });
 
   final ThemeColors themeColors;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class ChatDetailsAppBarTitle extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: Text(
-              'Mohamed Ahmed',
+              name,
               style: Styles.textStyle18.copyWith(
                 color: themeColors.privateChatAppBarColor,
               ),
