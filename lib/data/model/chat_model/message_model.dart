@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class MessageModel extends Equatable {
   final bool isSeen;
   final String message;
-  final String time;
+  final Timestamp time;
   final String theSender;
 
   const MessageModel({
@@ -13,12 +14,15 @@ class MessageModel extends Equatable {
     required this.theSender,
   });
 
-  factory MessageModel.fromJson(Map<String, dynamic> json) {
+  factory MessageModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data()!;
+
     return MessageModel(
-      isSeen: json['isSeen'],
-      message: json['message'],
-      time: json['time'],
-      theSender: json['theSender'],
+      isSeen: data['isSeen'],
+      message: data['message'],
+      time: data['time'],
+      theSender: data['theSender'],
     );
   }
 

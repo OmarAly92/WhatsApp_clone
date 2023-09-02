@@ -2,22 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 import 'chat_user_model.dart';
-import 'message_model.dart';
 
-class ChatModel extends Equatable {
+class ChatsModel extends Equatable {
   final String chatType;
+  final String lastMessage;
+  final String lastMessageTime;
   final List<ChatUser> users;
-  final List<MessageModel> messages;
 
-  const ChatModel({
+  const ChatsModel({
     required this.chatType,
     required this.users,
-    required this.messages,
+    required this.lastMessage,
+    required this.lastMessageTime,
   });
 
-  static List<ChatModel> getOtherUser(
-      String phoneNumber, List<ChatModel> chatModel) {
-    List<ChatModel> chat = chatModel;
+  static List<ChatsModel> getOtherUser(
+      String phoneNumber, List<ChatsModel> chatModel) {
+    List<ChatsModel> chat = chatModel;
     for (int x = 0; x < chat.length; x++) {
       for (int i = 0; i < chat[x].users.length; i++) {
         if (chat[x].users[i].userPhone == phoneNumber) {
@@ -28,27 +29,28 @@ class ChatModel extends Equatable {
     return chat;
   }
 
-  factory ChatModel.fromSnapshot(
+  factory ChatsModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
-
-    final List<MessageModel> messages = data['messages'] != null
-        ? List<MessageModel>.from((data['messages'] as List<dynamic>)
-            .map((e) => MessageModel.fromJson(e)))
-        : [];
 
     final List<ChatUser> users = data['users'] != null
         ? List<ChatUser>.from(
             (data['users'] as List<dynamic>).map((e) => ChatUser.fromJson(e)))
         : [];
 
-    return ChatModel(
+    return ChatsModel(
       chatType: data['chatType'],
       users: users,
-      messages: messages,
+      lastMessage: data['lastMessage'],
+      lastMessageTime: data['lastMessageTime'],
     );
   }
 
   @override
-  List<Object> get props => [chatType, users, messages];
+  List<Object> get props => [
+        chatType,
+        lastMessage,
+        lastMessageTime,
+        users,
+      ];
 }

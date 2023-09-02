@@ -13,23 +13,26 @@ class ChatDetailsScreen extends StatefulWidget {
   const ChatDetailsScreen({
     Key? key,
     required this.themeColors,
-    required this.chatIndex,
+    required this.hisPhoneNumber,
+    required this.hisName,
   }) : super(key: key);
 
   final ThemeColors themeColors;
-  final int chatIndex;
+  final String hisPhoneNumber;
+  final String hisName;
 
   @override
   State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
 }
 
 class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
-  late List<ChatModel> chats;
+  late List<ChatsModel> chats;
 
   @override
   void initState() {
     super.initState();
-    chats = BlocProvider.of<ChatsCubit>(context).chats;
+    BlocProvider.of<ChatsCubit>(context)
+        .getMessages(hisNumber: widget.hisPhoneNumber);
   }
 
   @override
@@ -38,7 +41,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       appBar: buildChatDetailsAppBar(),
       body: ChatDetailsBody(
         themeColors: widget.themeColors,
-        chatIndex: widget.chatIndex ,
+        hisPhoneNumber: widget.hisPhoneNumber,
       ),
     );
   }
@@ -74,7 +77,10 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       titleSpacing: 1.w,
       title: ChatDetailsAppBarTitle(
         themeColors: widget.themeColors,
-        name: chats[widget.chatIndex].users.last.userName,
+
+        name: widget.hisName,
+
+        // chats[widget.chatIndex].users.last.userName,
       ),
       actions: actions,
     );

@@ -8,6 +8,7 @@ import 'package:whats_app_clone/data/model/user_model/user_model.dart';
 
 import '../../../../core/functions/filtering.dart';
 import '../../../../data/model/chat_model/chat_model.dart';
+import '../../../../data/model/chat_model/message_model.dart';
 
 part 'chats_state.dart';
 
@@ -16,14 +17,19 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   var fireBaseInit = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  late List<ChatModel> chats;
+  late List<ChatsModel> chats;
+
+  String getMyPhoneNumber() {
+    final String myPhoneNumber =
+        firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+    return myPhoneNumber;
+  }
 
   Future<void> getContacts() async {
     emit(ChatsLoading());
 
     try {
-      final String myPhoneNumber =
-          firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+      final String myPhoneNumber = getMyPhoneNumber();
 
       await getUserData(myPhoneNumber: myPhoneNumber);
       await getChats(myPhoneNumber: myPhoneNumber);
@@ -36,22 +42,21 @@ class ChatsCubit extends Cubit<ChatsState> {
     required String phoneNumber,
     required String message,
     required String myPhoneNumber,
-    required String time,
+    required Timestamp time,
   }) async {
     try {
       List<String> sortedNumber = [phoneNumber, myPhoneNumber]..sort();
-
-      fireBaseInit.collection('chats').doc(sortedNumber.join('-')).update({
-        'messages': FieldValue.arrayUnion([
-          {
-            'isSeen': false,
-            'message': message,
-            'theSender': myPhoneNumber,
-            'time': time,
-          },
-        ])
+      fireBaseInit
+          .collection('chats')
+          .doc(sortedNumber.join('-'))
+          .collection('messages')
+          .doc()
+          .set({
+        'isSeen': false,
+        'message': message,
+        'theSender': myPhoneNumber,
+        'time': time,
       });
-
     } catch (failureMessage) {
       emit(ChatsFailure(failureMessage: '$failureMessage OMAR'));
     }
@@ -64,9 +69,9 @@ class ChatsCubit extends Cubit<ChatsState> {
         );
 
     chatsSnapshot.snapshots().listen((event) async {
-      List<ChatModel> chats = List<ChatModel>.from(
-          (event.docs).map((e) => ChatModel.fromSnapshot(e)).toList());
-      ChatModel.getOtherUser(myPhoneNumber, chats);
+      List<ChatsModel> chats = List<ChatsModel>.from(
+          (event.docs).map((e) => ChatsModel.fromSnapshot(e)).toList());
+      ChatsModel.getOtherUser(myPhoneNumber, chats);
       this.chats = chats;
       emit(ChatsSuccess(chats: chats, myPhoneNumber: myPhoneNumber));
     });
@@ -130,6 +135,24 @@ class ChatsCubit extends Cubit<ChatsState> {
     }
   }
 
+  void getMessages({
+    required String hisNumber,
+  }) {
+    final String myPhoneNumber = getMyPhoneNumber();
+    final chatSnapshot = fireBaseInit.collection('chats');
+    List<String> sortedNumber = [hisNumber, myPhoneNumber]..sort();
+
+    var chatSubCollection =
+        chatSnapshot.doc(sortedNumber.join('-')).collection('messages') .orderBy('time', descending: false);
+
+    chatSubCollection.snapshots().listen((event) {
+      List<MessageModel> messages = List<MessageModel>.from(
+          (event.docs).map((e) => MessageModel.fromSnapshot(e)));
+
+      emit(ListenToMessage(messages: messages, myPhoneNumber: myPhoneNumber));
+    });
+  }
+
   Future<UserModel> getMyUserData(
     CollectionReference<Map<String, dynamic>> userSnapshot,
     String myPhoneNumber,
@@ -147,30 +170,20 @@ class ChatsCubit extends Cubit<ChatsState> {
   }) async {
     final chatSnapshot = fireBaseInit.collection('chats');
     try {
-
-
       for (int i = 0; i < contactsList.length; i++) {
+        List<String> sortedNumber = [contactsList[i].userPhone, myPhoneNumber]
+          ..sort();
 
+        DocumentSnapshot snapshot =
+            await chatSnapshot.doc(sortedNumber.join('-')).get();
 
-        List<String> sortedNumber = [contactsList[i].userPhone, myPhoneNumber]..sort();
-
-        DocumentSnapshot snapshot = await chatSnapshot.doc(sortedNumber.join('-'))
-            .get();
         if (snapshot.exists) {
           print('Document exists OMAR');
         } else {
-          await chatSnapshot
-              .doc(sortedNumber.join('-'))
-              .set({
+          await chatSnapshot.doc(sortedNumber.join('-')).set({
             'chatType': 'private',
-            'messages': [
-              {
-                'isSeen': false,
-                'message': '',
-                'theSender': '',
-                'time': '',
-              },
-            ],
+            'lastMessage': '',
+            'lastMessageTime': '',
             'users': [
               {
                 'userId': contactsList[i].userId,

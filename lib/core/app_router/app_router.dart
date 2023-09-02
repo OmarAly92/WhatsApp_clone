@@ -71,12 +71,13 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
-            final int chatIndex = settings.arguments as int;
+            final Map arguments = settings.arguments as Map;
             return BlocProvider.value(
               value: chatsCubit,
               child: ChatDetailsScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
-                chatIndex: chatIndex,
+                hisPhoneNumber: arguments['hisPhoneNumber'],
+                hisName: arguments['hisName'],
               ),
             );
           },

@@ -21,13 +21,22 @@ class ChatsGettingUserReady extends ChatsState {
 }
 
 class ChatsSuccess extends ChatsState {
-  final List<ChatModel> chats;
+  final List<ChatsModel> chats;
   final String myPhoneNumber;
 
   const ChatsSuccess({required this.chats, required this.myPhoneNumber});
 
   @override
   List<Object> get props => [chats, myPhoneNumber];
+}
+class ListenToMessage extends ChatsState {
+  final List<MessageModel> messages;
+  final String myPhoneNumber;
+
+  const ListenToMessage({required this.messages, required this.myPhoneNumber});
+
+  @override
+  List<Object> get props => [messages, myPhoneNumber];
 }
 
 

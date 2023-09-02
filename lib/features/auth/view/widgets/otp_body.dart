@@ -8,8 +8,8 @@ import '../../../../core/themes/theme_color.dart';
 import '../../view_model/authentication_cubit.dart';
 import 'otp_intro_text.dart';
 
-class OtpBody extends StatelessWidget {
-  OtpBody({
+class OtpBody extends StatefulWidget {
+  const OtpBody({
     super.key,
     required this.themeColors,
     required this.phoneNumber,
@@ -17,14 +17,21 @@ class OtpBody extends StatelessWidget {
 
   final ThemeColors themeColors;
   final String phoneNumber;
+
+  @override
+  State<OtpBody> createState() => _OtpBodyState();
+}
+
+class _OtpBodyState extends State<OtpBody> {
   TextEditingController pinCodeController = TextEditingController();
+
   late String _smsCode;
 
   Widget _buildPinCodeFields(BuildContext context) {
     return PinCodeTextField(
       appContext: context,
       autoFocus: true,
-      cursorColor: themeColors.greenButton,
+      cursorColor: widget.themeColors.greenButton,
       keyboardType: TextInputType.number,
       length: 6,
       obscureText: false,
@@ -36,12 +43,12 @@ class OtpBody extends StatelessWidget {
         fieldHeight: 50,
         fieldWidth: 40,
         borderWidth: 1,
-        activeColor: themeColors.greenButton,
-        activeFillColor: themeColors.backgroundColor,
-        inactiveColor: themeColors.greenButton,
-        inactiveFillColor: themeColors.backgroundColor,
-        selectedColor: themeColors.greenButton,
-        selectedFillColor: themeColors.backgroundColor,
+        activeColor: widget.themeColors.greenButton,
+        activeFillColor: widget.themeColors.backgroundColor,
+        inactiveColor: widget.themeColors.greenButton,
+        inactiveFillColor: widget.themeColors.backgroundColor,
+        selectedColor: widget.themeColors.greenButton,
+        selectedFillColor: widget.themeColors.backgroundColor,
       ),
       animationDuration: const Duration(milliseconds: 300),
       enableActiveFill: true,
@@ -87,13 +94,12 @@ class OtpBody extends StatelessWidget {
         if (state is AuthenticationLoading) {
           showProgressIndicator(context);
         } else if (state is PhoneOTPVerified) {
-          Navigator.pop(context);
           // GoRouter.of(context).pop();
           // GoRouter.of(context).push(AppRouter.homeScreen);
+          Navigator.pop(context);
           Navigator.pushReplacementNamed(context, AppRouter.homeScreen);
         } else if (state is AuthenticationFailure) {
           // GoRouter.of(context).pop();
-
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.failureMessage),
@@ -117,7 +123,7 @@ class OtpBody extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 30.w, vertical: 70.h),
       child: Column(
         children: [
-          OTPIntroText(themeColors: themeColors, phoneNumber: phoneNumber),
+          OTPIntroText(themeColors: widget.themeColors, phoneNumber: widget.phoneNumber),
           SizedBox(height: 80.h),
           _buildPinCodeFields(context),
           SizedBox(height: 50.h),
