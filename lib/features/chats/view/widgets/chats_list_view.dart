@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../core/themes/theme_color.dart';
 import '../../../../core/app_router/app_router.dart';
@@ -23,7 +24,8 @@ class ChatsListView extends StatelessWidget {
       itemCount: chatsLength,
       itemBuilder: (context, index) {
         var item = chats[index];
-
+        DateTime dateTime = item.lastMessageTime.toDate();
+        String formattedTime = DateFormat('h:mm a').format(dateTime);
         return InkWell(
           onTap: () {
             Navigator.pushNamed(
@@ -40,7 +42,7 @@ class ChatsListView extends StatelessWidget {
             child: ChatItem(
               themeColors: themeColors,
               contactName: item.users.last.userName,
-              time: item.lastMessageTime,
+              time: formattedTime,
               lastMessage: item.lastMessage,
             ),
           ),

@@ -6,7 +6,7 @@ import 'chat_user_model.dart';
 class ChatsModel extends Equatable {
   final String chatType;
   final String lastMessage;
-  final String lastMessageTime;
+  final Timestamp lastMessageTime;
   final List<ChatUser> users;
 
   const ChatsModel({

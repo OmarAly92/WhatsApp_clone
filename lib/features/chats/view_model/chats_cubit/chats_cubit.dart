@@ -46,16 +46,17 @@ class ChatsCubit extends Cubit<ChatsState> {
   }) async {
     try {
       List<String> sortedNumber = [phoneNumber, myPhoneNumber]..sort();
-      fireBaseInit
-          .collection('chats')
-          .doc(sortedNumber.join('-'))
-          .collection('messages')
-          .doc()
-          .set({
+      var chatDocument =
+          fireBaseInit.collection('chats').doc(sortedNumber.join('-'));
+      chatDocument.collection('messages').doc().set({
         'isSeen': false,
         'message': message,
         'theSender': myPhoneNumber,
         'time': time,
+      });
+      chatDocument.update({
+        'lastMessage': message,
+        'lastMessageTime': time,
       });
     } catch (failureMessage) {
       emit(ChatsFailure(failureMessage: '$failureMessage OMAR'));
@@ -135,22 +136,29 @@ class ChatsCubit extends Cubit<ChatsState> {
     }
   }
 
-  void getMessages({
-    required String hisNumber,
-  }) {
+  void getMessages({required String hisNumber}) {
     final String myPhoneNumber = getMyPhoneNumber();
     final chatSnapshot = fireBaseInit.collection('chats');
     List<String> sortedNumber = [hisNumber, myPhoneNumber]..sort();
 
-    var chatSubCollection =
-        chatSnapshot.doc(sortedNumber.join('-')).collection('messages') .orderBy('time', descending: false);
+    var chatSubCollection = chatSnapshot
+        .doc(sortedNumber.join('-'))
+        .collection('messages')
+        .orderBy('time', descending: false);
 
     chatSubCollection.snapshots().listen((event) {
       List<MessageModel> messages = List<MessageModel>.from(
           (event.docs).map((e) => MessageModel.fromSnapshot(e)));
 
-      emit(ListenToMessage(messages: messages, myPhoneNumber: myPhoneNumber));
+      emit(ListenToMessage(
+        messages: messages,
+        myPhoneNumber: myPhoneNumber,
+      ));
     });
+  }
+
+  void clearMessages() {
+    emit(const ListenToMessage(messages: [], myPhoneNumber: ''));
   }
 
   Future<UserModel> getMyUserData(
@@ -183,7 +191,7 @@ class ChatsCubit extends Cubit<ChatsState> {
           await chatSnapshot.doc(sortedNumber.join('-')).set({
             'chatType': 'private',
             'lastMessage': '',
-            'lastMessageTime': '',
+            'lastMessageTime': DateTime.timestamp(),
             'users': [
               {
                 'userId': contactsList[i].userId,

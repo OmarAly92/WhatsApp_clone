@@ -94,7 +94,7 @@ class ThemeColors {
     updatesEditFloatingActionButtonColor = isDarkMode ? const Color(0xff3C4A55) : const Color(0xffE0FEF2);
     updatesEditIconColor = isDarkMode ? const Color(0xffD2D6DA) : const Color(0xff017F68);
     theAuthorTextColor = isDarkMode ? const Color(0xffBEBFC0) : const Color(0xff000000);
-    greenButton = isDarkMode ? const Color(0xff00A884) : const Color(0xff0f9c7c);
+    greenButton = isDarkMode ? const Color(0xff00A884) : const Color(0xff02b086);
     secondaryButton = isDarkMode ? const Color(0xff182329) : const Color(0xfff7f8fa);
     regularTextColor = isDarkMode ? const Color(0xffffffff) : const Color(0xff000000);
 

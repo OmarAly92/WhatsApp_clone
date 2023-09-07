@@ -18,7 +18,7 @@ abstract class MyThemes {
     ),
     useMaterial3: true,
     pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {TargetPlatform.android: OpenUpwardsPageTransitionsBuilder()},
+      builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()},
     ),
   );
 
@@ -33,7 +33,7 @@ abstract class MyThemes {
         primaryContainer: LightThemeColors.greenColor),
     useMaterial3: true,
     pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {TargetPlatform.android: OpenUpwardsPageTransitionsBuilder()},
+      builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()},
     ),
   );
 }

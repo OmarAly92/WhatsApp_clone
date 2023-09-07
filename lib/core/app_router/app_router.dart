@@ -4,6 +4,7 @@ import 'package:whats_app_clone/core/themes/theme_color.dart';
 import 'package:whats_app_clone/features/auth/view/otp_screen.dart';
 import 'package:whats_app_clone/features/auth/view/welcome_screen.dart';
 import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.dart';
+import 'package:whats_app_clone/features/settings/view/profile_screen.dart';
 
 import '../../features/auth/view/phone_auth_screen.dart';
 import '../../features/chats/view/chat_details_screen.dart';
@@ -18,6 +19,7 @@ class AppRouter {
   static const String otpScreen = '/otpScreen';
   static const String chatDetailScreen = '/chatDetailScreen';
   static const String settingsScreen = '/settingsScreen';
+  static const String profileScreen = '/profileScreen';
 
   late final AuthenticationCubit authenticationCubit;
 
@@ -96,6 +98,15 @@ class AppRouter {
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
             return WelcomeScreen(
+              themeColors: ThemeColors(isDarkMode: isDarkMode),
+            );
+          },
+        );
+      case profileScreen:
+        return MaterialPageRoute(
+          builder: (context) {
+            bool isDarkMode = _checkThemeMode(context);
+            return ProfileScreen(
               themeColors: ThemeColors(isDarkMode: isDarkMode),
             );
           },

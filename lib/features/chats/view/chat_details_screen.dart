@@ -32,7 +32,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<ChatsCubit>(context)
-        .getMessages(hisNumber: widget.hisPhoneNumber);
+        .getMessages(hisNumber: widget.hisPhoneNumber );
   }
 
   @override

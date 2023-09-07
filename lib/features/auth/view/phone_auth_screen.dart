@@ -55,17 +55,11 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
         if (state is AuthenticationLoading) {
           showProgressIndicator(context);
         } else if (state is PhoneNumberSubmitted) {
-          // GoRouter.of(context).pop();
           Navigator.pop(context);
-          // GoRouter.of(context)
-          //     .push(AppRouter.otpScreen, extra: phoneNumberController.text);
           Navigator.pushNamed(context, AppRouter.otpScreen,
               arguments: phoneNumberController.text);
         } else if (state is AuthenticationFailure) {
           Navigator.pop(context);
-          // GoRouter.of(context).pop();
-
-          print('errOMAR ${state.failureMessage}');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.failureMessage),
@@ -81,12 +75,10 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
 
   Future<void> _register(BuildContext context) async {
     if (!_phoneFormKey.currentState!.validate()) {
-      // GoRouter.of(context).pop();
       Navigator.pop(context);
 
       return;
     } else {
-      // GoRouter.of(context).pop();
       Navigator.pop(context);
       _phoneFormKey.currentState!.save();
       BlocProvider.of<AuthenticationCubit>(context)

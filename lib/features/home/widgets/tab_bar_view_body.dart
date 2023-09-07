@@ -21,27 +21,28 @@ class TabBarViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => ChatsCubit()..getContacts()),
+      providers: [
+        BlocProvider(create: (context) => ChatsCubit()..getContacts()),
+      ],
+      child: TabBarView(
+        controller: tabController,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0.h),
+            child: ChatsScreen(themeColors: themeColors),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 19.h),
+            child: UpdatesScreen(
+              themeColors: themeColors,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 19.h),
+            child: CallsScreen(themeColors: themeColors),
+          ),
         ],
-        child: TabBarView(
-          controller: tabController,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0.h),
-              child: ChatsScreen(themeColors: themeColors),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 19.h),
-              child: UpdatesScreen(
-                themeColors: themeColors,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 19.h),
-              child: CallsScreen(themeColors: themeColors),
-            ),
-          ],
-        ));
+      ),
+    );
   }
 }

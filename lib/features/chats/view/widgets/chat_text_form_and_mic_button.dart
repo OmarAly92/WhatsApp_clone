@@ -67,6 +67,8 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
                         setState(() {
                           isTyping = false;
                         });
+
+                        BlocProvider.of<ChatsCubit>(context).getMessages(hisNumber: widget.phoneNumber);
                       })
                   : MicAndSendButton(icons: Icons.mic, onPressed: () {})),
         ],
