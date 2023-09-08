@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class ScrollSettingTest extends StatefulWidget {
   const ScrollSettingTest({super.key});
 

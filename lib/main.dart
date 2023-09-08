@@ -6,6 +6,7 @@ import 'package:whats_app_clone/core/app_router/app_router.dart';
 
 import 'core/themes/themes.dart';
 import 'firebase_options.dart';
+
 late String initialScreen;
 
 void main() async {
@@ -14,13 +15,13 @@ void main() async {
 
   AppRouter appRouter = AppRouter();
 
-
   FirebaseAuth.instance.authStateChanges().listen((user) {
     if (user == null) {
       initialScreen = '/welcomeScreen';
     } else {
       initialScreen = '/homeScreen';
-    }});
+    }
+  });
 
   runApp(MyApp(appRouter: appRouter));
 }
