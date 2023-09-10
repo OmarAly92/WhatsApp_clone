@@ -72,9 +72,23 @@ class ChatsCubit extends Cubit<ChatsState> {
     chatsSnapshot.snapshots().listen((event) async {
       List<ChatsModel> chats = List<ChatsModel>.from(
           (event.docs).map((e) => ChatsModel.fromSnapshot(e)).toList());
+      List<UserModel> users = [];
+      for (int i = 0; i < chats.length; i++) {
+        var docIndexOne = await chats[i].users[0].userDoc.get();
+        var docIndexTwo = await chats[i].users[1].userDoc.get();
+
+        users.add(UserModel.fromSnapshot(docIndexOne));
+        users.add(UserModel.fromSnapshot(docIndexTwo));
+      }
       ChatsModel.getOtherUser(myPhoneNumber, chats);
+
       this.chats = chats;
-      emit(ChatsSuccess(chats: chats, myPhoneNumber: myPhoneNumber));
+
+      emit(ChatsSuccess(
+        chats: chats,
+        user: users,
+        myPhoneNumber: myPhoneNumber,
+      ));
     });
   }
 
@@ -88,11 +102,9 @@ class ChatsCubit extends Cubit<ChatsState> {
         await filteringFirebaseContactsAndLocalContacts(
             fireBaseUsers, myPhoneNumber);
 
-    UserModel myUserData = await getMyUserData(userSnapshot, myPhoneNumber);
     creatingChatRoom(
       contactsList: contactsList,
       myPhoneNumber: myPhoneNumber,
-      myUserData: myUserData,
     );
   }
 
@@ -161,21 +173,24 @@ class ChatsCubit extends Cubit<ChatsState> {
     emit(const ListenToMessage(messages: [], myPhoneNumber: ''));
   }
 
-  Future<UserModel> getMyUserData(
-    CollectionReference<Map<String, dynamic>> userSnapshot,
-    String myPhoneNumber,
-  ) async {
-    var myData =
-        await userSnapshot.where('userPhone', isEqualTo: myPhoneNumber).get();
-    UserModel myUserData = UserModel.fromQuerySnapshot(myData);
-    return myUserData;
-  }
+  // Future<UserModel> getMyUserData(
+  //   CollectionReference<Map<String, dynamic>> userSnapshot,
+  //   String myPhoneNumber,
+  // ) async {
+  //   var myData =
+  //       await userSnapshot.where('userPhone', isEqualTo: myPhoneNumber).get();
+  //   UserModel myUserData = UserModel.fromQuerySnapshot(myData);
+  //   return myUserData;
+  // }
 
   Future<void> creatingChatRoom({
     required List<UserModel> contactsList,
     required String myPhoneNumber,
-    required UserModel myUserData,
   }) async {
+    final userSnapshot = fireBaseInit.collection('users');
+
+    // UserModel myUserData = await getMyUserData(userSnapshot, myPhoneNumber);
+
     final chatSnapshot = fireBaseInit.collection('chats');
     try {
       for (int i = 0; i < contactsList.length; i++) {
@@ -194,17 +209,14 @@ class ChatsCubit extends Cubit<ChatsState> {
             'lastMessageTime': DateTime.timestamp(),
             'users': [
               {
-                'userId': contactsList[i].userId,
-                'userName': contactsList[i].userName,
-                'userPhone': contactsList[i].userPhone,
+                'userDoc': userSnapshot.doc(contactsList[i].userPhone),
               },
               {
-                'userId': myUserData.userId,
-                'userName': myUserData.userName,
-                'userPhone': myUserData.userPhone,
+                // 'userDoc': myUserData.userPhone,
+                'userDoc': userSnapshot.doc(myPhoneNumber),
               },
             ],
-            'usersPhones': [contactsList[i].userPhone, myUserData.userPhone]
+            'usersPhones': [contactsList[i].userPhone, myPhoneNumber]
           });
         }
       }
@@ -231,3 +243,45 @@ class ChatsCubit extends Cubit<ChatsState> {
     });
   }
 }
+
+// Future<void> creatingChatRoom({
+//   required List<UserModel> contactsList,
+//   required String myPhoneNumber,
+//   required UserModel myUserData,
+// }) async {
+//   final chatSnapshot = fireBaseInit.collection('chats');
+//   try {
+//     for (int i = 0; i < contactsList.length; i++) {
+//       List<String> sortedNumber = [contactsList[i].userPhone, myPhoneNumber]
+//         ..sort();
+//
+//       DocumentSnapshot snapshot =
+//       await chatSnapshot.doc(sortedNumber.join('-')).get();
+//
+//       if (snapshot.exists) {
+//         print('Document exists OMAR');
+//       } else {
+//         await chatSnapshot.doc(sortedNumber.join('-')).set({
+//           'chatType': 'private',
+//           'lastMessage': '',
+//           'lastMessageTime': DateTime.timestamp(),
+//           'users': [
+//             {
+//               'userId': contactsList[i].userId,
+//               'userName': contactsList[i].userName,
+//               'userPhone': contactsList[i].userPhone,
+//             },
+//             {
+//               'userId': myUserData.userId,
+//               'userName': myUserData.userName,
+//               'userPhone': myUserData.userPhone,
+//             },
+//           ],
+//           'usersPhones': [contactsList[i].userPhone, myUserData.userPhone]
+//         });
+//       }
+//     }
+//   } catch (failureMessage) {
+//     emit(ChatsFailure(failureMessage: '$failureMessage OMAR'));
+//   }
+// }

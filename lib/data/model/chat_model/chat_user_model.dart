@@ -1,24 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class ChatUser extends Equatable {
-  final String userId;
-  final String userName;
-  final String userPhone;
+  final DocumentReference<Map<String, dynamic>> userDoc;
 
   const ChatUser({
-    required this.userId,
-    required this.userName,
-    required this.userPhone,
+    required this.userDoc,
   });
 
   factory ChatUser.fromJson(Map<String, dynamic> json) {
     return ChatUser(
-      userId: json['userId'],
-      userName: json['userName'],
-      userPhone: json['userPhone'],
+      userDoc: json['userDoc'],
     );
   }
 
   @override
-  List<Object> get props => [userId, userName, userPhone];
+  List<Object> get props => [userDoc];
 }

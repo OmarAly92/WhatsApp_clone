@@ -17,7 +17,7 @@ class CallItem extends StatelessWidget {
       children: [
         Row(
           children: [
-            const CustomCircleImage(),
+             CustomCircleImage(profileImage: '',),
             SizedBox(width: 17.w),
             CallItemBody(themeColors: themeColors),
           ],

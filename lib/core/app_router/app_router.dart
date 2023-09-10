@@ -5,6 +5,7 @@ import 'package:whats_app_clone/features/auth/view/otp_screen.dart';
 import 'package:whats_app_clone/features/auth/view/welcome_screen.dart';
 import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.dart';
 import 'package:whats_app_clone/features/settings/view/profile_screen.dart';
+import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart';
 
 import '../../features/auth/view/phone_auth_screen.dart';
 import '../../features/chats/view/chat_details_screen.dart';
@@ -28,6 +29,8 @@ class AppRouter {
   }
 
   ChatsCubit chatsCubit = ChatsCubit()..getContacts();
+
+  SettingsCubit settingsCubit = SettingsCubit()..getSettingData();
 
   Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -88,8 +91,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
-            return SettingsScreen(
-              themeColors: ThemeColors(isDarkMode: isDarkMode),
+            return BlocProvider.value(
+              value: settingsCubit,
+              child: SettingsScreen(
+                themeColors: ThemeColors(isDarkMode: isDarkMode),
+              ),
             );
           },
         );
@@ -106,8 +112,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
-            return ProfileScreen(
-              themeColors: ThemeColors(isDarkMode: isDarkMode),
+            return BlocProvider.value(
+              value: settingsCubit,
+              child: ProfileScreen(
+                themeColors: ThemeColors(isDarkMode: isDarkMode),
+              ),
             );
           },
         );

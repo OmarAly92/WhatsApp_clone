@@ -62,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen>
             ),
       IconButton(
           onPressed: () {
-            // GoRouter.of(context).push(AppRouter.settingsScreen);
             Navigator.pushNamed(context, AppRouter.settingsScreen);
           },
           icon: const Icon(Icons.more_vert)),

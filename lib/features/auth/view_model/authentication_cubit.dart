@@ -66,6 +66,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   Future<void> _signIn(PhoneAuthCredential credential) async {
     try {
+      const String defaultImage = 'https://firebasestorage.googleapis.com/v0/b/whats-app-clone-4fe8a.appspot.com/o/default%2Fdefault_profile_picture.jpg?alt=media&token=facbc559-4b44-4f58-b21d-2e101dfa2da7';
       await _auth.signInWithCredential(credential);
 
       CollectionReference createUser =
@@ -82,6 +83,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           'userId': userId,
           'userName': '',
           'userPhone': phoneNumber,
+          'profileImage': defaultImage,
         });
       }
 

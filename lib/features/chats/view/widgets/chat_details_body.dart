@@ -87,8 +87,14 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
               ],
             ),
           );
+        } else if (state is ChatsFailure) {
+          return const Center(child: Text('ChatsFailure state'));
+        } else if (state is ChatsSuccess) {
+          return const Center(child: Text('ChatsSuccess state'));
+        } else if (state is ChatsLoading) {
+          return const Center(child: Text('ChatsLoading state'));
         } else {
-          return const Center(child: Text('That is not listen state'));
+          return const Center(child: Text('initial state'));
         }
       },
     );

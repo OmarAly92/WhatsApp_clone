@@ -21,9 +21,9 @@ class ChatsModel extends Equatable {
     List<ChatsModel> chat = chatModel;
     for (int x = 0; x < chat.length; x++) {
       for (int i = 0; i < chat[x].users.length; i++) {
-        if (chat[x].users[i].userPhone == phoneNumber) {
-          chat[x].users.removeAt(i);
-        } else {}
+        // if (chat[x].users[i].userPhone == phoneNumber) {
+        //   chat[x].users.removeAt(i);
+        // } else {}
       }
     }
     return chat;
@@ -37,6 +37,11 @@ class ChatsModel extends Equatable {
         ? List<ChatUser>.from(
             (data['users'] as List<dynamic>).map((e) => ChatUser.fromJson(e)))
         : [];
+
+    // final List<UserModel> users = data['users'] != null
+    //     ? List<UserModel>.from((data['users'] as List<dynamic>)
+    //         .map((e) => UserModel.fromSnapshot(e)))
+    //     : [];
 
     return ChatsModel(
       chatType: data['chatType'],

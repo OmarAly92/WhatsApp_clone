@@ -23,7 +23,7 @@ class StatusItemImage extends StatelessWidget {
                     ? Border.all()
                     : Border.all(color: const Color(0xff02c855), width: 2),
                 borderRadius: BorderRadius.circular(40)),
-            child: const CustomCircleImage()),
+            child:  CustomCircleImage(profileImage: '',)),
         isMyStatus ? PlusIcon(themeColors: themeColors) : const SizedBox(),
         const SizedBox(
           height: 60,

@@ -11,19 +11,20 @@ class ChatItem extends StatelessWidget {
     required this.themeColors,
     required this.contactName,
     required this.time,
-    required this.lastMessage,
+    required this.lastMessage, required this.profileImage,
   });
 
   final ThemeColors themeColors;
   final String contactName;
   final String time;
   final String lastMessage;
+  final String profileImage;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const CustomCircleImage(),
+         CustomCircleImage(profileImage:profileImage),
         SizedBox(width: 13.w),
         ChatItemBody(
           themeColors: themeColors,

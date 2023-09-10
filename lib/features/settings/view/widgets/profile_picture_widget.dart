@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart';
 
 class ProfilePictureWidget extends StatelessWidget {
   const ProfilePictureWidget({
     super.key,
+    required this.profileImage,
   });
+
+  final String profileImage;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class ProfilePictureWidget extends StatelessWidget {
             width: 165.r,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100.r),
-              child: Image.asset('assets/images/default_profile_picture.jpg'),
+              child: Image.network(profileImage),
             ),
           ),
           Positioned(
@@ -30,7 +35,10 @@ class ProfilePictureWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  BlocProvider.of<SettingsCubit>(context)
+                      .changeProfilePicture();
+                },
                 icon: const Icon(
                   Icons.camera_alt_rounded,
                   size: 22,

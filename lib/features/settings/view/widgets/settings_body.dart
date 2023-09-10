@@ -18,7 +18,7 @@ class SettingsBody extends StatelessWidget {
         SliverToBoxAdapter(
           child: Column(
             children: [
-              SettingsProfileWidget(themeColors: themeColors),
+              SettingsProfileWidgets(themeColors: themeColors),
               Divider(
                 color: themeColors.dividerColor,
                 thickness: .08,

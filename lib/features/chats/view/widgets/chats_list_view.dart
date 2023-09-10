@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:whats_app_clone/data/model/user_model/user_model.dart';
 
 import '../../../../../core/themes/theme_color.dart';
 import '../../../../core/app_router/app_router.dart';
@@ -12,19 +13,23 @@ class ChatsListView extends StatelessWidget {
     required this.themeColors,
     required this.chatsLength,
     required this.chats,
+    required this.user,
   });
 
   final ThemeColors themeColors;
   final int chatsLength;
   final List<ChatsModel> chats;
+  final List<UserModel> user;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: chatsLength,
       itemBuilder: (context, index) {
-        var item = chats[index];
-        DateTime dateTime = item.lastMessageTime.toDate();
+        var itemChat = chats[index];
+        var itemUser = user[index];
+        print('${itemChat.users} OMAR EXTRA INFO');
+        DateTime dateTime = itemChat.lastMessageTime.toDate();
         String formattedTime = DateFormat('h:mm a').format(dateTime);
         return InkWell(
           onTap: () {
@@ -32,8 +37,8 @@ class ChatsListView extends StatelessWidget {
               context,
               AppRouter.chatDetailScreen,
               arguments: {
-                'hisPhoneNumber': item.users.last.userPhone,
-                'hisName': item.users.last.userName,
+                'hisPhoneNumber': itemUser.userPhone,
+                'hisName': itemUser.userName,
               },
             );
           },
@@ -41,9 +46,10 @@ class ChatsListView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ChatItem(
               themeColors: themeColors,
-              contactName: item.users.last.userName,
+              contactName: itemUser.userName,
               time: formattedTime,
-              lastMessage: item.lastMessage,
+              lastMessage: itemChat.lastMessage,
+              profileImage: itemUser.profileImage,
             ),
           ),
         );

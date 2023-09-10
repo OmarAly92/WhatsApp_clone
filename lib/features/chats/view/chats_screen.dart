@@ -67,6 +67,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                   chatsLength: state.chats.length,
                   themeColors: widget.themeColors,
                   chats: state.chats,
+                  user: state.user,
                 );
               } else if (state is ChatsFailure) {
                 return Center(child: Text(state.failureMessage));

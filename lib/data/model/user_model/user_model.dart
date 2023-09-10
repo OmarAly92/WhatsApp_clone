@@ -6,13 +6,16 @@ class UserModel extends Equatable {
   final String userId;
   final String userName;
   final String userPhone;
+  final String profileImage;
 
   const UserModel({
     required this.isOnline,
     required this.userId,
     required this.userName,
     required this.userPhone,
+    required this.profileImage,
   });
+
   // QuerySnapshot
   factory UserModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> document) {
@@ -22,8 +25,10 @@ class UserModel extends Equatable {
       userId: json['userId'],
       userName: json['userName'],
       userPhone: json['userPhone'],
+      profileImage: json['profileImage'],
     );
   }
+
   factory UserModel.fromQuerySnapshot(
       QuerySnapshot<Map<String, dynamic>> document) {
     final json = document.docs.first;
@@ -32,9 +37,16 @@ class UserModel extends Equatable {
       userId: json['userId'],
       userName: json['userName'],
       userPhone: json['userPhone'],
+      profileImage: json['profileImage'],
     );
   }
 
   @override
-  List<Object> get props => [isOnline, userId, userName, userPhone];
+  List<Object> get props => [
+        isOnline,
+        userId,
+        userName,
+        userPhone,
+        profileImage,
+      ];
 }
