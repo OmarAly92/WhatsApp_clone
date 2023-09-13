@@ -20,7 +20,7 @@ class CustomCircleImage extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30.r),
-        child: Image.network(profileImage),
+        child: Image.network(profileImage,fit: BoxFit.cover),
       ),
     );
   }

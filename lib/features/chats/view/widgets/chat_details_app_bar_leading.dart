@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/themes/theme_color.dart';
-import '../../../../core/utils/assets_data.dart';
 
 class ChatDetailsAppBarLeading extends StatelessWidget {
   const ChatDetailsAppBarLeading({
     super.key,
     required this.themeColors,
+    required this.hisPicture,
   });
 
   final ThemeColors themeColors;
+  final String hisPicture;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class ChatDetailsAppBarLeading extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30.r),
-                    child: Image.asset(kTestOmar,fit: BoxFit.fill),
+                    child: Image.network(hisPicture, fit: BoxFit.fill),
                   ),
                 ),
               ),

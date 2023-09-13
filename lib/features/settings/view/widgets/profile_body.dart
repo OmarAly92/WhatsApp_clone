@@ -20,7 +20,7 @@ class ProfileBody extends StatelessWidget {
           return Column(
             children: [
               SizedBox(height: 28.h),
-              ProfilePictureWidget(profileImage: state.user.profileImage),
+              ProfilePictureWidget(profileImage: state.user.profilePicture),
               SizedBox(height: 28.h),
               InkWell(
                 onTap: () {},

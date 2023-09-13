@@ -47,11 +47,14 @@ class SettingsCubit extends Cubit<SettingsState> {
   void changeProfilePicture() async {
     try {
       final String imagePath = await pickImageFromGallery();
-
+      var myPhoneNumber =
+          firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
       final Reference storageReference = FirebaseStorage.instance
           .ref()
-          .child('images')
-          .child('your_image_name.jpg');
+          .child('users')
+          .child(myPhoneNumber)
+          .child('profile_picture')
+          .child('user_profile_picture.jpg');
 
       final File imageFile = File(imagePath);
       final UploadTask uploadTask = storageReference.putFile(imageFile);
@@ -59,8 +62,6 @@ class SettingsCubit extends Cubit<SettingsState> {
       await uploadTask.whenComplete(() => print('Image uploaded'));
 
       final image = await storageReference.getDownloadURL();
-      var myPhoneNumber =
-          firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
 
       firestoreInit.collection('users').doc(myPhoneNumber).update({
         'profileImage': image,

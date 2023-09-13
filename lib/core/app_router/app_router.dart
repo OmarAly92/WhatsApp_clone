@@ -4,6 +4,7 @@ import 'package:whats_app_clone/core/themes/theme_color.dart';
 import 'package:whats_app_clone/features/auth/view/otp_screen.dart';
 import 'package:whats_app_clone/features/auth/view/welcome_screen.dart';
 import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.dart';
+import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_details_cubit.dart';
 import 'package:whats_app_clone/features/settings/view/profile_screen.dart';
 import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart';
 
@@ -64,8 +65,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
-            return BlocProvider.value(
-              value: chatsCubit,
+            return BlocProvider(
+              create: (context) => chatsCubit,
               child: HomeScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
               ),
@@ -77,11 +78,12 @@ class AppRouter {
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
             final Map arguments = settings.arguments as Map;
-            return BlocProvider.value(
-              value: chatsCubit,
+            return BlocProvider(
+              create: (context) => ChatDetailsCubit(),
               child: ChatDetailsScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
                 hisPhoneNumber: arguments['hisPhoneNumber'],
+                hisPicture: arguments['hisPicture'],
                 hisName: arguments['hisName'],
               ),
             );

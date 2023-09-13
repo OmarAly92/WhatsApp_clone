@@ -30,8 +30,12 @@ class WelcomeIconImageSection extends StatelessWidget {
             width: 250.r,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(250.r),
-              image: const DecorationImage(
-                image: AssetImage(kWelcomeImage),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(250.r),
+              child: Image.asset(
+                kWelcomeImage,
+                color: themeColors.greenButton,
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.high,
               ),

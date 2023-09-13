@@ -6,14 +6,14 @@ class UserModel extends Equatable {
   final String userId;
   final String userName;
   final String userPhone;
-  final String profileImage;
+  final String profilePicture;
 
   const UserModel({
     required this.isOnline,
     required this.userId,
     required this.userName,
     required this.userPhone,
-    required this.profileImage,
+    required this.profilePicture,
   });
 
   // QuerySnapshot
@@ -25,9 +25,10 @@ class UserModel extends Equatable {
       userId: json['userId'],
       userName: json['userName'],
       userPhone: json['userPhone'],
-      profileImage: json['profileImage'],
+      profilePicture: json['profileImage'],
     );
   }
+
 
   factory UserModel.fromQuerySnapshot(
       QuerySnapshot<Map<String, dynamic>> document) {
@@ -37,7 +38,20 @@ class UserModel extends Equatable {
       userId: json['userId'],
       userName: json['userName'],
       userPhone: json['userPhone'],
-      profileImage: json['profileImage'],
+      profilePicture: json['profileImage'],
+    );
+  }
+
+
+
+  factory UserModel.fromJson(
+     Map<String, dynamic> json) {
+    return UserModel(
+      isOnline: json['isOnline'],
+      userId: json['userId'],
+      userName: json['userName'],
+      userPhone: json['userPhone'],
+      profilePicture: json['profileImage'],
     );
   }
 
@@ -47,6 +61,6 @@ class UserModel extends Equatable {
         userId,
         userName,
         userPhone,
-        profileImage,
+        profilePicture,
       ];
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:whats_app_clone/data/model/chat_model/message_model.dart';
+import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_details_cubit.dart';
 
 import '../../../../core/themes/theme_color.dart';
-import '../../view_model/chats_cubit/chats_cubit.dart';
 import 'chat_text_form_and_mic_button.dart';
 import 'message_bubble.dart';
 
@@ -23,80 +23,59 @@ class ChatDetailsBody extends StatefulWidget {
 }
 
 class _ChatDetailsBodyState extends State<ChatDetailsBody> {
-  ChatsCubit? _chatsCubit;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _chatsCubit = context.read<ChatsCubit>();
-  }
-
-  @override
-  void dispose() {
-    _chatsCubit?.clearMessages();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChatsCubit, ChatsState>(
-      builder: (context, state) {
-        if (state is ListenToMessage) {
-          return Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(widget.themeColors.chatBackGroundImage),
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.high,
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: ListView.builder(
-                      reverse: true,
-                      itemCount: state.messages.length,
-                      itemBuilder: (context, index) {
-                        List<MessageModel> item =
-                            state.messages.reversed.toList();
-                        bool isTheSender =
-                            item[index].theSender == state.myPhoneNumber;
-                        DateTime dateTime = item[index].time.toDate();
-                        String formattedTime =
-                            DateFormat('h:mm a').format(dateTime);
-                        return MessageBubble(
-                          themeColors: widget.themeColors,
-                          isTheSender: isTheSender,
-                          message: item[index].message,
-                          time: formattedTime,
-                        );
-                      },
+    return Stack(
+      children: [
+        Image(
+          height: double.maxFinite,
+          width: double.maxFinite,
+          image: AssetImage(widget.themeColors.chatBackGroundImage),
+          fit: BoxFit.cover,
+        ),
+        BlocBuilder<ChatDetailsCubit, ChatDetailsState>(
+          builder: (context, state) {
+            if (state is ChatDetailsSuccess) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ListView.builder(
+                        reverse: true,
+                        itemCount: state.messages.length,
+                        itemBuilder: (context, index) {
+                          List<MessageModel> item =
+                              state.messages.reversed.toList();
+                          bool isTheSender =
+                              item[index].theSender == state.myPhoneNumber;
+                          DateTime dateTime = item[index].time.toDate();
+                          String formattedTime =
+                              DateFormat('h:mm a').format(dateTime);
+                          return MessageBubble(
+                            themeColors: widget.themeColors,
+                            isTheSender: isTheSender,
+                            message: item[index].message,
+                            time: formattedTime,
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-                ChatTextFormAndMicButton(
-                  themeColors: widget.themeColors,
-                  myPhoneNumber: state.myPhoneNumber,
-                  phoneNumber: widget.hisPhoneNumber,
-                ),
-              ],
-            ),
-          );
-        } else if (state is ChatsFailure) {
-          return const Center(child: Text('ChatsFailure state'));
-        } else if (state is ChatsSuccess) {
-          return const Center(child: Text('ChatsSuccess state'));
-        } else if (state is ChatsLoading) {
-          return const Center(child: Text('ChatsLoading state'));
-        } else {
-          return const Center(child: Text('initial state'));
-        }
-      },
+                  ChatTextFormAndMicButton(
+                    themeColors: widget.themeColors,
+                    myPhoneNumber: state.myPhoneNumber,
+                    phoneNumber: widget.hisPhoneNumber,
+                  ),
+                ],
+              );
+            } else {
+              return const Center(child: Text('initial state'));
+            }
+          },
+        ),
+      ],
     );
   }
 }

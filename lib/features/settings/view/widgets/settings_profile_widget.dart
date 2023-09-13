@@ -37,7 +37,7 @@ class SettingsProfileWidgets extends StatelessWidget {
                         height: 60.r,
                         width: 60.r,
                         child: CustomCircleImage(
-                            profileImage: state.user.profileImage),
+                            profileImage: state.user.profilePicture),
                       ),
                       const SizedBox(width: 20),
                       CustomBodyTitlesWidget(

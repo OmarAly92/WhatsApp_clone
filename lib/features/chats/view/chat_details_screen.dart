@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/features/chats/view_model/chats_cubit/chats_cubit.dart';
+import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_details_cubit.dart';
 
-import '../../../data/model/chat_model/chat_model.dart';
 import 'widgets/chat_details_app_bar_leading.dart';
 import 'widgets/chat_details_app_bar_title.dart';
 import 'widgets/chat_details_body.dart';
@@ -15,23 +14,23 @@ class ChatDetailsScreen extends StatefulWidget {
     required this.themeColors,
     required this.hisPhoneNumber,
     required this.hisName,
+    required this.hisPicture,
   }) : super(key: key);
 
   final ThemeColors themeColors;
   final String hisPhoneNumber;
   final String hisName;
+  final String hisPicture;
 
   @override
   State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
 }
 
 class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
-  late List<ChatsModel> chats;
-
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ChatsCubit>(context)
+    BlocProvider.of<ChatDetailsCubit>(context)
         .getMessages(hisNumber: widget.hisPhoneNumber);
   }
 
@@ -72,15 +71,15 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     ];
     return AppBar(
       toolbarHeight: 50.h,
-      leading: ChatDetailsAppBarLeading(themeColors: widget.themeColors),
+      leading: ChatDetailsAppBarLeading(
+        themeColors: widget.themeColors,
+        hisPicture: widget.hisPicture,
+      ),
       leadingWidth: 65.w,
       titleSpacing: 1.w,
       title: ChatDetailsAppBarTitle(
         themeColors: widget.themeColors,
-
         name: widget.hisName,
-
-        // chats[widget.chatIndex].users.last.userName,
       ),
       actions: actions,
     );

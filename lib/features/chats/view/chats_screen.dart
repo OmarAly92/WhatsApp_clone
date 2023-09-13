@@ -64,10 +64,9 @@ class _ChatsScreenState extends State<ChatsScreen> {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is ChatsSuccess) {
                 return ChatsListView(
-                  chatsLength: state.chats.length,
                   themeColors: widget.themeColors,
                   chats: state.chats,
-                  user: state.user,
+                  // user: state.user,
                 );
               } else if (state is ChatsFailure) {
                 return Center(child: Text(state.failureMessage));

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/features/chats/view_model/chats_cubit/chats_cubit.dart';
+import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_details_cubit.dart';
 
 import 'chat_text_form_prefix_icon.dart';
 import 'chat_text_form_suffix_icon.dart';
@@ -57,7 +57,7 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
                       onPressed: () {
                         DateTime now = DateTime.now();
                         Timestamp timestamp = Timestamp.fromDate(now);
-                        BlocProvider.of<ChatsCubit>(context).sendMessage(
+                        BlocProvider.of<ChatDetailsCubit>(context).sendMessage(
                           phoneNumber: widget.phoneNumber,
                           message: chatController.text,
                           myPhoneNumber: widget.myPhoneNumber,
@@ -67,7 +67,7 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
                         setState(() {
                           isTyping = false;
                         });
-                        BlocProvider.of<ChatsCubit>(context).getMessages(hisNumber: widget.phoneNumber);
+                        // BlocProvider.of<ChatsCubit>(context).getMessages(hisNumber: widget.phoneNumber);
                       })
                   : MicAndSendButton(icons: Icons.mic, onPressed: () {})),
         ],
