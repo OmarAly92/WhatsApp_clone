@@ -49,6 +49,7 @@ class ThemeColors {
   late final Color theAuthorTextColor;
   late final Color greenButton;
   late final Color secondaryButton;
+  late final Color clipButtonPopUp;
 
 
   late final Color updatesEditFloatingActionButtonColor;
@@ -97,8 +98,8 @@ class ThemeColors {
     greenButton = isDarkMode ? const Color(0xff00A884) : const Color(0xff02b086);
     secondaryButton = isDarkMode ? const Color(0xff182329) : const Color(0xfff7f8fa);
     regularTextColor = isDarkMode ? const Color(0xffffffff) : const Color(0xff000000);
-
-
+    clipButtonPopUp =
+    isDarkMode ? const Color(0xff1f2c34) : const Color(0xffffffff);
     chatBackGroundImage = isDarkMode ? kDarkChatBackGround1 : kLightChatBackGround1;
   }
 }

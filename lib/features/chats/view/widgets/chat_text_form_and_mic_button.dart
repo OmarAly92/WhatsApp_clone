@@ -45,7 +45,7 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
               decoration: BoxDecoration(
                   color: widget.themeColors.hisMessage,
                   borderRadius: BorderRadius.circular(40)),
-              child: buildTextFormField(),
+              child: buildTextFormField(context),
             ),
           ),
           SizedBox(
@@ -62,6 +62,7 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
                           message: chatController.text,
                           myPhoneNumber: widget.myPhoneNumber,
                           time: timestamp,
+                          type: 'message',
                         );
                         chatController.clear();
                         setState(() {
@@ -75,11 +76,15 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
     );
   }
 
-  TextFormField buildTextFormField() {
+  TextFormField buildTextFormField(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
         prefixIcon: ChatTextFormPrefixIcon(themeColors: widget.themeColors),
-        suffixIcon: ChatTextFormSuffixIcon(themeColors: widget.themeColors),
+        suffixIcon: ChatTextFormSuffixIcon(
+          themeColors: widget.themeColors,
+          phoneNumber: widget.phoneNumber,
+          myPhoneNumber: widget.myPhoneNumber,
+        ),
         hintText: 'Message',
         hintStyle: Styles.textStyle18.copyWith(
           color: widget.themeColors.bodyTextColor,

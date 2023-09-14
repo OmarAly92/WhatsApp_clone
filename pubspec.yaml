@@ -54,6 +54,7 @@ dependencies:
   go_router: ^10.1.0
   intl: ^0.18.1
   image_picker: ^1.0.4
+  flutter_emoji_gif_picker: ^0.1.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

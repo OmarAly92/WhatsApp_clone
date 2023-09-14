@@ -32,6 +32,7 @@ class AppRouter {
   ChatsCubit chatsCubit = ChatsCubit()..getContacts();
 
   SettingsCubit settingsCubit = SettingsCubit()..getSettingData();
+  ChatDetailsCubit chatDetailsCubit = ChatDetailsCubit();
 
   Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -78,8 +79,8 @@ class AppRouter {
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
             final Map arguments = settings.arguments as Map;
-            return BlocProvider(
-              create: (context) => ChatDetailsCubit(),
+            return BlocProvider.value(
+              value: chatDetailsCubit,
               child: ChatDetailsScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
                 hisPhoneNumber: arguments['hisPhoneNumber'],

@@ -31,9 +31,11 @@ class MessageBubble extends StatelessWidget {
             clipper: UpperNipMessageClipperTwo(
                 isTheSender ? MessageType.send : MessageType.receive),
             child: MessageBubbleBody(
-                themeColors: themeColors,
-                isTheSender: isTheSender,
-                message: message, time: time,),
+              themeColors: themeColors,
+              isTheSender: isTheSender,
+              message: message,
+              time: time,
+            ),
           ),
         ),
       ),
