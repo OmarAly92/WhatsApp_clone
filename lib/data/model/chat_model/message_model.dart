@@ -6,12 +6,14 @@ class MessageModel extends Equatable {
   final String message;
   final Timestamp time;
   final String theSender;
+  final String type;
 
   const MessageModel({
     required this.isSeen,
     required this.message,
     required this.time,
     required this.theSender,
+    required this.type,
   });
 
   factory MessageModel.fromSnapshot(
@@ -22,6 +24,7 @@ class MessageModel extends Equatable {
       isSeen: data['isSeen'],
       message: data['message'],
       time: data['time'],
+      type: data['type'],
       theSender: data['theSender'],
     );
   }

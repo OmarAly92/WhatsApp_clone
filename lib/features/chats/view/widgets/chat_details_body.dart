@@ -7,6 +7,7 @@ import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/cha
 
 import '../../../../core/themes/theme_color.dart';
 import 'chat_text_form_and_mic_button.dart';
+import 'image_bubble.dart';
 import 'message_bubble.dart';
 
 class ChatDetailsBody extends StatefulWidget {
@@ -23,6 +24,46 @@ class ChatDetailsBody extends StatefulWidget {
 }
 
 class _ChatDetailsBodyState extends State<ChatDetailsBody> {
+  bool haveNip(int index, List<MessageModel> item) {
+    if (index == 0) {
+      return false;
+    } else if (index == item.length - 1) {
+      return true;
+    } else if (item[index].theSender == item[index - 1].theSender) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Widget messageSelection({
+    required String messageType,
+    required ThemeColors themeColors,
+    required bool isTheSender,
+    required String message,
+    required String time,
+    required bool isFirstMessage,
+  }) {
+    if (messageType == 'message') {
+      return MessageBubble(
+        themeColors: themeColors,
+        isTheSender: isTheSender,
+        message: message,
+        time: time,
+        isFirstMessage: isFirstMessage,
+      );
+    } else if (messageType == 'voice') {
+      return const Text('voice');
+    } else {
+      return ImageBubble(
+        image: message,
+        isTheSender: isTheSender,
+        themeColors: themeColors,
+        time: time,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -46,18 +87,21 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
                         reverse: true,
                         itemCount: state.messages.length,
                         itemBuilder: (context, index) {
-                          List<MessageModel> item =
-                              state.messages.reversed.toList();
+                          List<MessageModel> item = state.messages.reversed.toList();
                           bool isTheSender =
                               item[index].theSender == state.myPhoneNumber;
                           DateTime dateTime = item[index].time.toDate();
                           String formattedTime =
                               DateFormat('h:mm a').format(dateTime);
-                          return MessageBubble(
+
+                          final haveNips = haveNip(index, item);
+                          return messageSelection(
+                            messageType: item[index].type,
                             themeColors: widget.themeColors,
                             isTheSender: isTheSender,
                             message: item[index].message,
                             time: formattedTime,
+                            isFirstMessage: haveNips,
                           );
                         },
                       ),

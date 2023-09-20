@@ -11,11 +11,13 @@ class MessageBubble extends StatelessWidget {
     required this.isTheSender,
     required this.message,
     required this.time,
+    required this.isFirstMessage,
   }) : super(key: key);
   final ThemeColors themeColors;
   final bool isTheSender;
   final String message;
   final String time;
+  final bool isFirstMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,15 @@ class MessageBubble extends StatelessWidget {
               ? const EdgeInsets.only(left: 40)
               : const EdgeInsets.only(right: 40),
           child: ClipPath(
-            clipper: UpperNipMessageClipperTwo(
-                isTheSender ? MessageType.send : MessageType.receive),
+            clipper: isFirstMessage
+                ? UpperNipMessageClipperTwo(
+                    isTheSender ? MessageType.send : MessageType.receive,
+                  )
+                : ShapeBorderClipper(
+                    shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
             child: MessageBubbleBody(
               themeColors: themeColors,
               isTheSender: isTheSender,
