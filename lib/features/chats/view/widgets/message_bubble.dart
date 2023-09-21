@@ -1,5 +1,6 @@
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/themes/theme_color.dart';
 import 'message_bubble_body.dart';
@@ -22,31 +23,50 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: isFirstMessage
+          ? EdgeInsets.only(top: 5.h)
+          : const EdgeInsets.symmetric(vertical: 0),
       child: Align(
         alignment: isTheSender ? Alignment.centerRight : Alignment.centerLeft,
-        child: Padding(
-          padding: isTheSender
-              ? const EdgeInsets.only(left: 40)
-              : const EdgeInsets.only(right: 40),
-          child: ClipPath(
-            clipper: isFirstMessage
-                ? UpperNipMessageClipperTwo(
+        child: isFirstMessage
+            ? Padding(
+                padding: isTheSender
+                    ? EdgeInsets.only(left: 38.w, top: 1.2.h, bottom: 1.2.h)
+                    : EdgeInsets.only(right: 38.w, top: 1.2.h, bottom: 1.2.h),
+                child: ClipPath(
+                  clipper: UpperNipMessageClipperTwo(
                     isTheSender ? MessageType.send : MessageType.receive,
-                  )
-                : ShapeBorderClipper(
+                  ),
+                  child: MessageBubbleBody(
+                    themeColors: themeColors,
+                    isTheSender: isTheSender,
+                    message: message,
+                    time: time,
+                    isTheFirst: isFirstMessage,
+                  ),
+                ),
+              )
+            : Padding(
+                padding: isTheSender
+                    ? EdgeInsets.only(
+                        left: 38.w, right: 15.w, top: 1.2.h, bottom: 1.2.h)
+                    : EdgeInsets.only(
+                        right: 38.w, left: 15.w, top: 1.2.h, bottom: 1.2.h),
+                child: ClipPath(
+                  clipper: ShapeBorderClipper(
                     shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(9.r),
                     ),
                   ),
-            child: MessageBubbleBody(
-              themeColors: themeColors,
-              isTheSender: isTheSender,
-              message: message,
-              time: time,
-            ),
-          ),
-        ),
+                  child: MessageBubbleBody(
+                    themeColors: themeColors,
+                    isTheSender: isTheSender,
+                    message: message,
+                    time: time,
+                    isTheFirst: isFirstMessage,
+                  ),
+                ),
+              ),
       ),
     );
   }

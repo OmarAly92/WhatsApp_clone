@@ -9,6 +9,7 @@ import '../../../../core/themes/theme_color.dart';
 import 'chat_text_form_and_mic_button.dart';
 import 'image_bubble.dart';
 import 'message_bubble.dart';
+import 'voice_bubble.dart';
 
 class ChatDetailsBody extends StatefulWidget {
   const ChatDetailsBody({
@@ -25,14 +26,16 @@ class ChatDetailsBody extends StatefulWidget {
 
 class _ChatDetailsBodyState extends State<ChatDetailsBody> {
   bool haveNip(int index, List<MessageModel> item) {
-    if (index == 0) {
-      return false;
-    } else if (index == item.length - 1) {
+    if (index == item.length - 1) {
       return true;
-    } else if (item[index].theSender == item[index - 1].theSender) {
+    } else if (index == 0) {
       return false;
+    } else if (item[(index + 1)].theSender == item[(index + 1) - 1].theSender) {
+      return false;
+    } else if (item[index + 1].theSender != item[(index + 1) - 1].theSender) {
+      return true;
     } else {
-      return true;
+      return false;
     }
   }
 
@@ -53,7 +56,7 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
         isFirstMessage: isFirstMessage,
       );
     } else if (messageType == 'voice') {
-      return const Text('voice');
+      return  VoiceBubble(themeColors:themeColors ,isTheSender: isTheSender,);
     } else {
       return ImageBubble(
         image: message,
@@ -87,13 +90,13 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
                         reverse: true,
                         itemCount: state.messages.length,
                         itemBuilder: (context, index) {
-                          List<MessageModel> item = state.messages.reversed.toList();
+                          List<MessageModel> item =
+                              state.messages.reversed.toList();
                           bool isTheSender =
                               item[index].theSender == state.myPhoneNumber;
                           DateTime dateTime = item[index].time.toDate();
                           String formattedTime =
                               DateFormat('h:mm a').format(dateTime);
-
                           final haveNips = haveNip(index, item);
                           return messageSelection(
                             messageType: item[index].type,
@@ -115,7 +118,7 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
                 ],
               );
             } else {
-              return const Center(child: Text('initial state'));
+              return const SizedBox();
             }
           },
         ),

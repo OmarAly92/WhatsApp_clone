@@ -29,12 +29,12 @@ class ImageBubbleBody extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: isTheSender ? themeColors.myMessage : themeColors.hisMessage,
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(23),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(3.5),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(20),
               child: Image(
                 image: NetworkImage(image),
                 fit: BoxFit.cover,
@@ -52,7 +52,7 @@ class ImageBubbleBody extends StatelessWidget {
                 style: Styles.textStyle12.copyWith(
                   fontWeight: FontWeight.w500,
                   color: isTheSender
-                      ? themeColors.myMessageTime
+                      ? Colors.white
                       : themeColors.hisMessageTime,
                 ),
               ),
@@ -60,9 +60,9 @@ class ImageBubbleBody extends StatelessWidget {
                 Icons.done,
                 size: 17,
                 color: isTheSender
-                    ? themeColors.myMessageTime
+                    ? Colors.white
                     : themeColors.hisMessageTime,
-              )
+              ),
             ],
           ),
         ),

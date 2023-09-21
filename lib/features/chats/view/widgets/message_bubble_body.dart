@@ -10,22 +10,28 @@ class MessageBubbleBody extends StatelessWidget {
     required this.themeColors,
     required this.isTheSender,
     required this.message,
-    required this.time,
+    required this.time, required this.isTheFirst,
   });
 
   final ThemeColors themeColors;
   final bool isTheSender;
+  final bool isTheFirst;
   final String message;
   final String time;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
+      padding: isTheFirst ?EdgeInsets.only(
         top: 4.h,
         bottom: 2.h,
         left: isTheSender ? 9.w : 24.w,
         right: isTheSender ? 24.w : 9.w,
+      ):EdgeInsets.only(
+        top: 4.h,
+        bottom: 2.h,
+        left: isTheSender ? 9.w : 8.w,
+        right: isTheSender ? 8.w : 9.w,
       ),
       decoration: BoxDecoration(
           color: isTheSender ? themeColors.myMessage : themeColors.hisMessage),
