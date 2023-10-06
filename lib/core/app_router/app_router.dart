@@ -10,7 +10,6 @@ import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart
 
 import '../../features/auth/view/phone_auth_screen.dart';
 import '../../features/chats/view/chat_details_screen.dart';
-import '../../features/chats/view_model/chats_cubit/chats_cubit.dart';
 import '../../features/home/tab_bar_view.dart';
 import '../../features/settings/view/settings_screen.dart';
 
@@ -29,7 +28,6 @@ class AppRouter {
     authenticationCubit = AuthenticationCubit();
   }
 
-  ChatsCubit chatsCubit = ChatsCubit()..getContacts();
 
   SettingsCubit settingsCubit = SettingsCubit()..getSettingData();
   ChatDetailsCubit chatDetailsCubit = ChatDetailsCubit();
@@ -66,11 +64,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
-            return BlocProvider(
-              create: (context) => chatsCubit,
-              child: HomeScreen(
-                themeColors: ThemeColors(isDarkMode: isDarkMode),
-              ),
+            return HomeScreen(
+              themeColors: ThemeColors(isDarkMode: isDarkMode),
             );
           },
         );

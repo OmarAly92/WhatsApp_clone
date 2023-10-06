@@ -17,7 +17,6 @@
 * Contact Management: Allow users to view and manage their contacts, including the ability to add new contacts and delete existing ones.
 * Profile Management: Users can update their profile information, set profile pictures, and manage account settings.
 * Search Functionality: Enable users to search for contacts, messages, and media within the app.
-* End-to-End Encryption: Implement end-to-end encryption for secure and private conversations.
 
 => Technology Stack:
 

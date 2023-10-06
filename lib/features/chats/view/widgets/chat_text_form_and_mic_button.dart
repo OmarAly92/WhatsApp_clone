@@ -31,6 +31,8 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
   TextEditingController chatController = TextEditingController();
   bool isTyping = false;
 
+  // final player = Sound;
+
   @override
   Widget build(BuildContext context) {
     // String formattedDateTime = DateFormat('yyyy-MM-dd hh:mm a').format(now);
@@ -49,28 +51,42 @@ class _ChatTextFormAndMicButtonState extends State<ChatTextFormAndMicButton> {
             ),
           ),
           SizedBox(
-              height: 48.r,
-              width: 48.r,
-              child: isTyping
-                  ? MicAndSendButton(
-                      icons: Icons.send,
-                      onPressed: () {
-                        DateTime now = DateTime.now();
-                        Timestamp timestamp = Timestamp.fromDate(now);
-                        BlocProvider.of<ChatDetailsCubit>(context).sendMessage(
-                          phoneNumber: widget.phoneNumber,
-                          message: chatController.text,
-                          myPhoneNumber: widget.myPhoneNumber,
-                          time: timestamp,
-                          type: 'message',
-                        );
-                        chatController.clear();
-                        setState(() {
-                          isTyping = false;
-                        });
-                        // BlocProvider.of<ChatsCubit>(context).getMessages(hisNumber: widget.phoneNumber);
-                      })
-                  : MicAndSendButton(icons: Icons.mic, onPressed: () {})),
+            height: 48.r,
+            width: 48.r,
+            child: isTyping
+                ? MicAndSendButton(
+                    icons: Icons.send,
+                    onTap: () {
+                      DateTime now = DateTime.now();
+                      Timestamp timestamp = Timestamp.fromDate(now);
+                      BlocProvider.of<ChatDetailsCubit>(context).sendMessage(
+                        phoneNumber: widget.phoneNumber,
+                        message: chatController.text,
+                        myPhoneNumber: widget.myPhoneNumber,
+                        time: timestamp,
+                        type: 'message',
+                      );
+                      chatController.clear();
+                      setState(() {
+                        isTyping = false;
+                      });
+                    })
+                : MicAndSendButton(
+                    icons: Icons.mic,
+                    onTapDown: (details) {
+                      // BlocProvider.of<ChatDetailsCubit>(context).startRecord();
+
+                      print('start OMAR');
+                    },
+                    onTapUp: (details) async {
+                      // BlocProvider.of<ChatDetailsCubit>(context).stopRecord();
+                      // BlocProvider.of<ChatDetailsCubit>(context)
+                      //     .sendVoice(phoneNumber: widget.phoneNumber);
+
+                      print('end OMAR');
+                    },
+                  ),
+          ),
         ],
       ),
     );

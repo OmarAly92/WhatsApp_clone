@@ -15,11 +15,6 @@ abstract class Filtering {
     return userPhoneNumbers
         .map((userModel) => userModel.userPhone.replaceAll(' ', ''))
         .toSet();
-
-    // .map((userModel) =>
-    // userModel.userPhone.replaceAll(' ', '')
-    //     .expand((phoneNumbers) => phoneNumbers)
-    //     .toSet();
   }
 
   static Set<String> findCommonPhoneNumbers(

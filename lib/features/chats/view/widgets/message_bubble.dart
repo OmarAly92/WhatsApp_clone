@@ -1,6 +1,5 @@
-import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/features/chats/view/widgets/custom_bubble_parent.dart';
 
 import '../../../../core/themes/theme_color.dart';
 import 'message_bubble_body.dart';
@@ -22,51 +21,16 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: isFirstMessage
-          ? EdgeInsets.only(top: 5.h)
-          : const EdgeInsets.symmetric(vertical: 0),
-      child: Align(
-        alignment: isTheSender ? Alignment.centerRight : Alignment.centerLeft,
-        child: isFirstMessage
-            ? Padding(
-                padding: isTheSender
-                    ? EdgeInsets.only(left: 38.w, top: 1.2.h, bottom: 1.2.h)
-                    : EdgeInsets.only(right: 38.w, top: 1.2.h, bottom: 1.2.h),
-                child: ClipPath(
-                  clipper: UpperNipMessageClipperTwo(
-                    isTheSender ? MessageType.send : MessageType.receive,
-                  ),
-                  child: MessageBubbleBody(
-                    themeColors: themeColors,
-                    isTheSender: isTheSender,
-                    message: message,
-                    time: time,
-                    isTheFirst: isFirstMessage,
-                  ),
-                ),
-              )
-            : Padding(
-                padding: isTheSender
-                    ? EdgeInsets.only(
-                        left: 38.w, right: 15.w, top: 1.2.h, bottom: 1.2.h)
-                    : EdgeInsets.only(
-                        right: 38.w, left: 15.w, top: 1.2.h, bottom: 1.2.h),
-                child: ClipPath(
-                  clipper: ShapeBorderClipper(
-                    shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(9.r),
-                    ),
-                  ),
-                  child: MessageBubbleBody(
-                    themeColors: themeColors,
-                    isTheSender: isTheSender,
-                    message: message,
-                    time: time,
-                    isTheFirst: isFirstMessage,
-                  ),
-                ),
-              ),
+    return CustomBubbleParent(
+      isFirstMessage: isFirstMessage,
+      themeColors: themeColors,
+      isTheSender: isTheSender,
+      widgetBubbleBody: MessageBubbleBody(
+        isTheFirst: isFirstMessage,
+        themeColors: themeColors,
+        isTheSender: isTheSender,
+        message: message,
+        time: time,
       ),
     );
   }

@@ -15,7 +15,10 @@ class ChatDetailsCubit extends Cubit<ChatDetailsState> {
   ChatDetailsCubit() : super(ChatDetailsInitial());
 
   var fireBaseInit = FirebaseFirestore.instance;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  // final recorder = FlutterSoundRecorder();
+  // String? voicePath;
 
   void getMessages({required String hisNumber}) {
     final String myPhoneNumber = getMyPhoneNumber();
@@ -79,8 +82,8 @@ class ChatDetailsCubit extends Cubit<ChatDetailsState> {
 
   void sendImage({
     required String phoneNumber,
-    required String type,
     required Timestamp time,
+    required String type,
   }) async {
     try {
       final String imagePath = await pickImageFromGallery();
@@ -92,9 +95,9 @@ class ChatDetailsCubit extends Cubit<ChatDetailsState> {
       final Reference storageReference = FirebaseStorage.instance
           .ref()
           .child('chats')
-          .child('images')
           .child(sortedNumber.join('-'))
-          .child('${time.microsecondsSinceEpoch}.jpg');
+          .child('images')
+          .child('${time.microsecondsSinceEpoch}Image.jpg');
 
       final UploadTask uploadTask = storageReference.putFile(imageFile);
 
@@ -125,4 +128,74 @@ class ChatDetailsCubit extends Cubit<ChatDetailsState> {
         firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
     return myPhoneNumber;
   }
+
+ // void startRecord() async {
+ //   DateTime currentDateTime = DateTime.now();
+ //
+ //   int timestamp = currentDateTime.millisecondsSinceEpoch;
+ //
+ //    final String voicePath = '${timestamp}audio.mp4';
+ //
+ //    try {
+ //      await recorder.startRecorder(
+ //        codec: Codec.mp3,
+ //        toFile: voicePath,
+ //      );
+ //    } catch (e) {
+ //      emit(const ChatDetailsFailure(
+ //          failureMessage: 'Failed to upload the Voice'));
+ //    }
+ //
+ //    this.voicePath = voicePath;
+ //  }
+ //
+ //  void stopRecord() async {
+ //    try {
+ //      await recorder.stopRecorder();
+ //    } catch (e) {
+ //      emit(const ChatDetailsFailure(
+ //          failureMessage: 'Failed to upload the Voice'));
+ //    }
+ //  }
+ //
+ //  void sendVoice({
+ //    required String phoneNumber,
+ //  }) async {
+ //
+ //    DateTime currentDateTime = DateTime.now();
+ //
+ //    int timestamp = currentDateTime.millisecondsSinceEpoch;
+ //    var myPhoneNumber =
+ //        firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+ //    List<String> sortedNumber = [phoneNumber, myPhoneNumber]..sort();
+ //
+ //    final Reference storageReference = FirebaseStorage.instance
+ //        .ref()
+ //        .child('chats')
+ //        .child(sortedNumber.join('-'))
+ //        .child('voice')
+ //        .child('${timestamp}voice.mp3');
+ //    UploadTask uploadTask = storageReference.putFile(File(voicePath!));
+ //    uploadTask.whenComplete(() {
+ //      print('Audio uploaded to Firebase Storage');
+ //    });
+ //    // final UploadTask uploadTask = storageReference.putFile(imageFile);
+ //
+ //    // await uploadTask.whenComplete(() => print('Image uploaded'));
+ //
+ //    final voice = await storageReference.getDownloadURL();
+ //
+ //    fireBaseInit
+ //        .collection('chats')
+ //        .doc(sortedNumber.join('-'))
+ //        .collection('messages')
+ //        .doc()
+ //        .set({
+ //      'isSeen': false,
+ //      'message': voice,
+ //      'theSender': myPhoneNumber,
+ //      'time': timestamp,
+ //      'type': 'voice',
+ //    });
+ //  }
 }

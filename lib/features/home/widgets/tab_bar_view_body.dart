@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
+import 'package:whats_app_clone/features/chats/repository/chats_repository.dart';
 import 'package:whats_app_clone/features/updates/view/updates_screen.dart';
 
 import '../../call/view/calls_screen.dart';
@@ -22,7 +23,7 @@ class TabBarViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ChatsCubit()..getContacts()),
+        BlocProvider(create: (context) => ChatsCubit(ChatsRepository( ) )..getContacts()),
       ],
       child: TabBarView(
         controller: tabController,

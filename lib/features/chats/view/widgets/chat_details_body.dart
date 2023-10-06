@@ -56,13 +56,17 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
         isFirstMessage: isFirstMessage,
       );
     } else if (messageType == 'voice') {
-      return  VoiceBubble(themeColors:themeColors ,isTheSender: isTheSender,);
+      return VoiceBubble(
+        themeColors: themeColors,
+        isTheSender: isTheSender,
+        voice: message, isFirstMessage: isFirstMessage,
+      );
     } else {
       return ImageBubble(
         image: message,
         isTheSender: isTheSender,
         themeColors: themeColors,
-        time: time,
+        time: time, isFirstMessage: isFirstMessage,
       );
     }
   }

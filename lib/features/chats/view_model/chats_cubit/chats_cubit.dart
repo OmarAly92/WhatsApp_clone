@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:whats_app_clone/data/model/user_model/user_model.dart';
+import 'package:whats_app_clone/features/chats/repository/chats_repository.dart';
 
 import '../../../../core/functions/filtering.dart';
 import '../../../../data/model/chat_model/chat_model.dart';
@@ -13,14 +15,14 @@ import '../../../../data/model/chat_model/message_model.dart';
 part 'chats_state.dart';
 
 class ChatsCubit extends Cubit<ChatsState> {
-  ChatsCubit() : super(ChatsInitial());
-
-  var fireBaseInit = FirebaseFirestore.instance;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  ChatsCubit(this._chatsRepository) : super(ChatsInitial());
+  final ChatsRepository _chatsRepository;
+  final _firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   String getMyPhoneNumber() {
     final String myPhoneNumber =
-        firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+        _firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
     return myPhoneNumber;
   }
 
@@ -29,7 +31,6 @@ class ChatsCubit extends Cubit<ChatsState> {
 
     try {
       final String myPhoneNumber = getMyPhoneNumber();
-
       await getUserData(myPhoneNumber: myPhoneNumber);
       await getChats(myPhoneNumber: myPhoneNumber);
     } catch (failureMessage) {
@@ -38,15 +39,7 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   Future<void> getChats({required String myPhoneNumber}) async {
-    final chatsQuery = fireBaseInit.collection('chats').where(
-          'usersPhones',
-          arrayContains: myPhoneNumber,
-        );
-
-    chatsQuery.snapshots().listen((querySnapshot) async {
-      final List<ChatsModel> chats = List<ChatsModel>.from(querySnapshot.docs
-          .map((doc) => ChatsModel.fromSnapshot(doc))
-          .toList());
+    _chatsRepository.getChats(myPhoneNumber).listen((chats) async {
       final List<ChatsModel> chatsReady = [];
       for (int i = 0; i < chats.length; i++) {
         final userDocOne = await chats[i].usersDocument[0].userDoc.get();
@@ -66,21 +59,20 @@ class ChatsCubit extends Cubit<ChatsState> {
       }
 
       emit(ChatsSuccess(
-        chats: chatsReady,
         myPhoneNumber: myPhoneNumber,
+        chats: chatsReady,
       ));
     });
   }
 
   Future<void> getUserData({required String myPhoneNumber}) async {
-    final userSnapshot = fireBaseInit.collection('users');
-
-    List<UserModel> fireBaseUsers =
-        await gettingFireBaseUsersData(userSnapshot);
+    List<UserModel> fireBaseUsers = await _chatsRepository.getUserData();
 
     List<UserModel> contactsList =
         await filteringFirebaseContactsAndLocalContacts(
-            fireBaseUsers, myPhoneNumber);
+      fireBaseUsers,
+      myPhoneNumber,
+    );
 
     creatingChatRoom(
       contactsList: contactsList,
@@ -88,53 +80,32 @@ class ChatsCubit extends Cubit<ChatsState> {
     );
   }
 
-  Future<List<UserModel>> gettingFireBaseUsersData(
-      CollectionReference<Map<String, dynamic>> userSnapshot) async {
-    List<UserModel> fireBaseUsers = [];
-
-    var userQuerySnapshot = await userSnapshot.get();
-    if (userQuerySnapshot.docs.isNotEmpty) {
-      for (var userDoc in userQuerySnapshot.docs) {
-        UserModel userModel = UserModel.fromSnapshot(userDoc);
-        fireBaseUsers.add(userModel);
-      }
-    }
-    return fireBaseUsers;
-  }
-
   Future<List<UserModel>> filteringFirebaseContactsAndLocalContacts(
       List<UserModel> fireBaseUsers, String myPhoneNumber) async {
-    final PermissionStatus status = await Permission.contacts.request();
-    if (status.isGranted) {
-      List<Contact> localContacts = await ContactsService.getContacts();
-      Set<String> contactsPhoneNumbers =
-          Filtering.extractContactsPhoneNumbers(localContacts);
-      Set<String> userPhoneNumbersSet =
-          Filtering.extractUserPhoneNumbers(fireBaseUsers);
-      Set<String> commonPhoneNumbers = Filtering.findCommonPhoneNumbers(
-        contactsPhoneNumbers,
-        userPhoneNumbersSet,
-      );
-
-      List<UserModel> contactsList = Filtering.filterUserPhoneNumber(
-        fireBaseUsers,
-        commonPhoneNumbers,
-        myPhoneNumber,
-      );
-
-      return contactsList;
-    } else {
-      throw Exception();
-    }
+    List<Contact> localContacts = await _chatsRepository.getLocalContact();
+    Set<String> contactsPhoneNumbers =
+        Filtering.extractContactsPhoneNumbers(localContacts);
+    Set<String> userPhoneNumbersSet =
+        Filtering.extractUserPhoneNumbers(fireBaseUsers);
+    Set<String> commonPhoneNumbers = Filtering.findCommonPhoneNumbers(
+      contactsPhoneNumbers,
+      userPhoneNumbersSet,
+    );
+    List<UserModel> contactsList = Filtering.filterUserPhoneNumber(
+      fireBaseUsers,
+      commonPhoneNumbers,
+      myPhoneNumber,
+    );
+    return contactsList;
   }
 
   Future<void> creatingChatRoom({
     required List<UserModel> contactsList,
     required String myPhoneNumber,
   }) async {
-    final userSnapshot = fireBaseInit.collection('users');
+    final userSnapshot = _firebaseFirestore.collection('users');
 
-    final chatSnapshot = fireBaseInit.collection('chats');
+    final chatSnapshot = _firebaseFirestore.collection('chats');
     try {
       for (int i = 0; i < contactsList.length; i++) {
         List<String> sortedNumber = [contactsList[i].userPhone, myPhoneNumber]
@@ -166,18 +137,11 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   Future<UserModel> checkUserNameIsNotEmpty() async {
-    String myPhoneNumber =
-        firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-    var userQuerySnapshot = await fireBaseInit
-        .collection('users')
-        .where('userPhone', isEqualTo: myPhoneNumber)
-        .get();
-    UserModel user = UserModel.fromQuerySnapshot(userQuerySnapshot);
-    return user;
+    return _chatsRepository.checkUserNameIsNotEmpty();
   }
 
   void sendUserName(String userName) {
-    var userQuerySnapshot = fireBaseInit.collection('users').doc();
+    var userQuerySnapshot = _firebaseFirestore.collection('users').doc();
     userQuerySnapshot.update({
       'userName': userName,
     });
