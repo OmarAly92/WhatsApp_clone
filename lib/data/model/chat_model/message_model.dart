@@ -17,8 +17,8 @@ class MessageModel extends Equatable {
   });
 
   factory MessageModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document) {
-    final data = document.data()!;
+      QueryDocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data();
 
     return MessageModel(
       isSeen: data['isSeen'],

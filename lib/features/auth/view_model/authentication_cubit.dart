@@ -8,11 +8,9 @@ part 'authentication_state.dart';
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationInitial());
 
-  late final String _verificationId;
   final _auth = FirebaseAuth.instance;
-  late final String phoneNumber;
-
-  // CollectionReference x =  FirebaseFirestore.instance.collection('').doc().collection('collectionPath');
+  late String _verificationId;
+  late String phoneNumber;
 
   void submitPhoneNumber({required String phoneNumber}) async {
     emit(AuthenticationLoading());
@@ -36,8 +34,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (failureMessage.code == 'invalid-phone-number') {
       print(failureMessage.toString());
 
-      emit(const AuthenticationFailure(
-          failureMessage: 'The provided phone number is not valid.'));
+      emit(const AuthenticationFailure(failureMessage: 'The provided phone number is not valid.'));
     }
     print(failureMessage.toString());
     emit(AuthenticationFailure(failureMessage: failureMessage.message!));
@@ -66,14 +63,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   Future<void> _signIn(PhoneAuthCredential credential) async {
     try {
-      const String defaultImage = 'https://firebasestorage.googleapis.com/v0/b/whats-app-clone-4fe8a.appspot.com/o/default%2Fdefault_profile_picture.jpg?alt=media&token=facbc559-4b44-4f58-b21d-2e101dfa2da7';
+      const String defaultImage =
+          'https://firebasestorage.googleapis.com/v0/b/whats-app-clone-4fe8a.appspot.com/o/default%2Fdefault_profile_picture.jpg?alt=media&token=facbc559-4b44-4f58-b21d-2e101dfa2da7';
       await _auth.signInWithCredential(credential);
 
-      CollectionReference createUser =
-          FirebaseFirestore.instance.collection('users');
+      CollectionReference createUser = FirebaseFirestore.instance.collection('users');
 
-      DocumentSnapshot documentSnapshot =
-          await createUser.doc(phoneNumber).get();
+      DocumentSnapshot documentSnapshot = await createUser.doc(phoneNumber).get();
       if (documentSnapshot.exists) {
         print('documentSnapshot exists signIn');
       } else {

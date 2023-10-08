@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
+import 'package:whats_app_clone/data/data_source/chats/chat_details_requests.dart';
 import 'package:whats_app_clone/features/auth/view/otp_screen.dart';
 import 'package:whats_app_clone/features/auth/view/welcome_screen.dart';
 import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.dart';
+import 'package:whats_app_clone/features/chats/repository/chat_details_repository.dart';
 import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_details_cubit.dart';
 import 'package:whats_app_clone/features/settings/view/profile_screen.dart';
 import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart';
@@ -23,14 +25,17 @@ class AppRouter {
   static const String profileScreen = '/profileScreen';
 
   late final AuthenticationCubit authenticationCubit;
+  ChatDetailsRequests chatDetailsRequests = ChatDetailsRequests();
+  late final ChatDetailsRepository chatDetailsRepository;
+  late final ChatDetailsCubit chatDetailsCubit;
 
   AppRouter() {
     authenticationCubit = AuthenticationCubit();
+    chatDetailsRepository = ChatDetailsRepository(chatDetailsRequests);
+    chatDetailsCubit = ChatDetailsCubit(chatDetailsRepository);
   }
 
-
   SettingsCubit settingsCubit = SettingsCubit()..getSettingData();
-  ChatDetailsCubit chatDetailsCubit = ChatDetailsCubit();
 
   Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
