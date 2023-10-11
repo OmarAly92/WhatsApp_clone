@@ -57,14 +57,19 @@ class ChatsRequest {
           'lastMessage': '',
           'lastMessageTime': DateTime.timestamp(),
           'users': [
-            {
-              'userDoc': userCollection.doc(contactsList[i].userPhone),
-            },
-            {
-              'userDoc': userCollection.doc(myPhoneNumber),
-            },
+               userCollection.doc(contactsList[i].userPhone),
+               userCollection.doc(myPhoneNumber),
           ],
         });
+        // var timeTest =DateTime.timestamp().millisecondsSinceEpoch;
+        // chatCollection.doc(sortedNumber.join('-')).collection('messages').doc().set(
+        //     {
+        //   'isSeen': false,
+        //   'message': 'test',
+        //   'theSender': myPhoneNumber,
+        //   'time': timeTest,
+        //   'type': 'message',
+        // });
       }
     }
   }

@@ -54,11 +54,11 @@ dependencies:
   flutter_emoji_gif_picker: ^0.1.4
   image_picker: ^1.0.4
   intl: ^0.18.1
-  audioplayers: ^5.1.0
-  flutter_sound: ^9.2.13
-#  voice_message_package: ^1.0.41
-#  jiffy: ^6.2.1
 
+  audioplayers: ^5.2.0
+  path_provider: ^2.1.1
+  record_mp3: ^3.0.0
+  record: ^4.4.4
 
 dev_dependencies:
   flutter_test:

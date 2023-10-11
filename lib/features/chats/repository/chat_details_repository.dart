@@ -22,6 +22,14 @@ abstract class BaseChatDetailsRepository {
     required String myPhoneNumber,
     required String imagePath,
   });
+
+  void sendVoice({
+    required String phoneNumber,
+    required Timestamp time,
+    required String type,
+    required String myPhoneNumber,
+    required String voicePath,
+  });
 }
 
 class ChatDetailsRepository extends BaseChatDetailsRepository {
@@ -63,6 +71,24 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
     fireBaseInit.collection('chats').doc(sortedNumber.join('-')).collection('messages').doc().set({
       'isSeen': false,
       'message': imagePath,
+      'theSender': myPhoneNumber,
+      'time': time,
+      'type': type,
+    });
+  }
+
+  @override
+  void sendVoice({
+    required String phoneNumber,
+    required Timestamp time,
+    required String type,
+    required String myPhoneNumber,
+    required String voicePath,
+  }) {
+    List<String> sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    fireBaseInit.collection('chats').doc(sortedNumber.join('-')).collection('messages').doc().set({
+      'isSeen': false,
+      'message': voicePath,
       'theSender': myPhoneNumber,
       'time': time,
       'type': type,

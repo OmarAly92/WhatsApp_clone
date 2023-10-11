@@ -27,10 +27,11 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.appRouter});
+  MyApp({super.key, required this.appRouter});
 
   final AppRouter appRouter;
 
+  // AudioRecorderCubit cubitRecorderCubit =AudioRecorderCubit(ChatDetailsRepository(ChatDetailsRequests()));
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         darkTheme: MyThemes.darkTheme,
         onGenerateRoute: appRouter.generateRoute,
         initialRoute: initialScreen,
+        // home: AudioRecorderScreen(),
       ),
     );
   }
