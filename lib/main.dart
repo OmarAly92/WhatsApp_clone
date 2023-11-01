@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
+import 'package:whats_app_clone/test_animated_container.dart';
 
 import 'core/themes/themes.dart';
 import 'firebase_options.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
         darkTheme: MyThemes.darkTheme,
         onGenerateRoute: appRouter.generateRoute,
         initialRoute: initialScreen,
-        // home: AudioRecorderScreen(),
+        // home:  MyAnimationWidget(),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,10 +26,18 @@ class VoiceBubble extends StatefulWidget {
 
 class _VoiceBubbleState extends State<VoiceBubble> {
   final player = AudioPlayer();
+  PlayerController controller = PlayerController();
+
+  @override
+  void initState() {
+    controller.extractWaveformData(path: widget.voice);
+    super.initState();
+  }
 
   @override
   void dispose() {
     player.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -66,10 +75,23 @@ class _VoiceBubbleState extends State<VoiceBubble> {
                     SizedBox(
                       height: 16.h,
                     ),
-                    Text(
-                      '----------------------------------------------',
-                      style: TextStyle(color: widget.themeColors.bodyTextColor),
+
+                    AudioFileWaveforms(
+                      continuousWaveform: true,
+                      enableSeekGesture: true,
+                      size: Size(200, 20),
+                      playerController: controller,
+                      waveformType: WaveformType.fitWidth,
+                      backgroundColor: Colors.red,
+                      playerWaveStyle: PlayerWaveStyle(
+                        backgroundColor: Colors.blue
+                      ),
                     ),
+
+                    // Text(
+                    //   '--------------------------------------------',
+                    //   style: TextStyle(color: widget.themeColors.bodyTextColor),
+                    // ),
                     SizedBox(
                       height: 8.h,
                     ),

@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:whats_app_clone/data/model/chat_model/message_model.dart';
-import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_details_cubit.dart';
+import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/send_messages/send_messages_cubit.dart';
 
 import '../../../../core/themes/theme_color.dart';
+import '../../view_model/chat_details_cubit/get_messages/get_messages_cubit.dart';
 import 'chat_text_form_and_mic_button.dart';
 import 'image_bubble.dart';
 import 'message_bubble.dart';
@@ -59,20 +61,25 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
       return VoiceBubble(
         themeColors: themeColors,
         isTheSender: isTheSender,
-        voice: message, isFirstMessage: isFirstMessage,
+        voice: message,
+        // time: time,
+        isFirstMessage: isFirstMessage,
       );
     } else {
       return ImageBubble(
         image: message,
         isTheSender: isTheSender,
         themeColors: themeColors,
-        time: time, isFirstMessage: isFirstMessage,
+        time: time,
+        isFirstMessage: isFirstMessage,
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    String myPhoneNumber = BlocProvider.of<SendMessagesCubit>(context).getMyPhoneNumber();
+
     return Stack(
       children: [
         Image(
@@ -81,50 +88,53 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
           image: AssetImage(widget.themeColors.chatBackGroundImage),
           fit: BoxFit.cover,
         ),
-        BlocBuilder<ChatDetailsCubit, ChatDetailsState>(
-          builder: (context, state) {
-            if (state is ChatDetailsSuccess) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: ListView.builder(
-                        reverse: true,
-                        itemCount: state.messages.length,
-                        itemBuilder: (context, index) {
-                          List<MessageModel> item =
-                              state.messages.reversed.toList();
-                          bool isTheSender =
-                              item[index].theSender == state.myPhoneNumber;
-                          DateTime dateTime = item[index].time.toDate();
-                          String formattedTime =
-                              DateFormat('h:mm a').format(dateTime);
-                          final haveNips = haveNip(index, item);
-                          return messageSelection(
-                            messageType: item[index].type,
-                            themeColors: widget.themeColors,
-                            isTheSender: isTheSender,
-                            message: item[index].message,
-                            time: formattedTime,
-                            isFirstMessage: haveNips,
-                          );
-                        },
+        Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            BlocBuilder<GetMessagesCubit, GetMessagesState>(
+              builder: (context, state) {
+                if (state is GetMessagesSuccess) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                          height: 540.h,
+                          child: ListView.builder(
+                            reverse: true,
+                            itemCount: state.messages.length,
+                            itemBuilder: (context, index) {
+                              List<MessageModel> item = state.messages.reversed.toList();
+                              bool isTheSender = item[index].theSender == state.myPhoneNumber;
+                              DateTime dateTime = item[index].time.toDate();
+                              String formattedTime = DateFormat('h:mm a').format(dateTime);
+                              final haveNips = haveNip(index, item);
+                              return messageSelection(
+                                messageType: item[index].type,
+                                themeColors: widget.themeColors,
+                                isTheSender: isTheSender,
+                                message: item[index].message,
+                                time: formattedTime,
+                                isFirstMessage: haveNips,
+                              );
+                            },
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  ChatTextFormAndMicButton(
-                    themeColors: widget.themeColors,
-                    myPhoneNumber: state.myPhoneNumber,
-                    phoneNumber: widget.hisPhoneNumber,
-                  ),
-                ],
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
+                    ],
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+            ChatTextFormAndMicButton(
+              themeColors: widget.themeColors,
+              myPhoneNumber: myPhoneNumber,
+              phoneNumber: widget.hisPhoneNumber,
+            ),
+          ],
         ),
       ],
     );

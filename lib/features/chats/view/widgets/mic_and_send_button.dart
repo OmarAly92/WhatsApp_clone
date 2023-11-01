@@ -4,10 +4,12 @@ class MicAndSendButton extends StatelessWidget {
   const MicAndSendButton({
     super.key,
     required this.icons,
-    this.onTap, this.onTapUp, this.onTapDown,
+    this.onTap,
+    this.onTapUp,
+    this.onTapDown,
   });
 
-  final IconData icons;
+  final Icon icons;
   final GestureTapUpCallback? onTapUp;
   final GestureTapDownCallback? onTapDown;
   final VoidCallback? onTap;
@@ -18,15 +20,13 @@ class MicAndSendButton extends StatelessWidget {
       onTap: onTap,
       onTapUp: onTapUp,
       onTapDown: onTapDown,
-      child: Container(
+      child: AnimatedContainer(
         decoration: BoxDecoration(
           color: const Color(0xff00A884),
           borderRadius: BorderRadius.circular(50),
         ),
-        child: Icon(
-          icons,
-          color: Colors.white,
-        ),
+        duration:  const Duration(milliseconds: 200),
+        child: icons
       ),
     );
   }

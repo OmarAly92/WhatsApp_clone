@@ -39,7 +39,7 @@ class _ClipButtonPopUpState extends State<ClipButtonPopUp> {
           child: Padding(
             padding: EdgeInsets.all(20.r),
             child: BlocProvider.value(
-              value: appRouter.chatDetailsCubit,
+              value: appRouter.getMessagesCubit,
               child: IconItems(
                 themeColors: widget.themeColors,
                 phoneNumber: widget.phoneNumber,

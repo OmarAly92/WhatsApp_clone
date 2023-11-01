@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_details_cubit.dart';
 
+import '../view_model/chat_details_cubit/get_messages/get_messages_cubit.dart';
 import 'widgets/chat_details_app_bar_leading.dart';
 import 'widgets/chat_details_app_bar_title.dart';
 import 'widgets/chat_details_body.dart';
@@ -30,8 +30,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ChatDetailsCubit>(context)
-        .getMessages(hisNumber: widget.hisPhoneNumber);
+    BlocProvider.of<GetMessagesCubit>(context).getMessages(hisNumber: widget.hisPhoneNumber);
   }
 
   @override

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/features/chats/view/widgets/icon_item_widget.dart';
 
 import '../../../../core/themes/theme_color.dart';
-import '../../view_model/chat_details_cubit/chat_details_cubit.dart';
+import '../../view_model/chat_details_cubit/send_messages/send_messages_cubit.dart';
 
 class IconItems extends StatelessWidget {
   const IconItems({
@@ -58,7 +58,7 @@ class IconItems extends StatelessWidget {
               onTap: () {
                 DateTime now = DateTime.now();
                 Timestamp timestamp = Timestamp.fromDate(now);
-                BlocProvider.of<ChatDetailsCubit>(context).sendImage(
+                BlocProvider.of<SendMessagesCubit>(context).sendImage(
                   phoneNumber: phoneNumber,
                   time: timestamp,
                   type: 'image',

@@ -10,8 +10,7 @@ import 'widgets/auth_button.dart';
 import 'widgets/phone_auth_screen_top_title_section.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
-  const PhoneAuthScreen({Key? key, required this.themeColors})
-      : super(key: key);
+  const PhoneAuthScreen({Key? key, required this.themeColors}) : super(key: key);
   final ThemeColors themeColors;
 
   @override
@@ -56,8 +55,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
           showProgressIndicator(context);
         } else if (state is PhoneNumberSubmitted) {
           Navigator.pop(context);
-          Navigator.pushNamed(context, AppRouter.otpScreen,
-              arguments: phoneNumberController.text);
+          Navigator.pushNamed(context, AppRouter.otpScreen, arguments: phoneNumberController.text);
         } else if (state is AuthenticationFailure) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -81,8 +79,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
     } else {
       Navigator.pop(context);
       _phoneFormKey.currentState!.save();
-      BlocProvider.of<AuthenticationCubit>(context)
-          .submitPhoneNumber(phoneNumber: phoneNumberController.text);
+      BlocProvider.of<AuthenticationCubit>(context).submitPhoneNumber(phoneNumber: phoneNumberController.text);
     }
   }
 
@@ -132,8 +129,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   }
 
   String generateCountryFlag({required String countryCode}) {
-    String flag = countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'),
-        (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397));
+    String flag = countryCode.toUpperCase().replaceAllMapped(
+        RegExp(r'[A-Z]'), (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397));
     return flag;
   }
 

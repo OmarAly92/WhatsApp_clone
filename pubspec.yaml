@@ -40,7 +40,6 @@ dependencies:
   #  google_fonts: ^5.1.0
   equatable: ^2.0.5
   dartz: ^0.10.1
-  dio: ^5.3.2
   get_it: ^7.6.0
   cached_network_image: ^3.2.3
   custom_clippers: ^2.0.0
@@ -59,6 +58,7 @@ dependencies:
   path_provider: ^2.1.1
   record_mp3: ^3.0.0
   record: ^4.4.4
+  audio_waveforms: ^1.0.4
 
 dev_dependencies:
   flutter_test:
