@@ -62,7 +62,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             SnackBar(
               content: Text(state.failureMessage),
               backgroundColor: Colors.white,
-              duration: const Duration(seconds: 300),
+              duration: const Duration(seconds: 2),
             ),
           );
         }
@@ -108,6 +108,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                         color: widget.themeColors.bodyTextColor,
                       ),
                     ),
+                    SizedBox(height: 30.h),
                     SizedBox(height: 30.h),
                     AuthButton(
                         context: context,

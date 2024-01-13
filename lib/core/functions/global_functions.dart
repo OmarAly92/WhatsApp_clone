@@ -1,5 +1,7 @@
 abstract class GlFunctions {
- static List<String> sortPhoneNumbers(String firstNumber, secondNumber) {
-    return [firstNumber, secondNumber]..sort();
+  static String sortPhoneNumbers(String firstNumber, secondNumber) {
+    List<String> result = [firstNumber, secondNumber]..sort();
+
+    return result.join('-');
   }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/data/model/user_model/user_model.dart';
-import 'package:whats_app_clone/features/chats/view/widgets/chat_screen_user_name_alert_dialog.dart';
-import 'package:whats_app_clone/features/chats/view/widgets/chats_list_view.dart';
+import 'package:whats_app_clone/features/chats/view/widgets/chats_screen_widgets/chat_screen_user_name_alert_dialog.dart';
+import 'package:whats_app_clone/features/chats/view/widgets/chats_screen_widgets/chats_list_view.dart';
 
 import '../../../../core/themes/theme_color.dart';
 import '../view_model/chats_cubit/chats_cubit.dart';
@@ -36,8 +36,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
   }
 
   Future<void> getUserModel() async {
-    UserModel userModel =
-        await BlocProvider.of<ChatsCubit>(context).checkUserNameIsNotEmpty();
+    UserModel userModel = await BlocProvider.of<ChatsCubit>(context).checkUserNameIsNotEmpty();
     checkUserNameIsNotEmpty(
       userModel: userModel,
       themeColors: widget.themeColors,

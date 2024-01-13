@@ -17,9 +17,7 @@ class CustomBodyTitlesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-
-        textTitle, textSubTitle],
+      children: [textTitle, textSubTitle],
     );
   }
 }

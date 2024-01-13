@@ -20,9 +20,9 @@ class ChatDetailsRequests {
 
 
   Query<Map<String, dynamic>> getMessagesData(String hisNumber, String myPhoneNumber) {
-    List<String> sortedNumber = GlFunctions.sortPhoneNumbers(hisNumber, myPhoneNumber);
+   String sortedNumber = GlFunctions.sortPhoneNumbers(hisNumber, myPhoneNumber);
     return getChatsCollection()
-        .doc(sortedNumber.join('-'))
+        .doc(sortedNumber)
         .collection('messages')
         .orderBy('time', descending: false);
   }
@@ -34,9 +34,9 @@ class ChatDetailsRequests {
     required String type,
     required Timestamp time,
   }) async {
-    List<String> sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-    var chatDocument = getChatsCollection().doc(sortedNumber.join('-'));
-    var messageDocument = getChatsCollection().doc(sortedNumber.join('-')).collection('messages').doc();
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    var chatDocument = getChatsCollection().doc(sortedNumber);
+    var messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
       'isSeen': false,
       'message': message,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:record/record.dart';
 
 import '../../../../../core/functions/global_functions.dart';
@@ -16,12 +16,15 @@ import '../../../repository/chat_details_repository.dart';
 part 'send_messages_state.dart';
 
 class SendMessagesCubit extends Cubit<SendMessagesState> {
-  SendMessagesCubit(this.chatDetailsRepository, this.record) : super(SendMessagesInitial());
+  SendMessagesCubit(this.chatDetailsRepository, this.record) : super(SendMessagesInitial()){
+    initialiseController();
+  }
   final ChatDetailsRepository chatDetailsRepository;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final Record record;
+  late final RecorderController recorderController;
 
-  Future<void> sendMessage({
+  void sendMessage({
     required String phoneNumber,
     required String message,
     required String myPhoneNumber,
@@ -77,11 +80,11 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
 
     final File imageFile = File(imageFromGallery);
 
-    List<String> sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
     final Reference storageReference = FirebaseStorage.instance
         .ref()
         .child('chats')
-        .child(sortedNumber.join('-'))
+        .child(sortedNumber)
         .child('images')
         .child('${time.microsecondsSinceEpoch}Image.jpg');
 
@@ -104,24 +107,45 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     return '${directory.path}/myFile.m4a';
   }
 
-  Future<void> startRecording() async {
-    final status = await Permission.microphone.status;
-    await Permission.microphone.request();
+  /// this is the new record methods in  wave_audio package
+  void initialiseController() {
+    recorderController = RecorderController()
+      ..androidEncoder = AndroidEncoder.aac
+      ..androidOutputFormat = AndroidOutputFormat.mpeg4
+      ..iosEncoder = IosEncoder.kAudioFormatMPEG4AAC
+      ..sampleRate = 16000;
+  }
 
-    if (status.isGranted) {
-      final filePath = await getVoiceFilePath();
+  void startRecording() async {
+    final path = await getVoiceFilePath();
 
-      try {
-        await record.start(
-          path: filePath,
-          encoder: AudioEncoder.aacLc,
-          bitRate: 128000,
-          samplingRate: 44100,
-        );
-        emit(SendMessagesRecordStart());
-      } catch (e) {
-        print('Error starting recording: $e');
-      }
+    await recorderController.record(path: path);
+  }
+
+
+
+  Future<void> stopRecording(Timestamp time, String phoneNumber) async {
+    List<double> waveData = recorderController.waveData.toList();
+
+    String? path = await recorderController.stop();
+    String myPhoneNumber = getMyPhoneNumber();
+
+    try {
+    var finalPath = await  uploadVoiceToStorage(
+          myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time, voicePathFromStopMethod: path!);
+
+      chatDetailsRepository.sendVoice(
+        phoneNumber: phoneNumber,
+        time: time,
+        type: 'voice',
+        myPhoneNumber: myPhoneNumber,
+        voicePath: finalPath,
+        waveData: waveData,
+      );
+
+      emit(SendMessagesInitial());
+    } catch (e) {
+      print('Error stopping recording: $e');
     }
   }
 
@@ -135,13 +159,13 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
 
     final File voiceFile = File(voicePathFromStop);
 
-    List<String> sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
     final Reference storageReference = FirebaseStorage.instance
         .ref()
         .child('chats')
-        .child(sortedNumber.join('-'))
+        .child(sortedNumber)
         .child('voice')
-        .child('${time.microsecondsSinceEpoch}Voice.mp3');
+        .child('${time.microsecondsSinceEpoch}');
 
     final UploadTask uploadTask = storageReference.putFile(voiceFile);
 
@@ -151,18 +175,5 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
 
     return voicePath;
   }
-
-  Future<void> stopRecording(Timestamp time, String phoneNumber) async {
-    try {
-      String? path = await record.stop();
-      String myPhoneNumber = getMyPhoneNumber();
-      uploadVoiceToStorage(
-          myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time, voicePathFromStopMethod: path!);
-      chatDetailsRepository.sendVoice(
-          phoneNumber: phoneNumber, time: time, type: 'voice', myPhoneNumber: myPhoneNumber, voicePath: path);
-      emit(SendMessagesInitial());
-    } catch (e) {
-      print('Error stopping recording: $e');
-    }
-  }
 }
+

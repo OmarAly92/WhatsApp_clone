@@ -6,32 +6,40 @@ class ChatsModel extends Equatable {
   final String chatType;
   final String lastMessage;
   final Timestamp lastMessageTime;
-  final List<DocumentReference<Map<String, dynamic>>> usersDocument;
-  final UserModel? users;
+  final Map<String, UserModel> usersData;
+  final List usersPhoneNumber;
+
+
 
   const ChatsModel({
     required this.chatType,
-    required this.usersDocument,
+    required this.usersData,
+    required this.usersPhoneNumber,
     required this.lastMessage,
     required this.lastMessageTime,
-    this.users,
+
   });
 
   factory ChatsModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
+    Map<String, UserModel> usersData = (data['usersData'] as Map<String, dynamic>)
+        .map((key, value) => MapEntry(key, UserModel.fromJson(value as Map<String, dynamic>)));
+
     return ChatsModel(
       chatType: data['chatType'],
-      usersDocument: List<DocumentReference<Map<String, dynamic>>>.from(data['users']),
+      usersPhoneNumber: data['usersPhoneNumber'],
+      usersData: usersData,
       lastMessage: data['lastMessage'],
       lastMessageTime: data['lastMessageTime'],
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         chatType,
         lastMessage,
         lastMessageTime,
-        usersDocument,
+        usersData,
+        usersPhoneNumber,
       ];
 }

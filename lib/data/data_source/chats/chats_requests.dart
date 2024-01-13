@@ -13,11 +13,9 @@ class ChatsRequest {
   }
 
   Query<Map<String, dynamic>> getChatsFromFireStore(String myPhoneNumber) {
-    final userCollection = getUserCollection();
-
     return _firebaseFirestore.collection('chats').where(
-          'users',
-          arrayContains: userCollection.doc(myPhoneNumber),
+          'usersPhoneNumber',
+          arrayContains: myPhoneNumber,
         );
   }
 
@@ -39,38 +37,42 @@ class ChatsRequest {
   }
 
   Future<void> creatingChatRoom({
-    required List<UserModel> contactsList,
-    required String myPhoneNumber,
+    required UserModel friendContactUserModel,
+    required UserModel myContactUserModel,
   }) async {
-    final userCollection = getUserCollection();
-
     final chatCollection = getChatsCollection();
 
-    for (int i = 0; i < contactsList.length; i++) {
-      List<String> sortedNumber = GlFunctions.sortPhoneNumbers(contactsList[i].userPhone, myPhoneNumber);
+    String sortedNumber =
+        GlFunctions.sortPhoneNumbers(friendContactUserModel.userPhone, myContactUserModel.userPhone);
 
-      DocumentSnapshot snapshot = await chatCollection.doc(sortedNumber.join('-')).get();
+    DocumentSnapshot snapshot = await chatCollection.doc(sortedNumber).get();
 
-      if (!snapshot.exists) {
-        await chatCollection.doc(sortedNumber.join('-')).set({
-          'chatType': 'private',
-          'lastMessage': '',
-          'lastMessageTime': DateTime.timestamp(),
-          'users': [
-               userCollection.doc(contactsList[i].userPhone),
-               userCollection.doc(myPhoneNumber),
-          ],
-        });
-        // var timeTest =DateTime.timestamp().millisecondsSinceEpoch;
-        // chatCollection.doc(sortedNumber.join('-')).collection('messages').doc().set(
-        //     {
-        //   'isSeen': false,
-        //   'message': 'test',
-        //   'theSender': myPhoneNumber,
-        //   'time': timeTest,
-        //   'type': 'message',
-        // });
-      }
+    if (!snapshot.exists) {
+      await chatCollection.doc(sortedNumber).set({
+        'chatType': 'private',
+        'lastMessage': '',
+        'lastMessageTime': DateTime.timestamp(),
+        'usersData': {
+          myContactUserModel.userPhone: {
+            'isOnline': true,
+            'userId': myContactUserModel.userId,
+            'userName': myContactUserModel.userName,
+            'userPhone': myContactUserModel.userPhone,
+            'profileImage': myContactUserModel.profilePicture,
+          },
+          friendContactUserModel.userPhone: {
+            'isOnline': true,
+            'userId': friendContactUserModel.userId,
+            'userName': friendContactUserModel.userName,
+            'userPhone': friendContactUserModel.userPhone,
+            'profileImage': friendContactUserModel.profilePicture,
+          },
+        },
+        'usersPhoneNumber': [
+          friendContactUserModel.userPhone,
+          myContactUserModel.userPhone,
+        ],
+      });
     }
   }
 }

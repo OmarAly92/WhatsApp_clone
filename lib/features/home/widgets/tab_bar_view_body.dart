@@ -22,10 +22,8 @@ class TabBarViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => ChatsCubit(ChatsRepository(ChatsRequest()),ChatsRequest())..getContacts()),
-      ],
+    return BlocProvider(
+     create:(context) => ChatsCubit(ChatsRepository(ChatsRequest()),ChatsRequest())..getContacts(),
       child: TabBarView(
         controller: tabController,
         children: [

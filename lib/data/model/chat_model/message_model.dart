@@ -7,6 +7,7 @@ class MessageModel extends Equatable {
   final Timestamp time;
   final String theSender;
   final String type;
+  final List<dynamic> waveData;
 
   const MessageModel({
     required this.isSeen,
@@ -14,10 +15,10 @@ class MessageModel extends Equatable {
     required this.time,
     required this.theSender,
     required this.type,
+    required this.waveData,
   });
 
-  factory MessageModel.fromSnapshot(
-      QueryDocumentSnapshot<Map<String, dynamic>> document) {
+  factory MessageModel.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data();
 
     return MessageModel(
@@ -26,9 +27,17 @@ class MessageModel extends Equatable {
       time: data['time'],
       type: data['type'],
       theSender: data['theSender'],
+      waveData: data['waveData'] ?? [],
     );
   }
 
   @override
-  List<Object> get props => [isSeen, message, time, theSender];
+  List<Object> get props => [
+        isSeen,
+        message,
+        time,
+        theSender,
+        type,
+        waveData,
+      ];
 }

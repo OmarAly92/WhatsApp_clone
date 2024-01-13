@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
 
 import '../view_model/chat_details_cubit/get_messages/get_messages_cubit.dart';
-import 'widgets/chat_details_app_bar_leading.dart';
-import 'widgets/chat_details_app_bar_title.dart';
-import 'widgets/chat_details_body.dart';
+import 'widgets/chat_details_screen_widgets/chat_details_components/app_bar_leading_component.dart';
+import 'widgets/chat_details_screen_widgets/chat_details_components/app_bar_title_component.dart';
+import 'widgets/chat_details_screen_widgets/chat_details_components/chat_details_body.dart';
 
 class ChatDetailsScreen extends StatefulWidget {
   const ChatDetailsScreen({
@@ -14,32 +14,62 @@ class ChatDetailsScreen extends StatefulWidget {
     required this.themeColors,
     required this.hisPhoneNumber,
     required this.hisName,
-    required this.hisPicture,
+    required this.hisProfilePicture,
   }) : super(key: key);
 
   final ThemeColors themeColors;
   final String hisPhoneNumber;
   final String hisName;
-  final String hisPicture;
+  final String hisProfilePicture;
 
   @override
   State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
 }
 
 class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
+  GetMessagesCubit getMessagesCubit() {
+    GetMessagesCubit bloc = BlocProvider.of<GetMessagesCubit>(context);
+    return bloc;
+  }
+
+  @override
+  void dispose() {
+    getMessagesCubit().messagesSubscription?.cancel();
+    super.dispose();
+  }
+
   @override
   void initState() {
+    getMessagesCubit().getMessages(hisPhoneNumber: widget.hisPhoneNumber);
     super.initState();
-    BlocProvider.of<GetMessagesCubit>(context).getMessages(hisNumber: widget.hisPhoneNumber);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildChatDetailsAppBar(),
-      body: ChatDetailsBody(
-        themeColors: widget.themeColors,
-        hisPhoneNumber: widget.hisPhoneNumber,
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.popUntil(context, (route) => route.isFirst);
+        return Future.value(false);
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: buildChatDetailsAppBar(),
+        body: Container(
+          /// todo when you make singleton using get it plugin make instance of MediaQuery of size then pass it here
+          height: MediaQuery.sizeOf(context).height,
+          width: MediaQuery.sizeOf(context).width,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(widget.themeColors.chatBackGroundImage),
+              fit: BoxFit.fitHeight,
+            ),
+          ),
+          child: ChatDetailsBody(
+            themeColors: widget.themeColors,
+            hisPhoneNumber: widget.hisPhoneNumber,
+            hisProfilePicture: widget.hisProfilePicture,
+          ),
+        ),
       ),
     );
   }
@@ -70,13 +100,13 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
     ];
     return AppBar(
       toolbarHeight: 50.h,
-      leading: ChatDetailsAppBarLeading(
+      leading: AppBarLeadingComponent(
         themeColors: widget.themeColors,
-        hisPicture: widget.hisPicture,
+        hisPicture: widget.hisProfilePicture,
       ),
       leadingWidth: 65.w,
       titleSpacing: 1.w,
-      title: ChatDetailsAppBarTitle(
+      title: AppBarTitleComponent(
         themeColors: widget.themeColors,
         name: widget.hisName,
       ),

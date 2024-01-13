@@ -97,7 +97,7 @@ class _OtpBodyState extends State<OtpBody> {
             SnackBar(
               content: Text(state.failureMessage),
               backgroundColor: Colors.black,
-              duration: const Duration(seconds: 4),
+              duration: const Duration(seconds: 2),
             ),
           );
         }

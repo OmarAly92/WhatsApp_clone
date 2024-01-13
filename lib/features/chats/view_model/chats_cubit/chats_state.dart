@@ -22,7 +22,7 @@ class ChatsGettingUserReady extends ChatsState {
 class ChatsSuccess extends ChatsState {
   final List<ChatsModel> chats;
 
-  // final List<UserModel> user;
+  // final ChatUserDocModel user;
   final String myPhoneNumber;
 
   const ChatsSuccess({
@@ -32,12 +32,7 @@ class ChatsSuccess extends ChatsState {
   });
 
   @override
-  List<Object> get props => [
-        chats,
-
-        // user,
-        myPhoneNumber
-      ];
+  List<Object> get props => [chats , myPhoneNumber];
 }
 
 class ListenToMessage extends ChatsState {

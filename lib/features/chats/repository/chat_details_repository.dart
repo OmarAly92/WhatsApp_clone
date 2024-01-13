@@ -5,7 +5,7 @@ import '../../../data/data_source/chats/chat_details_requests.dart';
 import '../../../data/model/chat_model/message_model.dart';
 
 abstract class BaseChatDetailsRepository {
-  Stream<List<MessageModel>> getMessages({required String hisNumber, required String myPhoneNumber});
+  Stream<List<MessageModel>> getMessages({required String hisPhoneNumber, required String myPhoneNumber});
 
   Future<void> sendMessage({
     required String phoneNumber,
@@ -29,6 +29,7 @@ abstract class BaseChatDetailsRepository {
     required String type,
     required String myPhoneNumber,
     required String voicePath,
+    required List<double> waveData,
   });
 }
 
@@ -40,8 +41,8 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
   var fireBaseInit = FirebaseFirestore.instance;
 
   @override
-  Stream<List<MessageModel>> getMessages({required String hisNumber, required String myPhoneNumber}) {
-    var chatSubCollection = chatDetailsRequests.getMessagesData(hisNumber, myPhoneNumber);
+  Stream<List<MessageModel>> getMessages({required String hisPhoneNumber, required String myPhoneNumber}) {
+    var chatSubCollection = chatDetailsRequests.getMessagesData(hisPhoneNumber, myPhoneNumber);
     return chatSubCollection.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => MessageModel.fromSnapshot(doc)).toList();
     });
@@ -67,8 +68,8 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
     required String myPhoneNumber,
     required String imagePath,
   }) async {
-    List<String> sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-    fireBaseInit.collection('chats').doc(sortedNumber.join('-')).collection('messages').doc().set({
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    fireBaseInit.collection('chats').doc(sortedNumber).collection('messages').doc().set({
       'isSeen': false,
       'message': imagePath,
       'theSender': myPhoneNumber,
@@ -84,14 +85,21 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
     required String type,
     required String myPhoneNumber,
     required String voicePath,
+    required List<double> waveData,
   }) {
-    List<String> sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-    fireBaseInit.collection('chats').doc(sortedNumber.join('-')).collection('messages').doc().set({
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+
+
+
+    fireBaseInit.collection('chats').doc(sortedNumber).collection('messages').doc().set({
       'isSeen': false,
       'message': voicePath,
       'theSender': myPhoneNumber,
       'time': time,
       'type': type,
+      'waveData':waveData,
     });
+
+
   }
 }

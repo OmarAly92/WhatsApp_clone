@@ -10,7 +10,13 @@ class GetMessagesInitial extends GetMessagesState {
 }
 
 
+class GetMessagesLoading extends GetMessagesState {
 
+  const GetMessagesLoading();
+
+  @override
+  List<Object> get props => [];
+}
 class GetMessagesSuccess extends GetMessagesState {
   final List<MessageModel> messages;
   final String myPhoneNumber;
