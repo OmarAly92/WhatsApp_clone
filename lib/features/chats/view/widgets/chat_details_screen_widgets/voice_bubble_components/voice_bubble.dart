@@ -19,7 +19,7 @@ part 'error_voice_handling_component.dart';
 
 part 'voice_button_states.dart';
 
-class VoiceBubble extends StatelessWidget {
+class VoiceBubble extends StatefulWidget {
   const VoiceBubble({
     Key? key,
     required this.themeColors,
@@ -37,37 +37,52 @@ class VoiceBubble extends StatelessWidget {
   final MessageModel messageModel;
 
   @override
+  State<VoiceBubble> createState() => _VoiceBubbleState();
+}
+
+class _VoiceBubbleState extends State<VoiceBubble> {
+  @override
   Widget build(BuildContext context) {
     return _ErrorVoiceHandlingComponent(
       child: CustomBubbleParent(
-        themeColors: themeColors,
-        isTheSender: isTheSender,
-        isFirstMessage: isFirstMessage,
+        themeColors: widget.themeColors,
+        isTheSender: widget.isTheSender,
+        isFirstMessage: widget.isFirstMessage,
         widgetBubbleBody: Container(
           decoration: BoxDecoration(
-            color: isTheSender ? themeColors.myMessage : themeColors.hisMessage,
+            color: widget.isTheSender ? widget.themeColors.myMessage : widget.themeColors.hisMessage,
           ),
           child: Padding(
             padding: EdgeInsets.only(
               right: 9.w,
-              left: isTheSender ? 0 : 9.w,
+              left: widget.isTheSender ? 0 : 9.w,
               bottom: 3.h,
             ),
             child: Row(
               children: [
+                widget.isTheSender
+                    ? _CircleImage(
+                        hisProfilePicture: widget.hisProfilePicture,
+                        isTheSender: widget.isTheSender,
+                      )
+                    : const SizedBox.shrink(),
                 _VoiceButtonStates(
-                  themeColors: themeColors,
-                  messageModel: messageModel,
-                  hisPhoneNumber: hisPhoneNumber,
+                  themeColors: widget.themeColors,
+                  messageModel: widget.messageModel,
+                  hisPhoneNumber: widget.hisPhoneNumber,
+                  isTheSender: widget.isTheSender,
                 ),
                 _AudioWaveVoiceDurationAndVoiceTime(
-                  themeColors: themeColors,
-                  messageModel: messageModel,
+                  themeColors: widget.themeColors,
+                  messageModel: widget.messageModel,
+                  isTheSender: widget.isTheSender,
                 ),
-                _CircleImage(
-                  hisProfilePicture: hisProfilePicture,
-                  isTheSender: isTheSender,
-                ),
+                widget.isTheSender
+                    ? const SizedBox.shrink()
+                    : _CircleImage(
+                        hisProfilePicture: widget.hisProfilePicture,
+                        isTheSender: widget.isTheSender,
+                      ),
               ],
             ),
           ),

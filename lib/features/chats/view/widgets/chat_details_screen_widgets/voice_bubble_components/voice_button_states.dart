@@ -5,11 +5,13 @@ class _VoiceButtonStates extends StatefulWidget {
     required this.themeColors,
     required this.messageModel,
     required this.hisPhoneNumber,
+    required this.isTheSender,
   });
 
   final ThemeColors themeColors;
   final MessageModel messageModel;
   final String hisPhoneNumber;
+  final bool isTheSender;
 
   @override
   State<_VoiceButtonStates> createState() => _VoiceButtonStatesState();
@@ -26,83 +28,135 @@ class _VoiceButtonStatesState extends State<_VoiceButtonStates> {
 
   @override
   Widget build(BuildContext context) {
+    double playPauseButtonSize = 42.r;
+    double downloadButtonSize = 32.r;
+    Color buttonColor = widget.isTheSender ? widget.themeColors.myMessageTime : widget.themeColors.hisMessageTime;
+    EdgeInsets padding = EdgeInsets.only(left: 7.w, bottom: 7.h, top: 7.h, right: 0);
     return BlocBuilder<VoiceBubbleCubit, VoiceBubbleState>(
       builder: (context, state) {
-        if (state is VoiceBubbleVoiceExists) {
-          return IconButton(
-            onPressed: () {
-              BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
-            },
-            icon: Icon(
-              isPlaying ? Icons.pause : Icons.play_arrow_rounded,
-              size: 44.r,
-              color: widget.themeColors.bodyTextColor,
+        if (state is VoiceBubbleLoading) {
+          return Padding(
+            padding: EdgeInsets.all(12.r),
+            child: Center(
+              child: SizedBox(
+                width: 22.r,
+                height: 22.r,
+                child: const CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                ),
+              ),
+            ),
+          );
+        } else if (state is VoiceBubbleInitial) {
+          return Padding(
+            padding: padding,
+            child: InkWell(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Please wait voice is loading'),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+              },
+              child: Icon(
+                isPlaying ? Icons.pause : Icons.play_arrow_rounded,
+                size: playPauseButtonSize,
+                color: buttonColor,
+              ),
+            ),
+          );
+        } else if (state is VoiceBubbleVoiceExists) {
+          return Padding(
+            padding: padding,
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
+              },
+              child: Icon(
+                isPlaying ? Icons.pause : Icons.play_arrow_rounded,
+                size: playPauseButtonSize,
+                color: buttonColor,
+              ),
             ),
           );
         } else if (state is VoiceBubbleIsPlaying) {
-          return IconButton(
-            onPressed: () {
-              BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
-            },
-            icon: Icon(
-              Icons.pause,
-              size: 44.r,
-              color: widget.themeColors.bodyTextColor,
+          return Padding(
+            padding: padding,
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
+              },
+              child: Icon(
+                Icons.pause,
+                size: playPauseButtonSize,
+                color: buttonColor,
+              ),
             ),
           );
         } else if (state is VoiceBubbleIsNotPlaying) {
-          return IconButton(
-            onPressed: () {
-              BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
-            },
-            icon: Icon(
-              Icons.play_arrow_rounded,
-              size: 44.r,
-              color: widget.themeColors.bodyTextColor,
+          return Padding(
+            padding: padding,
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
+              },
+              child: Icon(
+                Icons.play_arrow_rounded,
+                size: playPauseButtonSize,
+                color: buttonColor,
+              ),
             ),
           );
-        } else if (state is VoiceBubbleLoading) {
-          return const Center(child: CircularProgressIndicator());
         } else if (state is VoiceBubbleVoiceNotExists) {
-          return IconButton(
-            onPressed: () {
-              BlocProvider.of<VoiceBubbleCubit>(context).downloadVoiceFile(
-                voiceUrl: widget.messageModel.message,
-                hisPhoneNumber: widget.hisPhoneNumber,
-              );
-            },
-            icon: Icon(
-              Icons.download_for_offline_outlined,
-              color: widget.themeColors.bodyTextColor,
-              size: 32.r,
+          return Padding(
+            padding: padding,
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<VoiceBubbleCubit>(context).downloadVoiceFile(
+                  voiceUrl: widget.messageModel.message,
+                  hisPhoneNumber: widget.hisPhoneNumber,
+                );
+              },
+              child: Icon(
+                Icons.download_for_offline_outlined,
+                color: buttonColor,
+                size: downloadButtonSize,
+              ),
             ),
           );
-        } else if (state is VoiceBubbleDownloadError) {
-          return IconButton(
-            onPressed: () {
-              BlocProvider.of<VoiceBubbleCubit>(context).downloadVoiceFile(
-                voiceUrl: widget.messageModel.message,
-                hisPhoneNumber: widget.hisPhoneNumber,
-              );
-            },
-            icon: Icon(
-              Icons.download_for_offline_outlined,
-              color: widget.themeColors.bodyTextColor,
-              size: 32.r,
+        } else if (state is VoiceBubbleError) {
+          return Padding(
+            padding: padding,
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<VoiceBubbleCubit>(context).downloadVoiceFile(
+                  voiceUrl: widget.messageModel.message,
+                  hisPhoneNumber: widget.hisPhoneNumber,
+                );
+              },
+              child: Icon(
+                Icons.download_for_offline_outlined,
+                color: buttonColor,
+                size: downloadButtonSize,
+              ),
             ),
           );
         } else {
-          return IconButton(
-            onPressed: () {
-              BlocProvider.of<VoiceBubbleCubit>(context).downloadVoiceFile(
-                voiceUrl: widget.messageModel.message,
-                hisPhoneNumber: widget.hisPhoneNumber,
-              );
-            },
-            icon: Icon(
-              Icons.download_for_offline_outlined,
-              color: widget.themeColors.bodyTextColor,
-              size: 32.r,
+          return Padding(
+            padding: padding,
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<VoiceBubbleCubit>(context).downloadVoiceFile(
+                  voiceUrl: widget.messageModel.message,
+                  hisPhoneNumber: widget.hisPhoneNumber,
+                );
+              },
+              child: Icon(
+                Icons.download_for_offline_outlined,
+                color: buttonColor,
+                size: downloadButtonSize,
+              ),
             ),
           );
         }

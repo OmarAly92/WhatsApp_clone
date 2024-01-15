@@ -23,11 +23,11 @@ class VoiceBubbleLoading extends VoiceBubbleState {
   List<Object> get props => [progress];
 }
 
-class VoiceBubbleDownloadError extends VoiceBubbleState {
+class VoiceBubbleError extends VoiceBubbleState {
   final String errorMessage;
 
 
-  const VoiceBubbleDownloadError({required this.errorMessage});
+  const VoiceBubbleError({required this.errorMessage});
 
   @override
   List<Object> get props => [errorMessage];

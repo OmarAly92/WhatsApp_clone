@@ -14,11 +14,11 @@ class _CircleImage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
         left: isTheSender ? 13.w : 13.w,
-        right: isTheSender ? 13.w : 0,
+        right: isTheSender ? 0.w : 0,
       ),
       child: SizedBox(
-        height: 52.r,
-        width: 52.r,
+        height: 44.5.r,
+        width: 44.5.r,
         child: CustomCircleImage(
           profileImage: isTheSender
               ? 'https://th.bing.com/th/id/OIP.LEdWiNYXu4hW21hWPIaXwwHaEo?rs=1&pid=ImgDetMain'

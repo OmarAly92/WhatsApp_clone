@@ -55,24 +55,26 @@ class ThemeColors {
 
   late final Color updatesEditIconColor;
 
-  //ContactScreen Container and icon Colors for light and dark mode
   late final Color contactScreenContainerColor;
   late final Color contactScreenIconColor;
+
+  late final Color myMessageWaveFormFixedColor;
+  late final Color hisMessageWaveFormFixedColor;
+
+  late final Color myMessageWaveFormLiveColor;
+  late final Color hisMessageWaveFormLiveColor;
 
   late final String chatBackGroundImage;
   final String kDarkChatBackGround1 = kDarkChatBackGround;
   final String kLightChatBackGround1 = kLightChatBackGround;
 
-  // Private static instance of the ThemeColors class
   static final ThemeColors _singletonDark = ThemeColors._internal(true);
   static final ThemeColors _singletonLight = ThemeColors._internal(false);
 
-  // Factory constructor to return the appropriate instance based on isDarkMode
   factory ThemeColors({required bool isDarkMode}) {
     return isDarkMode ? _singletonDark : _singletonLight;
   }
 
-  // Private constructor for the singleton instances
   ThemeColors._internal(this.isDarkMode) {
     backgroundColor = isDarkMode ? const Color(0xff121b22) : const Color(0xffffffff);
     appbarColor = isDarkMode ? const Color(0xff1f2c34) : const Color(0xff008069);
@@ -82,7 +84,7 @@ class ThemeColors {
     dividerColor = isDarkMode ? const Color(0xff607d8b) : const Color(0xff9e9e9e);
     greenColor = isDarkMode ? const Color(0xff00a884) : const Color(0xff008069);
     myMessage = isDarkMode ? const Color(0xff005C4B) : const Color(0xffe7ffdb);
-    myMessageTime = isDarkMode ? const Color(0xff91cac1) : const Color(0xff7a8f7e);
+    myMessageTime = isDarkMode ? const Color(0xff7aa0a3) : const Color(0xff7a8f7e);
     hisMessageTime = isDarkMode ? const Color(0xff89969e) : const Color(0xff7a8f7e);
     hisMessage = isDarkMode ? const Color(0xff1f2c34) : const Color(0xffffffff);
     privateChatAppBarColor = isDarkMode ? const Color(0xfff0f6f5) : const Color(0xfff0f6f5);
@@ -98,6 +100,11 @@ class ThemeColors {
     contactScreenContainerColor = isDarkMode ? const Color(0xff1f2c33) : const Color(0xffe9eef3);
     contactScreenIconColor = isDarkMode ? const Color(0xff86939c) : const Color(0xff84969e);
 
+    myMessageWaveFormFixedColor = isDarkMode ? const Color(0xff317D6D) : const Color(0xffBBD0B4);
+    hisMessageWaveFormFixedColor = isDarkMode ? const Color(0xff4D565D) : const Color(0xffCFD0D1);
+
+    myMessageWaveFormLiveColor = isDarkMode ? const Color(0xffA9CCC5) : const Color(0xff627266);
+    hisMessageWaveFormLiveColor = isDarkMode ? const Color(0xffB6BBBD) : const Color(0xff6C7274);
 
     chatBackGroundImage = isDarkMode ? kDarkChatBackGround1 : kLightChatBackGround1;
   }

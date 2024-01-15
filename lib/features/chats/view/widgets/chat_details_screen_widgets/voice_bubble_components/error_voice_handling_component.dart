@@ -9,7 +9,7 @@ class _ErrorVoiceHandlingComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<VoiceBubbleCubit, VoiceBubbleState>(
       listener: (context, state) {
-        if (state is VoiceBubbleDownloadError) {
+        if (state is VoiceBubbleError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Download error: ${state.errorMessage}'),

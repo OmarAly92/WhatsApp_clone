@@ -13,16 +13,18 @@ part 'voice_bubble_state.dart';
 
 class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
   VoiceBubbleCubit() : super(VoiceBubbleInitial()) {
-    playerController = PlayerController();
+    audioPlayerController = PlayerController();
   }
 
   StreamSubscription? subscription;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  late PlayerController playerController;
+  late PlayerController audioPlayerController;
 
-  Future<void> checkIfFileExistsAndPlayOrDownload(
-      {required String voiceUrl, required String hisPhoneNumber}) async {
+  Future<void> checkIfFileExistsAndPlayOrDownload({
+    required String voiceUrl,
+    required String hisPhoneNumber,
+  }) async {
     Directory? appDocDir = await getDownloadsDirectory();
     String voiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
 
@@ -31,16 +33,25 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     bool fileExists = await File(voiceFilePath).exists();
 
     if (fileExists) {
-      _preparePlayerControllerRecording(voiceFilePath);
-      emit(VoiceBubbleVoiceExists(voiceFilePath: voiceFilePath));
+      try {
+        _preparePlayerControllerRecording(voiceFilePath);
+        emit(VoiceBubbleVoiceExists(voiceFilePath: voiceFilePath));
+        // emit(VoiceBubbleLoading(progress: 0));
+      } catch (error) {
+        emit(VoiceBubbleError(errorMessage: 'Player initialization failed: $error'));
+      }
     } else {
       emit(VoiceBubbleVoiceNotExists());
 
-      downloadVoiceFile(voiceUrl: voiceUrl, hisPhoneNumber: hisPhoneNumber);
+      try {
+        await downloadVoiceFile(voiceUrl: voiceUrl, hisPhoneNumber: hisPhoneNumber);
+      } catch (error) {
+        emit(VoiceBubbleError(errorMessage: 'Download failed: $error'));
+      }
     }
   }
 
-  void downloadVoiceFile({required String voiceUrl, required String hisPhoneNumber}) async {
+  Future<void> downloadVoiceFile({required String voiceUrl, required String hisPhoneNumber}) async {
     emit(const VoiceBubbleLoading(progress: 0));
     String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
     Directory? appDocDir = await getDownloadsDirectory();
@@ -52,15 +63,15 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
         _preparePlayerControllerRecording('${appDocDir?.path}/$finalVoiceFileName');
         emit(VoiceBubbleVoiceExists(voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName'));
       } else {
-        throw Exception('Failed to download voice file');
+        emit(const VoiceBubbleError(errorMessage: 'else: Failed to download voice file'));
       }
-    } catch (e) {
-      throw Exception('Failed to download voice file: $e');
+    } catch (error) {
+      emit(VoiceBubbleError(errorMessage: 'Failed to download voice file: $error'));
     }
   }
 
   void playAndPause() async {
-    subscription = playerController.onPlayerStateChanged.listen((playerState) {
+    subscription = audioPlayerController.onPlayerStateChanged.listen((playerState) {
       if (playerState == PlayerState.playing) {
         emit(VoiceBubbleIsPlaying());
       } else {
@@ -68,15 +79,24 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
       }
     });
 
-    if (playerController.playerState == PlayerState.playing) {
-      await playerController.pausePlayer();
+    if (audioPlayerController.playerState == PlayerState.playing) {
+      await audioPlayerController.pausePlayer();
     } else {
-      await playerController.startPlayer(finishMode: FinishMode.pause);
+      await audioPlayerController.startPlayer(finishMode: FinishMode.pause);
     }
   }
 
-  Future<void> _preparePlayerControllerRecording(String voiceFilePath) async =>
-      await playerController.preparePlayer(path: voiceFilePath);
+  Future<void> _preparePlayerControllerRecording(String voiceFilePath) async {
+    try {
+      audioPlayerController.dispose();
+
+      await audioPlayerController.preparePlayer(path: voiceFilePath);
+
+      print('OMAR: Player prepared successfully');
+    } catch (error) {
+      emit(VoiceBubbleError(errorMessage: 'Player preparation failed: $error'));
+    }
+  }
 
   String _getMyPhoneNumber() {
     final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
@@ -94,4 +114,6 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
 
     return finalVoiceFileName.substring(0, 16);
   }
+
+  void cancelSubscription() => subscription?.cancel();
 }
