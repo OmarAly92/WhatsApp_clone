@@ -7,6 +7,7 @@ class MessageModel extends Equatable {
   final Timestamp time;
   final String theSender;
   final String type;
+  final int maxDuration;
   final List<dynamic> waveData;
 
   const MessageModel({
@@ -16,6 +17,7 @@ class MessageModel extends Equatable {
     required this.theSender,
     required this.type,
     required this.waveData,
+    required this.maxDuration,
   });
 
   factory MessageModel.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> document) {
@@ -28,6 +30,7 @@ class MessageModel extends Equatable {
       type: data['type'],
       theSender: data['theSender'],
       waveData: data['waveData'] ?? [],
+      maxDuration: data['maxDuration'] ?? 0,
     );
   }
 

@@ -66,7 +66,36 @@ class _VoiceButtonStatesState extends State<_VoiceButtonStates> {
               ),
             ),
           );
-        } else if (state is VoiceBubbleVoiceExists) {
+        } else if (state is VoiceBubbleVoiceExistence) {
+          return Padding(
+            padding: padding,
+            child: InkWell(
+              onTap: () {
+                if (state.isExisted) {
+                  BlocProvider.of<VoiceBubbleCubit>(context).playAndPause(
+                    hisPhoneNumber: widget.hisPhoneNumber,
+                    voiceUrl: widget.messageModel.message,
+                    maxDurationMilliSec: widget.messageModel.maxDuration,
+                  );
+                } else {
+                  BlocProvider.of<VoiceBubbleCubit>(context).downloadVoiceFile(
+                    voiceUrl: widget.messageModel.message,
+                    hisPhoneNumber: widget.hisPhoneNumber,
+                  );
+                }
+              },
+              child: Icon(
+                state.isExisted
+                    ? isPlaying
+                        ? Icons.pause
+                        : Icons.play_arrow_rounded
+                    : Icons.download_for_offline_outlined,
+                size: playPauseButtonSize,
+                color: buttonColor,
+              ),
+            ),
+          );
+        } else if (state is VoiceBubblePlayerState) {
           return Padding(
             padding: padding,
             child: InkWell(
@@ -74,63 +103,13 @@ class _VoiceButtonStatesState extends State<_VoiceButtonStates> {
                 BlocProvider.of<VoiceBubbleCubit>(context).playAndPause(
                   hisPhoneNumber: widget.hisPhoneNumber,
                   voiceUrl: widget.messageModel.message,
+                  maxDurationMilliSec: widget.messageModel.maxDuration,
                 );
               },
               child: Icon(
-                isPlaying ? Icons.pause : Icons.play_arrow_rounded,
+                state.isPlaying ? Icons.pause : Icons.play_arrow_rounded,
                 size: playPauseButtonSize,
                 color: buttonColor,
-              ),
-            ),
-          );
-        } else if (state is VoiceBubbleIsPlaying) {
-          return Padding(
-            padding: padding,
-            child: InkWell(
-              onTap: () {
-                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause(
-                  hisPhoneNumber: widget.hisPhoneNumber,
-                  voiceUrl: widget.messageModel.message,
-                );
-              },
-              child: Icon(
-                Icons.pause,
-                size: playPauseButtonSize,
-                color: buttonColor,
-              ),
-            ),
-          );
-        } else if (state is VoiceBubbleIsNotPlaying) {
-          return Padding(
-            padding: padding,
-            child: InkWell(
-              onTap: () {
-                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause(
-                  hisPhoneNumber: widget.hisPhoneNumber,
-                  voiceUrl: widget.messageModel.message,
-                );
-              },
-              child: Icon(
-                Icons.play_arrow_rounded,
-                size: playPauseButtonSize,
-                color: buttonColor,
-              ),
-            ),
-          );
-        } else if (state is VoiceBubbleVoiceNotExists) {
-          return Padding(
-            padding: padding,
-            child: InkWell(
-              onTap: () {
-                BlocProvider.of<VoiceBubbleCubit>(context).downloadVoiceFile(
-                  voiceUrl: widget.messageModel.message,
-                  hisPhoneNumber: widget.hisPhoneNumber,
-                );
-              },
-              child: Icon(
-                Icons.download_for_offline_outlined,
-                color: buttonColor,
-                size: downloadButtonSize,
               ),
             ),
           );

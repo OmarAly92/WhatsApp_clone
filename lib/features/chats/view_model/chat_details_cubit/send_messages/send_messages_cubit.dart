@@ -16,9 +16,10 @@ import '../../../repository/chat_details_repository.dart';
 part 'send_messages_state.dart';
 
 class SendMessagesCubit extends Cubit<SendMessagesState> {
-  SendMessagesCubit(this.chatDetailsRepository, this.record) : super(SendMessagesInitial()){
+  SendMessagesCubit(this.chatDetailsRepository, this.record) : super(SendMessagesInitial()) {
     initialiseController();
   }
+
   final ChatDetailsRepository chatDetailsRepository;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final Record record;
@@ -122,16 +123,14 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     await recorderController.record(path: path);
   }
 
-
-
-  Future<void> stopRecording(Timestamp time, String phoneNumber) async {
+  Future<void> stopRecording(Timestamp time, String phoneNumber, int maxDuration) async {
     List<double> waveData = recorderController.waveData.toList();
 
     String? path = await recorderController.stop();
     String myPhoneNumber = getMyPhoneNumber();
 
     try {
-    var finalPath = await  uploadVoiceToStorage(
+      var finalPath = await uploadVoiceToStorage(
           myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time, voicePathFromStopMethod: path!);
 
       chatDetailsRepository.sendVoice(
@@ -141,6 +140,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         myPhoneNumber: myPhoneNumber,
         voicePath: finalPath,
         waveData: waveData,
+        maxDuration: maxDuration,
       );
 
       emit(SendMessagesInitial());
@@ -176,4 +176,3 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     return voicePath;
   }
 }
-

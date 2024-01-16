@@ -48,7 +48,7 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
             children: [
               _MessagesListView(
                 hisPhoneNumber: widget.hisPhoneNumber,
-                hisProfilePicture: widget.hisPhoneNumber,
+                hisProfilePicture: widget.hisProfilePicture,
                 themeColors: widget.themeColors,
                 state: state,
               ),

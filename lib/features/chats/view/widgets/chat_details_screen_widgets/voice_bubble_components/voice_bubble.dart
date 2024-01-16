@@ -51,6 +51,8 @@ class _VoiceBubbleState extends State<VoiceBubble> {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return _ErrorVoiceHandlingComponent(

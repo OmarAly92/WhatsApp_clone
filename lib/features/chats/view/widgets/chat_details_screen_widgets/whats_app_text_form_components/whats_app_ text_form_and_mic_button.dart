@@ -60,6 +60,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
   late Timer timerPeriodicChangeColor;
 
   String recordTimeText = '0:00';
+  int maxDuration = 0;
 
   late AnimationController _animationController;
 
@@ -274,7 +275,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
       endRecording();
       var time = Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
 
-      await BlocProvider.of<SendMessagesCubit>(context).stopRecording(time, widget.hisPhoneNumber);
+      await BlocProvider.of<SendMessagesCubit>(context).stopRecording(time, widget.hisPhoneNumber,maxDuration);
     }
   }
 
@@ -289,6 +290,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
       final formattedTime = DateFormat('m:ss');
       var recordTime = formattedTime.format(DateTime.fromMillisecondsSinceEpoch(timer.tick * 1000));
       recordTimeText = recordTime;
+      maxDuration = timer.tick * 1000;
     });
   }
 

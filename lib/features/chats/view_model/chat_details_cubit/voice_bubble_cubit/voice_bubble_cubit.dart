@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:whats_app_clone/core/functions/global_functions.dart';
 
@@ -15,7 +16,8 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
   VoiceBubbleCubit() : super(VoiceBubbleInitial());
   StreamSubscription? subscription;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  PlayerController audioPlayerController = PlayerController();
+  final PlayerController audioPlayerController = PlayerController();
+
   String checkVoicePath = '';
 
   Future<void> checkIfFileExistsAndPlayOrDownload({
@@ -31,14 +33,13 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
 
     if (fileExists) {
       try {
-        emit(VoiceBubbleVoiceExists(voiceFilePath: voiceFilePath));
+        emit(VoiceBubbleVoiceExistence(voiceFilePath: voiceFilePath, isExisted: true));
         // emit(VoiceBubbleLoading(progress: 0));
       } catch (error) {
         emit(VoiceBubbleError(errorMessage: 'Player initialization failed: $error'));
       }
     } else {
-      emit(VoiceBubbleVoiceNotExists());
-
+      emit(VoiceBubbleVoiceExistence(voiceFilePath: voiceFilePath, isExisted: false));
       try {
         await downloadVoiceFile(
           voiceUrl: voiceUrl,
@@ -62,7 +63,10 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     try {
       Response response = await dio.download(voiceUrl, '${appDocDir?.path}/$finalVoiceFileName');
       if (response.statusCode == 200) {
-        emit(VoiceBubbleVoiceExists(voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName'));
+        emit(VoiceBubbleVoiceExistence(
+          voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName',
+          isExisted: true,
+        ));
       } else {
         emit(const VoiceBubbleError(errorMessage: 'else: Failed to download voice file'));
       }
@@ -71,9 +75,18 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     }
   }
 
+  String getFormattedDuration(int durationInMilliSec) {
+    var seconds = (durationInMilliSec / 1000).round();
+    Duration duration = Duration(seconds: seconds);
+    String formattedTime = DateFormat('m:ss').format(DateTime.utc(0, 1, 1, 0, 0, 0).add(duration));
+
+    return formattedTime;
+  }
+
   void playAndPause({
     required String voiceUrl,
     required String hisPhoneNumber,
+    required int maxDurationMilliSec,
   }) async {
     String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
     Directory? appDocDir = await getDownloadsDirectory();
@@ -81,13 +94,25 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     await _preparePlayerControllerRecording(
       voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName',
     );
+
+
+
     subscription = audioPlayerController.onPlayerStateChanged.listen((playerState) {
       if (playerState == PlayerState.playing) {
-        emit(VoiceBubbleIsPlaying());
+        emit(const VoiceBubblePlayerState(isPlaying: true, duration: '0:00'));
       } else {
-        emit(VoiceBubbleIsNotPlaying());
+        emit(const VoiceBubblePlayerState(isPlaying: false, duration: '0:00'));
       }
     });
+
+
+
+    audioPlayerController.onCurrentDurationChanged.listen((milliseconds) {
+      String formattedTime = getFormattedDuration(milliseconds);
+
+      emit(VoiceBubblePlayerState(isPlaying: true, duration: formattedTime));
+    });
+
 
     if (audioPlayerController.playerState == PlayerState.playing) {
       await audioPlayerController.pausePlayer();
@@ -130,5 +155,14 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     return finalVoiceFileName.substring(0, 16);
   }
 
-// void cancelSubscription() => subscription?.cancel();
+  Future<void> _stopPlayerController() async {
+    subscription?.cancel();
+    await audioPlayerController.stopPlayer();
+  }
+
+  @override
+  Future<void> close() async {
+    await _stopPlayerController();
+    return super.close();
+  }
 }

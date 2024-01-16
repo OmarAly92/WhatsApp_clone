@@ -30,6 +30,7 @@ abstract class BaseChatDetailsRepository {
     required String myPhoneNumber,
     required String voicePath,
     required List<double> waveData,
+    required int maxDuration,
   });
 }
 
@@ -86,6 +87,7 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
     required String myPhoneNumber,
     required String voicePath,
     required List<double> waveData,
+    required int maxDuration,
   }) {
     String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
 
@@ -98,6 +100,7 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
       'time': time,
       'type': type,
       'waveData':waveData,
+      'maxDuration':maxDuration,
     });
 
 

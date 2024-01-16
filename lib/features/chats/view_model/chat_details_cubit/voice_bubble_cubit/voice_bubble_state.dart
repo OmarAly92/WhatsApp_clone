@@ -9,9 +9,17 @@ class VoiceBubbleInitial extends VoiceBubbleState {
   List<Object> get props => [];
 }
 
-class VoiceBubbleIsPlaying extends VoiceBubbleState {
+class VoiceBubbleVoiceExistence extends VoiceBubbleState {
+  final String voiceFilePath;
+  final bool isExisted;
+
+  const VoiceBubbleVoiceExistence({
+    required this.voiceFilePath,
+    required this.isExisted,
+  });
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [voiceFilePath, isExisted];
 }
 
 class VoiceBubbleLoading extends VoiceBubbleState {
@@ -23,36 +31,24 @@ class VoiceBubbleLoading extends VoiceBubbleState {
   List<Object> get props => [progress];
 }
 
+class VoiceBubblePlayerState extends VoiceBubbleState {
+  final bool isPlaying;
+  final String duration;
+
+  const VoiceBubblePlayerState({
+    required this.isPlaying,
+    required this.duration,
+  });
+
+  @override
+  List<Object> get props => [isPlaying, duration];
+}
+
 class VoiceBubbleError extends VoiceBubbleState {
   final String errorMessage;
-
 
   const VoiceBubbleError({required this.errorMessage});
 
   @override
   List<Object> get props => [errorMessage];
-}
-
-class VoiceBubbleIsNotPlaying extends VoiceBubbleState {
-  @override
-  List<Object> get props => [];
-}
-
-class VoiceBubbleVoiceExists extends VoiceBubbleState {
-  final String voiceFilePath;
-
-  const VoiceBubbleVoiceExists({required this.voiceFilePath});
-
-  @override
-  List<Object> get props => [voiceFilePath];
-}
-
-class VoiceBubbleVoiceNotExists extends VoiceBubbleState {
-  @override
-  List<Object> get props => [];
-}
-
-class VoiceBubblePlayerControllerInit extends VoiceBubbleState {
-  @override
-  List<Object> get props => [];
 }
