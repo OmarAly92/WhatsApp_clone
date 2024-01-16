@@ -12,14 +12,11 @@ import 'package:whats_app_clone/core/functions/global_functions.dart';
 part 'voice_bubble_state.dart';
 
 class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
-  VoiceBubbleCubit() : super(VoiceBubbleInitial()) {
-    audioPlayerController = PlayerController();
-  }
-
+  VoiceBubbleCubit() : super(VoiceBubbleInitial());
   StreamSubscription? subscription;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
-  late PlayerController audioPlayerController;
+  PlayerController audioPlayerController = PlayerController();
+  String checkVoicePath = '';
 
   Future<void> checkIfFileExistsAndPlayOrDownload({
     required String voiceUrl,
@@ -34,7 +31,6 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
 
     if (fileExists) {
       try {
-        _preparePlayerControllerRecording(voiceFilePath);
         emit(VoiceBubbleVoiceExists(voiceFilePath: voiceFilePath));
         // emit(VoiceBubbleLoading(progress: 0));
       } catch (error) {
@@ -44,14 +40,20 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
       emit(VoiceBubbleVoiceNotExists());
 
       try {
-        await downloadVoiceFile(voiceUrl: voiceUrl, hisPhoneNumber: hisPhoneNumber);
+        await downloadVoiceFile(
+          voiceUrl: voiceUrl,
+          hisPhoneNumber: hisPhoneNumber,
+        );
       } catch (error) {
         emit(VoiceBubbleError(errorMessage: 'Download failed: $error'));
       }
     }
   }
 
-  Future<void> downloadVoiceFile({required String voiceUrl, required String hisPhoneNumber}) async {
+  Future<void> downloadVoiceFile({
+    required String voiceUrl,
+    required String hisPhoneNumber,
+  }) async {
     emit(const VoiceBubbleLoading(progress: 0));
     String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
     Directory? appDocDir = await getDownloadsDirectory();
@@ -60,7 +62,6 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     try {
       Response response = await dio.download(voiceUrl, '${appDocDir?.path}/$finalVoiceFileName');
       if (response.statusCode == 200) {
-        _preparePlayerControllerRecording('${appDocDir?.path}/$finalVoiceFileName');
         emit(VoiceBubbleVoiceExists(voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName'));
       } else {
         emit(const VoiceBubbleError(errorMessage: 'else: Failed to download voice file'));
@@ -70,7 +71,16 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     }
   }
 
-  void playAndPause() async {
+  void playAndPause({
+    required String voiceUrl,
+    required String hisPhoneNumber,
+  }) async {
+    String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
+    Directory? appDocDir = await getDownloadsDirectory();
+
+    await _preparePlayerControllerRecording(
+      voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName',
+    );
     subscription = audioPlayerController.onPlayerStateChanged.listen((playerState) {
       if (playerState == PlayerState.playing) {
         emit(VoiceBubbleIsPlaying());
@@ -86,15 +96,20 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     }
   }
 
-  Future<void> _preparePlayerControllerRecording(String voiceFilePath) async {
-    try {
-      audioPlayerController.dispose();
+  Future<void> _preparePlayerControllerRecording({
+    required String voiceFilePath,
+  }) async {
+    if (checkVoicePath == voiceFilePath) {
+      return;
+    } else {
+      checkVoicePath = voiceFilePath;
+      try {
+        audioPlayerController.dispose();
 
-      await audioPlayerController.preparePlayer(path: voiceFilePath);
-
-      print('OMAR: Player prepared successfully');
-    } catch (error) {
-      emit(VoiceBubbleError(errorMessage: 'Player preparation failed: $error'));
+        await audioPlayerController.preparePlayer(path: voiceFilePath);
+      } catch (error) {
+        emit(VoiceBubbleError(errorMessage: 'Player preparation failed: $error'));
+      }
     }
   }
 
@@ -115,5 +130,5 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     return finalVoiceFileName.substring(0, 16);
   }
 
-  void cancelSubscription() => subscription?.cancel();
+// void cancelSubscription() => subscription?.cancel();
 }

@@ -41,6 +41,16 @@ class VoiceBubble extends StatefulWidget {
 }
 
 class _VoiceBubbleState extends State<VoiceBubble> {
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<VoiceBubbleCubit>(context).checkIfFileExistsAndPlayOrDownload(
+      voiceUrl: widget.messageModel.message,
+      hisPhoneNumber: widget.hisPhoneNumber,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return _ErrorVoiceHandlingComponent(

@@ -36,7 +36,7 @@ class _VoiceButtonStatesState extends State<_VoiceButtonStates> {
       builder: (context, state) {
         if (state is VoiceBubbleLoading) {
           return Padding(
-            padding: EdgeInsets.all(12.r),
+            padding: EdgeInsets.all(18.r),
             child: Center(
               child: SizedBox(
                 width: 22.r,
@@ -71,7 +71,10 @@ class _VoiceButtonStatesState extends State<_VoiceButtonStates> {
             padding: padding,
             child: InkWell(
               onTap: () {
-                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
+                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause(
+                  hisPhoneNumber: widget.hisPhoneNumber,
+                  voiceUrl: widget.messageModel.message,
+                );
               },
               child: Icon(
                 isPlaying ? Icons.pause : Icons.play_arrow_rounded,
@@ -85,7 +88,10 @@ class _VoiceButtonStatesState extends State<_VoiceButtonStates> {
             padding: padding,
             child: InkWell(
               onTap: () {
-                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
+                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause(
+                  hisPhoneNumber: widget.hisPhoneNumber,
+                  voiceUrl: widget.messageModel.message,
+                );
               },
               child: Icon(
                 Icons.pause,
@@ -99,7 +105,10 @@ class _VoiceButtonStatesState extends State<_VoiceButtonStates> {
             padding: padding,
             child: InkWell(
               onTap: () {
-                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause();
+                BlocProvider.of<VoiceBubbleCubit>(context).playAndPause(
+                  hisPhoneNumber: widget.hisPhoneNumber,
+                  voiceUrl: widget.messageModel.message,
+                );
               },
               child: Icon(
                 Icons.play_arrow_rounded,
@@ -162,5 +171,11 @@ class _VoiceButtonStatesState extends State<_VoiceButtonStates> {
         }
       },
     );
+  }
+
+  String formattedTime() {
+    DateTime dateTime = widget.messageModel.time.toDate();
+    String formattedTime = DateFormat('h:mm a').format(dateTime);
+    return formattedTime;
   }
 }

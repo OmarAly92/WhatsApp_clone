@@ -35,11 +35,7 @@ class _MessageSelectionComponent extends StatelessWidget {
       );
     } else if (messageType == 'voice') {
       return BlocProvider(
-        create: (context) => VoiceBubbleCubit()
-          ..checkIfFileExistsAndPlayOrDownload(
-            voiceUrl: messageModel.message,
-            hisPhoneNumber: hisPhoneNumber,
-          ),
+        create: (context) => VoiceBubbleCubit(),
         child: VoiceBubble(
           themeColors: themeColors,
           isTheSender: isTheSender,
