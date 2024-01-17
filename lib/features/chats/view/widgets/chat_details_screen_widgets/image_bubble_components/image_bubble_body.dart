@@ -49,11 +49,18 @@ class _ImageBubbleBodyComponent extends StatelessWidget {
                   color: isTheSender ? Colors.white : themeColors.hisMessageTime,
                 ),
               ),
-              Icon(
-                Icons.done,
-                size: 17,
-                color: isTheSender ? Colors.white : themeColors.hisMessageTime,
-              ),
+              // Icon(
+              //   Icons.done,
+              //   size: 17,
+              //   color: isTheSender ? Colors.white : themeColors.hisMessageTime,
+              // ),
+              isTheSender
+                  ? Icon(
+                      Icons.done,
+                      size: 17,
+                      color: themeColors.myMessageTime,
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

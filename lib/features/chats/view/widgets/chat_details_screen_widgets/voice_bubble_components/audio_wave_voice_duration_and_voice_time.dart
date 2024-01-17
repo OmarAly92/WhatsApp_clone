@@ -84,13 +84,21 @@ class _AudioWaveVoiceDurationAndVoiceTimeState extends State<_AudioWaveVoiceDura
                     ),
                   ),
                 ),
-                Text(
-                  formattedTime(),
-                  style: Styles.textStyle12.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color:
-                        widget.isTheSender ? widget.themeColors.myMessageTime : widget.themeColors.hisMessageTime,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      formattedTime(),
+                      style: Styles.textStyle12.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: widget.isTheSender
+                            ? widget.themeColors.myMessageTime
+                            : widget.themeColors.hisMessageTime,
+                      ),
+                    ),
+                    widget.isTheSender
+                        ? Icon(Icons.done, size: 17, color: widget.themeColors.myMessageTime)
+                        : const SizedBox.shrink(),
+                  ],
                 ),
               ],
             ),

@@ -53,11 +53,9 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
                     color: isTheSender ? themeColors.myMessageTime : themeColors.hisMessageTime,
                   ),
                 ),
-                Icon(
-                  Icons.done,
-                  size: 17,
-                  color: isTheSender ? themeColors.myMessageTime : themeColors.hisMessageTime,
-                ),
+                isTheSender
+                    ? Icon(Icons.done, size: 17, color: themeColors.myMessageTime)
+                    : const SizedBox.shrink(),
               ],
             ),
           ),
