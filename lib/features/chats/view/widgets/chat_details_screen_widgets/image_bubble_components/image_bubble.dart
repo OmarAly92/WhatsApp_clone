@@ -15,6 +15,7 @@ class ImageBubble extends StatelessWidget {
     required this.themeColors,
     required this.time,
     required this.isFirstMessage,
+    required this.backgroundBlendMode,
   });
 
   final String image;
@@ -22,6 +23,7 @@ class ImageBubble extends StatelessWidget {
   final bool isTheSender;
   final bool isFirstMessage;
   final ThemeColors themeColors;
+  final BlendMode backgroundBlendMode;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class ImageBubble extends StatelessWidget {
         themeColors: themeColors,
         image: image,
         time: time,
+        backgroundBlendMode: backgroundBlendMode,
       ),
     );
   }

@@ -32,6 +32,7 @@ class ChatDetailsRequests {
     required String message,
     required String myPhoneNumber,
     required String type,
+    required String messageId,
     required Timestamp time,
   }) async {
     String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
@@ -42,6 +43,7 @@ class ChatDetailsRequests {
       'message': message,
       'theSender': myPhoneNumber,
       'time': time,
+      'messageId': messageId,
       'type': type,
     });
     chatDocument.update({

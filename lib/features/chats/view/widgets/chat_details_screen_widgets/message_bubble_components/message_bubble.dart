@@ -5,8 +5,8 @@ import 'package:whats_app_clone/features/chats/view/widgets/chat_details_screen_
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 
-
 part 'message_bubble_body.dart';
+
 class MessageBubble extends StatelessWidget {
   const MessageBubble({
     Key? key,
@@ -15,12 +15,14 @@ class MessageBubble extends StatelessWidget {
     required this.message,
     required this.time,
     required this.isFirstMessage,
+    required this.backgroundBlendMode,
   }) : super(key: key);
   final ThemeColors themeColors;
   final bool isTheSender;
   final String message;
   final String time;
   final bool isFirstMessage;
+  final BlendMode backgroundBlendMode;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class MessageBubble extends StatelessWidget {
         isTheSender: isTheSender,
         message: message,
         time: time,
+        backgroundBlendMode: backgroundBlendMode,
       ),
     );
   }

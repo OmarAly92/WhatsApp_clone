@@ -13,11 +13,13 @@ abstract class BaseChatDetailsRepository {
     required String myPhoneNumber,
     required String type,
     required Timestamp time,
+    required String messageId,
   });
 
   void sendImage({
     required String phoneNumber,
     required Timestamp time,
+    required String messageId,
     required String type,
     required String myPhoneNumber,
     required String imagePath,
@@ -29,6 +31,7 @@ abstract class BaseChatDetailsRepository {
     required String type,
     required String myPhoneNumber,
     required String voicePath,
+    required String messageId,
     required List<double> waveData,
     required int maxDuration,
   });
@@ -56,18 +59,26 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
     required String myPhoneNumber,
     required String type,
     required Timestamp time,
+    required String messageId,
   }) async {
     chatDetailsRequests.sendMessage(
-        phoneNumber: phoneNumber, message: message, myPhoneNumber: myPhoneNumber, type: type, time: time);
+      phoneNumber: phoneNumber,
+      message: message,
+      myPhoneNumber: myPhoneNumber,
+      type: type,
+      time: time,
+      messageId: messageId,
+    );
   }
 
   @override
   void sendImage({
     required String phoneNumber,
-    required Timestamp time,
     required String type,
     required String myPhoneNumber,
     required String imagePath,
+    required Timestamp time,
+    required String messageId,
   }) async {
     String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
     fireBaseInit.collection('chats').doc(sortedNumber).collection('messages').doc().set({
@@ -75,6 +86,7 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
       'message': imagePath,
       'theSender': myPhoneNumber,
       'time': time,
+      'messageId': messageId,
       'type': type,
     });
   }
@@ -86,23 +98,21 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
     required String type,
     required String myPhoneNumber,
     required String voicePath,
+    required String messageId,
     required List<double> waveData,
     required int maxDuration,
   }) {
     String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-
-
 
     fireBaseInit.collection('chats').doc(sortedNumber).collection('messages').doc().set({
       'isSeen': false,
       'message': voicePath,
       'theSender': myPhoneNumber,
       'time': time,
+      'messageId': messageId,
       'type': type,
-      'waveData':waveData,
-      'maxDuration':maxDuration,
+      'waveData': waveData,
+      'maxDuration': maxDuration,
     });
-
-
   }
 }

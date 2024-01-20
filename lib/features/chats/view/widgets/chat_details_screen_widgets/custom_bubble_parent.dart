@@ -27,16 +27,16 @@ class CustomBubbleParent extends StatelessWidget {
         alignment: isTheSender ? Alignment.centerRight : Alignment.centerLeft,
         child: isFirstMessage
             ? Padding(
-                padding: isTheSender
+              padding: isTheSender
                     ? EdgeInsets.only(left: 38.w, top: 1.2.h, bottom: 1.2.h)
                     : EdgeInsets.only(right: 38.w, top: 1.2.h, bottom: 1.2.h),
-                child: ClipPath(
+              child: ClipPath(
                   clipper: UpperNipMessageClipperTwo(
                     isTheSender ? MessageType.send : MessageType.receive,
                   ),
                   child: widgetBubbleBody,
                 ),
-              )
+            )
             : Padding(
                 padding: isTheSender
                     ? EdgeInsets.only(

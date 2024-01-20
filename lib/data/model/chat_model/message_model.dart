@@ -7,6 +7,8 @@ class MessageModel extends Equatable {
   final Timestamp time;
   final String theSender;
   final String type;
+  final String messageId;
+
   final int maxDuration;
   final List<dynamic> waveData;
 
@@ -14,6 +16,7 @@ class MessageModel extends Equatable {
     required this.isSeen,
     required this.message,
     required this.time,
+    required this.messageId,
     required this.theSender,
     required this.type,
     required this.waveData,
@@ -31,6 +34,7 @@ class MessageModel extends Equatable {
       theSender: data['theSender'],
       waveData: data['waveData'] ?? [],
       maxDuration: data['maxDuration'] ?? 0,
+      messageId: data['messageId'] ?? '',
     );
   }
 

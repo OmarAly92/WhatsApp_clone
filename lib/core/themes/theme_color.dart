@@ -34,8 +34,11 @@ class ThemeColors {
   final bool isDarkMode;
 
   late final Color backgroundColor;
+
   late final Color appbarColor;
+  late final Color appbarLongPressedColor;
   late final Color appbarTextColor;
+
   late final Color bodyTextColor;
   late final Color regularTextColor;
   late final Color bodyIconColor;
@@ -64,6 +67,8 @@ class ThemeColors {
   late final Color myMessageWaveFormLiveColor;
   late final Color hisMessageWaveFormLiveColor;
 
+  late final Color onLongPressedMessageColor;
+
   late final String chatBackGroundImage;
   final String kDarkChatBackGround1 = kDarkChatBackGround;
   final String kLightChatBackGround1 = kLightChatBackGround;
@@ -77,7 +82,10 @@ class ThemeColors {
 
   ThemeColors._internal(this.isDarkMode) {
     backgroundColor = isDarkMode ? const Color(0xff121b22) : const Color(0xffffffff);
+
     appbarColor = isDarkMode ? const Color(0xff1f2c34) : const Color(0xff008069);
+    appbarLongPressedColor = isDarkMode ? const Color(0xff182329) : const Color(0xff125C4D);
+
     appbarTextColor = isDarkMode ? const Color(0xff8b9a9f) : const Color(0xfface1d9);
     bodyTextColor = isDarkMode ? const Color(0xff8596A0) : const Color(0xff85969e);
     bodyIconColor = isDarkMode ? const Color(0xff889093) : const Color(0xff84979e);
@@ -105,6 +113,8 @@ class ThemeColors {
 
     myMessageWaveFormLiveColor = isDarkMode ? const Color(0xffA9CCC5) : const Color(0xff627266);
     hisMessageWaveFormLiveColor = isDarkMode ? const Color(0xffB6BBBD) : const Color(0xff6C7274);
+
+    onLongPressedMessageColor = isDarkMode ? const Color(0xff005d4b) : const Color(0xFF2196F3);
 
     chatBackGroundImage = isDarkMode ? kDarkChatBackGround1 : kLightChatBackGround1;
   }

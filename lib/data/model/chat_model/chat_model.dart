@@ -10,14 +10,12 @@ class ChatsModel extends Equatable {
   final List usersPhoneNumber;
 
 
-
   const ChatsModel({
     required this.chatType,
     required this.usersData,
     required this.usersPhoneNumber,
     required this.lastMessage,
     required this.lastMessageTime,
-
   });
 
   factory ChatsModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {

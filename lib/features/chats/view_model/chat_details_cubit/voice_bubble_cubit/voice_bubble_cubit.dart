@@ -14,7 +14,8 @@ part 'voice_bubble_state.dart';
 
 class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
   VoiceBubbleCubit() : super(VoiceBubbleInitial());
-  StreamSubscription? subscription;
+  StreamSubscription? currentDurationChangedSubscription;
+  StreamSubscription? playerStateChangedSubscription;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final PlayerController audioPlayerController = PlayerController();
 
@@ -95,9 +96,7 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
       voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName',
     );
 
-
-
-    subscription = audioPlayerController.onPlayerStateChanged.listen((playerState) {
+    playerStateChangedSubscription = audioPlayerController.onPlayerStateChanged.listen((playerState) {
       if (playerState == PlayerState.playing) {
         emit(const VoiceBubblePlayerState(isPlaying: true, duration: '0:00'));
       } else {
@@ -105,14 +104,11 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
       }
     });
 
-
-
-    audioPlayerController.onCurrentDurationChanged.listen((milliseconds) {
+    currentDurationChangedSubscription = audioPlayerController.onCurrentDurationChanged.listen((milliseconds) {
       String formattedTime = getFormattedDuration(milliseconds);
 
       emit(VoiceBubblePlayerState(isPlaying: true, duration: formattedTime));
     });
-
 
     if (audioPlayerController.playerState == PlayerState.playing) {
       await audioPlayerController.pausePlayer();
@@ -156,7 +152,8 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
   }
 
   Future<void> _stopPlayerController() async {
-    subscription?.cancel();
+    playerStateChangedSubscription?.cancel();
+    currentDurationChangedSubscription?.cancel();
     await audioPlayerController.stopPlayer();
   }
 

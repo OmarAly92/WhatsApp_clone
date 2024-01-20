@@ -5,13 +5,14 @@ class _ImageBubbleBodyComponent extends StatelessWidget {
     required this.image,
     required this.isTheSender,
     required this.themeColors,
-    required this.time,
+    required this.time, required this.backgroundBlendMode,
   });
 
   final String image;
   final String time;
   final bool isTheSender;
   final ThemeColors themeColors;
+  final BlendMode backgroundBlendMode;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class _ImageBubbleBodyComponent extends StatelessWidget {
           decoration: BoxDecoration(
             color: isTheSender ? themeColors.myMessage : themeColors.hisMessage,
             borderRadius: BorderRadius.circular(23),
+            backgroundBlendMode: backgroundBlendMode,
           ),
           child: Padding(
             padding: const EdgeInsets.all(3.5),

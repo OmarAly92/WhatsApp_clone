@@ -28,6 +28,7 @@ class VoiceBubble extends StatefulWidget {
     required this.hisProfilePicture,
     required this.messageModel,
     required this.hisPhoneNumber,
+    required this.backgroundBlendMode,
   }) : super(key: key);
   final ThemeColors themeColors;
   final bool isTheSender;
@@ -35,13 +36,13 @@ class VoiceBubble extends StatefulWidget {
   final String hisProfilePicture;
   final String hisPhoneNumber;
   final MessageModel messageModel;
+  final BlendMode backgroundBlendMode;
 
   @override
   State<VoiceBubble> createState() => _VoiceBubbleState();
 }
 
 class _VoiceBubbleState extends State<VoiceBubble> {
-
   @override
   void initState() {
     super.initState();
@@ -50,8 +51,6 @@ class _VoiceBubbleState extends State<VoiceBubble> {
       hisPhoneNumber: widget.hisPhoneNumber,
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +62,7 @@ class _VoiceBubbleState extends State<VoiceBubble> {
         widgetBubbleBody: Container(
           decoration: BoxDecoration(
             color: widget.isTheSender ? widget.themeColors.myMessage : widget.themeColors.hisMessage,
+            backgroundBlendMode:widget. backgroundBlendMode,
           ),
           child: Padding(
             padding: EdgeInsets.only(

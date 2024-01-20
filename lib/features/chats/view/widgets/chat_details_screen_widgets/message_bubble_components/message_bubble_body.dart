@@ -6,7 +6,7 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
     required this.isTheSender,
     required this.message,
     required this.time,
-    required this.isTheFirst,
+    required this.isTheFirst, required this.backgroundBlendMode,
   });
 
   final ThemeColors themeColors;
@@ -14,6 +14,7 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
   final bool isTheFirst;
   final String message;
   final String time;
+  final BlendMode backgroundBlendMode;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,12 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
               left: isTheSender ? 9.w : 8.w,
               right: isTheSender ? 8.w : 9.w,
             ),
-      decoration: BoxDecoration(color: isTheSender ? themeColors.myMessage : themeColors.hisMessage),
+      decoration: BoxDecoration(
+        color: isTheSender ? themeColors.myMessage : themeColors.hisMessage,
+        backgroundBlendMode: backgroundBlendMode,
+        // BlendMode.src => (original)
+
+      ),
       child: Wrap(
         alignment: WrapAlignment.end,
         direction: Axis.horizontal,

@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../../core/functions/global_functions.dart';
 import '../../../repository/chat_details_repository.dart';
@@ -23,6 +24,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   final ChatDetailsRepository chatDetailsRepository;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final Record record;
+  final Uuid uuid = const Uuid();
   late final RecorderController recorderController;
 
   void sendMessage({
@@ -34,7 +36,13 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   }) async {
     try {
       chatDetailsRepository.sendMessage(
-          phoneNumber: phoneNumber, message: message, myPhoneNumber: myPhoneNumber, type: type, time: time);
+        phoneNumber: phoneNumber,
+        message: message,
+        myPhoneNumber: myPhoneNumber,
+        type: type,
+        time: time,
+        messageId: uuid.v4(),
+      );
     } catch (failureMessage) {
       emit(SendMessagesFailure(failureMessage: '$failureMessage Failed to sendMessage'));
     }
@@ -66,6 +74,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         type: type,
         myPhoneNumber: myPhoneNumber,
         imagePath: imagePath,
+        messageId: uuid.v4(),
       );
     } catch (e) {
       emit(const SendMessagesFailure(failureMessage: 'Failed to upload the Image'));
@@ -130,7 +139,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     String myPhoneNumber = getMyPhoneNumber();
 
     try {
-      var finalPath = await uploadVoiceToStorage(
+      var finalPath = await _uploadVoiceToStorage(
           myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time, voicePathFromStopMethod: path!);
 
       chatDetailsRepository.sendVoice(
@@ -141,6 +150,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         voicePath: finalPath,
         waveData: waveData,
         maxDuration: maxDuration,
+        messageId: uuid.v4(),
       );
 
       emit(SendMessagesInitial());
@@ -149,7 +159,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     }
   }
 
-  Future<String> uploadVoiceToStorage({
+  Future<String> _uploadVoiceToStorage({
     required String myPhoneNumber,
     required String phoneNumber,
     required Timestamp time,

@@ -10,6 +10,7 @@ import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.da
 import 'package:whats_app_clone/features/chats/repository/chat_details_repository.dart';
 import 'package:whats_app_clone/features/chats/repository/chats_repository.dart';
 import 'package:whats_app_clone/features/chats/view/select_contact_screen.dart';
+import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
 import 'package:whats_app_clone/features/settings/view/profile_screen.dart';
 import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart';
 
@@ -35,17 +36,18 @@ class AppRouter {
   ChatDetailsRequests chatDetailsRequests = ChatDetailsRequests();
   late final ChatDetailsRepository chatDetailsRepository;
   late final GetMessagesCubit getMessagesCubit;
+  late final ChatDetailParentCubit chatDetailParentCubit;
   late final SendMessagesCubit sendMessagesCubit;
 
   AppRouter() {
     authenticationCubit = AuthenticationCubit();
     chatDetailsRepository = ChatDetailsRepository(chatDetailsRequests);
     getMessagesCubit = GetMessagesCubit(chatDetailsRepository);
+    chatDetailParentCubit = ChatDetailParentCubit();
     sendMessagesCubit = SendMessagesCubit(chatDetailsRepository, Record());
   }
 
-  SettingsCubit settingsCubit = SettingsCubit()
-    ..getSettingData();
+  SettingsCubit settingsCubit = SettingsCubit()..getSettingData();
 
   Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -93,6 +95,7 @@ class AppRouter {
               providers: [
                 BlocProvider(create: (context) => getMessagesCubit),
                 BlocProvider(create: (context) => sendMessagesCubit),
+                BlocProvider(create: (context) => chatDetailParentCubit),
               ],
               child: ChatDetailsScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
@@ -151,9 +154,7 @@ class AppRouter {
   }
 
   static bool _checkThemeMode(BuildContext context) {
-    final Brightness brightness = MediaQuery
-        .of(context)
-        .platformBrightness;
+    final Brightness brightness = MediaQuery.of(context).platformBrightness;
     final bool isDarkMode = brightness == Brightness.dark;
     return isDarkMode;
   }
