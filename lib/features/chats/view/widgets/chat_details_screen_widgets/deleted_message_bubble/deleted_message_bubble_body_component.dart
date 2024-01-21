@@ -1,12 +1,12 @@
-part of 'message_bubble.dart';
+part of 'deleted_message_bubble.dart';
 
-class _MessageBubbleBodyComponent extends StatelessWidget {
-  const _MessageBubbleBodyComponent({
+class _DeletedMessageBubbleBodyComponent extends StatelessWidget {
+  const _DeletedMessageBubbleBodyComponent({
     required this.themeColors,
     required this.isTheSender,
+    required this.isFirstMessage,
     required this.message,
     required this.time,
-    required this.isFirstMessage,
     required this.backgroundBlendMode,
   });
 
@@ -19,17 +19,18 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Color deletedMessageColor = Color(0xff7E8C95);
     return Container(
       padding: isFirstMessage
           ? EdgeInsets.only(
-              top: 4.h,
-              bottom: 2.h,
+              top: 6.h,
+              bottom: 4.h,
               left: isTheSender ? 9.w : 24.w,
               right: isTheSender ? 24.w : 9.w,
             )
           : EdgeInsets.only(
-              top: 4.h,
-              bottom: 2.h,
+              top: 6.h,
+              bottom: 4.h,
               left: isTheSender ? 9.w : 8.w,
               right: isTheSender ? 8.w : 9.w,
             ),
@@ -42,27 +43,30 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
         alignment: WrapAlignment.end,
         direction: Axis.horizontal,
         children: [
+          Icon(
+            Icons.not_interested,
+            size: 21.r,
+            color: deletedMessageColor,
+          ),
+          SizedBox(width: 4.w),
           Text(
-            message,
+            isTheSender ? 'You deleted this message' : 'This message was deleted',
             softWrap: true,
-            style: Styles.textStyle16.copyWith(fontWeight: FontWeight.w500),
+            style: Styles.textStyle16.copyWith(
+              color: deletedMessageColor,
+              fontSize: 17.spMin,
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.italic,
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(top: 7.h, left: 5.5.w),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  time,
-                  style: Styles.textStyle12.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: isTheSender ? themeColors.myMessageTime : themeColors.hisMessageTime,
-                  ),
-                ),
-                isTheSender
-                    ? Icon(Icons.done, size: 17, color: themeColors.myMessageTime)
-                    : const SizedBox.shrink(),
-              ],
+            child: Text(
+              time,
+              style: Styles.textStyle12.copyWith(
+                fontWeight: FontWeight.w500,
+                color: isTheSender ? themeColors.myMessageTime : themeColors.hisMessageTime,
+              ),
             ),
           ),
         ],

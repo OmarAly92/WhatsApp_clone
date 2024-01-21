@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/features/chats/view/widgets/chat_details_screen_widgets/custom_bubble_parent.dart';
 
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
-import '../custom_bubble_parent.dart';
 
-part 'message_bubble_body.dart';
+part 'deleted_message_bubble_body_component.dart';
 
-class MessageBubble extends StatelessWidget {
-  const MessageBubble({
+class DeletedMessageBubble extends StatelessWidget {
+  const DeletedMessageBubble({
     Key? key,
-    required this.themeColors,
-    required this.isTheSender,
     required this.message,
     required this.time,
+    required this.isTheSender,
     required this.isFirstMessage,
+    required this.themeColors,
     required this.backgroundBlendMode,
   }) : super(key: key);
-  final ThemeColors themeColors;
-  final bool isTheSender;
   final String message;
   final String time;
+  final bool isTheSender;
   final bool isFirstMessage;
+  final ThemeColors themeColors;
   final BlendMode backgroundBlendMode;
 
   @override
   Widget build(BuildContext context) {
     return CustomBubbleParent(
-      isFirstMessage: isFirstMessage,
       themeColors: themeColors,
       isTheSender: isTheSender,
-      widgetBubbleBody: _MessageBubbleBodyComponent(
-        isFirstMessage: isFirstMessage,
+      isFirstMessage: isFirstMessage,
+      widgetBubbleBody: _DeletedMessageBubbleBodyComponent(
         themeColors: themeColors,
         isTheSender: isTheSender,
+        isFirstMessage: isFirstMessage,
         message: message,
         time: time,
         backgroundBlendMode: backgroundBlendMode,

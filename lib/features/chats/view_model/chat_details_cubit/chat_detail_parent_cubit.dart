@@ -77,7 +77,7 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
         .doc(docId)
         .collection('messages')
         .doc(messageDocId)
-        .delete();
+        .update({'type': 'deleted'});
   }
 
   Future<String> _getDocIdForDelete({

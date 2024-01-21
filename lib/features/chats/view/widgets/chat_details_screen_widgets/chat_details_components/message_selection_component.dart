@@ -58,13 +58,22 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
           backgroundBlendMode: backgroundBlendMode,
         ),
       );
-    } else {
+    } else if (widget.messageType == 'image') {
       return ImageBubble(
         image: widget.message,
         time: widget.time,
         isTheSender: widget.isTheSender,
         themeColors: widget.themeColors,
         isFirstMessage: widget.isFirstMessage,
+        backgroundBlendMode: backgroundBlendMode,
+      );
+    } else {
+      return  DeletedMessageBubble(
+        message: widget.message,
+        time:widget. time,
+        isTheSender: widget.isTheSender,
+        isFirstMessage: widget.isFirstMessage,
+        themeColors: widget.themeColors,
         backgroundBlendMode: backgroundBlendMode,
       );
     }
@@ -101,13 +110,11 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
               BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount--;
               BlocProvider.of<ChatDetailParentCubit>(context).messagesId.remove(widget.messageModel.messageId);
               BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.remove(widget.messageModel.message);
-
             } else if (BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount >= 1) {
               isSelectedLongPress = widget.itemIndex;
               BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount++;
               BlocProvider.of<ChatDetailParentCubit>(context).messagesId.add(widget.messageModel.messageId);
               BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
-
             }
             BlocProvider.of<ChatDetailParentCubit>(context).checkLongPressedState(isSelectedLongPress);
           },

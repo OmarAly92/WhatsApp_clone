@@ -9,6 +9,7 @@ import '../../../../../../data/model/chat_model/message_model.dart';
 import '../../../../view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
 import '../../../../view_model/chat_details_cubit/get_messages/get_messages_cubit.dart';
 import '../../../../view_model/chat_details_cubit/voice_bubble_cubit/voice_bubble_cubit.dart';
+import '../deleted_message_bubble/deleted_message_bubble.dart';
 import '../image_bubble_components/image_bubble.dart';
 import '../message_bubble_components/message_bubble.dart';
 import '../voice_bubble_components/voice_bubble.dart';
