@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:whats_app_clone/core/functions/global_functions.dart';
 
+import '../../../core/functions/global_functions.dart';
 import '../../model/user_model/user_model.dart';
 
 class ChatsRequest {

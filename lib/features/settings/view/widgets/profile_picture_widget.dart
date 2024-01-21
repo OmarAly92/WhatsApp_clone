@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart';
+
+import '../../view_model/settings_cubit.dart';
 
 class ProfilePictureWidget extends StatelessWidget {
   const ProfilePictureWidget({

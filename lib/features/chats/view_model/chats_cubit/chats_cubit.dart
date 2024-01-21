@@ -4,12 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_clone/data/model/user_model/user_model.dart';
-import 'package:whats_app_clone/features/chats/repository/chats_repository.dart';
+
 
 import '../../../../data/data_source/chats/chats_requests.dart';
 import '../../../../data/model/chat_model/chat_model.dart';
 import '../../../../data/model/chat_model/message_model.dart';
+import '../../../../data/model/user_model/user_model.dart';
+import '../../repository/chats_repository.dart';
 
 part 'chats_state.dart';
 

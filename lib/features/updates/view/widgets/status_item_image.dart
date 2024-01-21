@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/core/widgets/custom_circle_image.dart';
-import 'package:whats_app_clone/features/updates/view/widgets/plus_icon.dart';
+
+import '../../../../core/themes/theme_color.dart';
+import '../../../../core/widgets/custom_circle_image.dart';
+import 'plus_icon.dart';
 
 class StatusItemImage extends StatelessWidget {
   const StatusItemImage({
@@ -23,7 +24,7 @@ class StatusItemImage extends StatelessWidget {
                     ? Border.all()
                     : Border.all(color: const Color(0xff02c855), width: 2),
                 borderRadius: BorderRadius.circular(40)),
-            child:  CustomCircleImage(profileImage: '',)),
+            child:  const CustomCircleImage(profileImage: '',)),
         isMyStatus ? PlusIcon(themeColors: themeColors) : const SizedBox(),
         const SizedBox(
           height: 60,

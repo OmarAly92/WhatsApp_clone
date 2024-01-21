@@ -6,7 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:whats_app_clone/data/model/user_model/user_model.dart';
+
+import '../../../data/model/user_model/user_model.dart';
 
 part 'settings_state.dart';
 

@@ -3,7 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_clone/core/functions/global_functions.dart';
+
+import '../../../../core/functions/global_functions.dart';
 
 part 'chat_detail_parent_state.dart';
 

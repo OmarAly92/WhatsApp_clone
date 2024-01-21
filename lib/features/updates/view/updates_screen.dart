@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/features/updates/view/widgets/update_row_status_and_icon.dart';
 
+import '../../../core/themes/text_style/text_styles.dart';
+import '../../../core/themes/theme_color.dart';
 import 'widgets/status_item.dart';
+import 'widgets/update_row_status_and_icon.dart';
 
 class UpdatesScreen extends StatelessWidget {
   const UpdatesScreen({super.key, required this.themeColors});

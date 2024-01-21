@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
 
+import '../../../core/themes/theme_color.dart';
 import 'widgets/settings_body.dart';
 
 class SettingsScreen extends StatelessWidget {

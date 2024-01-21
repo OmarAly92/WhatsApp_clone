@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:record/record.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/data/data_source/chats/chat_details_requests.dart';
-import 'package:whats_app_clone/data/data_source/chats/chats_requests.dart';
-import 'package:whats_app_clone/features/auth/view/otp_screen.dart';
-import 'package:whats_app_clone/features/auth/view/welcome_screen.dart';
-import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.dart';
-import 'package:whats_app_clone/features/chats/repository/chat_details_repository.dart';
-import 'package:whats_app_clone/features/chats/repository/chats_repository.dart';
-import 'package:whats_app_clone/features/chats/view/select_contact_screen.dart';
-import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
-import 'package:whats_app_clone/features/settings/view/profile_screen.dart';
-import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart';
-
+import '../../data/data_source/chats/chat_details_requests.dart';
+import '../../data/data_source/chats/chats_requests.dart';
+import '../../features/auth/view/otp_screen.dart';
 import '../../features/auth/view/phone_auth_screen.dart';
+import '../../features/auth/view/welcome_screen.dart';
+import '../../features/auth/view_model/authentication_cubit.dart';
+import '../../features/chats/repository/chat_details_repository.dart';
+import '../../features/chats/repository/chats_repository.dart';
 import '../../features/chats/view/chat_details_screen.dart';
+import '../../features/chats/view/select_contact_screen.dart';
+import '../../features/chats/view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
 import '../../features/chats/view_model/chat_details_cubit/get_messages/get_messages_cubit.dart';
 import '../../features/chats/view_model/chat_details_cubit/send_messages/send_messages_cubit.dart';
 import '../../features/chats/view_model/select_contact_cubit/select_contact_cubit.dart';
 import '../../features/home/tab_bar_view.dart';
+import '../../features/settings/view/profile_screen.dart';
 import '../../features/settings/view/settings_screen.dart';
+import '../../features/settings/view_model/settings_cubit.dart';
+import '../themes/theme_color.dart';
 
 class AppRouter {
   static const String welcomeScreen = '/welcomeScreen';

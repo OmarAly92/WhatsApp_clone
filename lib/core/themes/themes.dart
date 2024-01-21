@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/core/themes/colors/dark_theme_colors.dart';
-import 'package:whats_app_clone/core/themes/colors/light_theme_colors.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
+
+import 'colors/dark_theme_colors.dart';
+import 'colors/light_theme_colors.dart';
+import 'text_style/text_styles.dart';
 
 abstract class MyThemes {
   static final darkTheme = ThemeData(

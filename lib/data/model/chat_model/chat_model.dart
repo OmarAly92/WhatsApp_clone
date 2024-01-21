@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:whats_app_clone/data/model/user_model/user_model.dart';
+
+import '../user_model/user_model.dart';
 
 class ChatsModel extends Equatable {
   final String chatType;

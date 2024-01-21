@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
 
+import '../../../core/themes/theme_color.dart';
 import 'widgets/otp_body.dart';
 
 class OtpScreen extends StatelessWidget {

@@ -9,9 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:intl/intl.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
 
+import '../../../../../../core/themes/text_style/text_styles.dart';
+import '../../../../../../core/themes/theme_color.dart';
 import '../../../../../../test_text_color_ani.dart';
 import '../../../../view_model/chat_details_cubit/send_messages/send_messages_cubit.dart';
 import '../clip_button_pop_up_components/clip_button_pop_up.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
+import '../../../../core/themes/theme_color.dart';
 
 import '../view_model/chat_details_cubit/get_messages/get_messages_cubit.dart';
 import 'widgets/chat_details_screen_widgets/chat_details_components/app_bar.dart';

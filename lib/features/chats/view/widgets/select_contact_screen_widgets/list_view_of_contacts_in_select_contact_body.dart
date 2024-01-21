@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whats_app_clone/core/app_router/app_router.dart';
-import 'package:whats_app_clone/data/model/user_model/user_model.dart';
-import 'package:whats_app_clone/features/chats/view_model/select_contact_cubit/select_contact_cubit.dart';
 
+import '../../../../../core/app_router/app_router.dart';
+import '../../../../../data/model/user_model/user_model.dart';
+import '../../../view_model/select_contact_cubit/select_contact_cubit.dart';
 import 'local_mobile_contacts.dart';
 
 class ListViewOfContactsInSelectContactBody extends StatelessWidget {

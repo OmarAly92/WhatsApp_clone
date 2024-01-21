@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/data/data_source/chats/chats_requests.dart';
-import 'package:whats_app_clone/features/chats/repository/chats_repository.dart';
-import 'package:whats_app_clone/features/updates/view/updates_screen.dart';
 
+import '../../../core/themes/theme_color.dart';
+import '../../../data/data_source/chats/chats_requests.dart';
 import '../../call/view/calls_screen.dart';
+import '../../chats/repository/chats_repository.dart';
 import '../../chats/view/chats_screen.dart';
 import '../../chats/view_model/chats_cubit/chats_cubit.dart';
+import '../../updates/view/updates_screen.dart';
 
 class TabBarViewBody extends StatelessWidget {
   const TabBarViewBody({

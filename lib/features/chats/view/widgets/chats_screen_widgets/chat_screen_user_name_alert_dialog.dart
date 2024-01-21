@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/data/model/user_model/user_model.dart';
 
 import '../../../../../../core/themes/theme_color.dart';
+import '../../../../../core/themes/text_style/text_styles.dart';
+import '../../../../../data/model/user_model/user_model.dart';
 
 class UserNameAlertDialogWidget extends StatefulWidget {
   const UserNameAlertDialogWidget({

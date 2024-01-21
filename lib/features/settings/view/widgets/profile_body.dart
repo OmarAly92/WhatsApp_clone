@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/features/settings/view/widgets/custom_size_box_divider.dart';
-import 'package:whats_app_clone/features/settings/view/widgets/profile_items.dart';
-import 'package:whats_app_clone/features/settings/view/widgets/profile_picture_widget.dart';
-import 'package:whats_app_clone/features/settings/view_model/settings_cubit.dart';
+
+import '../../../../core/themes/text_style/text_styles.dart';
+import '../../../../core/themes/theme_color.dart';
+import '../../view_model/settings_cubit.dart';
+import 'custom_size_box_divider.dart';
+import 'profile_items.dart';
+import 'profile_picture_widget.dart';
 
 class ProfileBody extends StatelessWidget {
   const ProfileBody({Key? key, required this.themeColors}) : super(key: key);

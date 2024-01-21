@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
+
+import '../themes/text_style/text_styles.dart';
+import '../themes/theme_color.dart';
 
 class TheAuthor extends StatelessWidget {
   const TheAuthor({

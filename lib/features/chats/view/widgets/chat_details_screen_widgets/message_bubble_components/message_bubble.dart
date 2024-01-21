@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/features/chats/view/widgets/chat_details_screen_widgets/custom_bubble_parent.dart';
 
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
+import '../custom_bubble_parent.dart';
 
 part 'message_bubble_body.dart';
 

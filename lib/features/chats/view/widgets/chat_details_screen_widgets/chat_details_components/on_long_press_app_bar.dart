@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
+
 
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
+import '../../../../view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
 
 class ChatDetailsOnLongPressAppBar extends StatelessWidget {
   const ChatDetailsOnLongPressAppBar({

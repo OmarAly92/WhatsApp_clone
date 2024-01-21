@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/features/chats/view/widgets/select_contact_screen_widgets/actions_buttons_widgets_items.dart';
+
+import '../../../../../core/themes/theme_color.dart';
+import 'actions_buttons_widgets_items.dart';
 
 class ShareAndContactsHelpButtonsInSelectContactBody extends StatelessWidget {
   const ShareAndContactsHelpButtonsInSelectContactBody({

@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/features/chats/view/widgets/chat_details_screen_widgets/custom_bubble_parent.dart';
 
+
+import '../../../../../../core/themes/text_style/text_styles.dart';
+import '../../../../../../core/themes/theme_color.dart';
 import '../../../../../../core/widgets/custom_circle_image.dart';
 import '../../../../../../data/model/chat_model/message_model.dart';
 import '../../../../view_model/chat_details_cubit/voice_bubble_cubit/voice_bubble_cubit.dart';
+import '../custom_bubble_parent.dart';
 
 part 'audio_wave_voice_duration_and_voice_time.dart';
 

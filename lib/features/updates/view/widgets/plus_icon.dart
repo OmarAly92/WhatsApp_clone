@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
+
+import '../../../../core/themes/theme_color.dart';
 
 class PlusIcon extends StatelessWidget {
   const PlusIcon({

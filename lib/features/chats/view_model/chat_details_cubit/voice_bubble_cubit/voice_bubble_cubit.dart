@@ -8,7 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:whats_app_clone/core/functions/global_functions.dart';
+
+import '../../../../../core/functions/global_functions.dart';
 
 part 'voice_bubble_state.dart';
 

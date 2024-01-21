@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
+
+import '../../../../core/themes/text_style/text_styles.dart';
+import '../../../../core/themes/theme_color.dart';
 
 class UpdateRowStatusAndIcon extends StatelessWidget {
   const UpdateRowStatusAndIcon({

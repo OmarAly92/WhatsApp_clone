@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
+
+import '../themes/theme_color.dart';
 
 class CustomBodyTitlesWidget extends StatelessWidget {
   const CustomBodyTitlesWidget({

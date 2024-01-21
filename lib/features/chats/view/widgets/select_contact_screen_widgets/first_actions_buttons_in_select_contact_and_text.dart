@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/features/chats/view/widgets/select_contact_screen_widgets/actions_buttons_widgets_items.dart';
+
+import '../../../../../core/themes/text_style/text_styles.dart';
+import 'actions_buttons_widgets_items.dart';
 
 class FirstActionsButtonsInSelectContactAndText extends StatelessWidget {
   const FirstActionsButtonsInSelectContactAndText({
@@ -51,7 +52,7 @@ class FirstActionsButtonsInSelectContactAndText extends StatelessWidget {
                   color: const Color(0xff02a785),
                   borderRadius: BorderRadius.circular(40),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.person_add,
                   color: Colors.white,
                   size: 28,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/themes/text_style/text_styles.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
-import 'package:whats_app_clone/features/auth/view_model/authentication_cubit.dart';
 
 import '../../../core/app_router/app_router.dart';
+import '../../../core/themes/text_style/text_styles.dart';
+import '../../../core/themes/theme_color.dart';
+import '../view_model/authentication_cubit.dart';
 import 'widgets/auth_button.dart';
 import 'widgets/phone_auth_screen_top_title_section.dart';
 
