@@ -87,8 +87,9 @@ class ChatDetailsAppBar extends StatelessWidget {
         ),
       ),
       IconButton(
-        onPressed: () {
-          BlocProvider.of<ChatDetailParentCubit>(context).deleteSelectedMessages(hisPhoneNumber: hisPhoneNumber);
+        onPressed: () async {
+          await BlocProvider.of<ChatDetailParentCubit>(context)
+              .deleteSelectedMessages(hisPhoneNumber: hisPhoneNumber);
         },
         icon: Icon(
           Icons.delete,

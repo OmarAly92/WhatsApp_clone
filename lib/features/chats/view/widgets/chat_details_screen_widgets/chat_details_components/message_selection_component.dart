@@ -90,6 +90,7 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
                 isSelectedLongPress = widget.itemIndex;
                 BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount++;
                 BlocProvider.of<ChatDetailParentCubit>(context).messagesId.add(widget.messageModel.messageId);
+                BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
               }
             }
             BlocProvider.of<ChatDetailParentCubit>(context).checkLongPressedState(isSelectedLongPress);
@@ -99,10 +100,14 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
               isSelectedLongPress = -1;
               BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount--;
               BlocProvider.of<ChatDetailParentCubit>(context).messagesId.remove(widget.messageModel.messageId);
+              BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.remove(widget.messageModel.message);
+
             } else if (BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount >= 1) {
               isSelectedLongPress = widget.itemIndex;
               BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount++;
               BlocProvider.of<ChatDetailParentCubit>(context).messagesId.add(widget.messageModel.messageId);
+              BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
+
             }
             BlocProvider.of<ChatDetailParentCubit>(context).checkLongPressedState(isSelectedLongPress);
           },

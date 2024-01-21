@@ -9,7 +9,6 @@ class ChatDetailParentInitial extends ChatDetailParentState {
 
   final int isSelectedLongPress;
 
-
   const ChatDetailParentInitial({this.isSelected = -1, this.isSelectedLongPress = -1});
 
   @override
@@ -23,4 +22,13 @@ class ChatDetailParentLongPressedAppbar extends ChatDetailParentState {
 
   @override
   List<Object> get props => [selectedItemCount];
+}
+
+class ChatDetailParentFailure extends ChatDetailParentState {
+  final String failureMessage;
+
+  const ChatDetailParentFailure({required this.failureMessage});
+
+  @override
+  List<Object> get props => [failureMessage];
 }
