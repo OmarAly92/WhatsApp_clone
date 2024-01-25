@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/themes/theme_color.dart';
 
+import '../../../../core/themes/theme_color.dart';
 import '../view_model/chat_details_cubit/get_messages/get_messages_cubit.dart';
 import 'widgets/chat_details_screen_widgets/chat_details_components/app_bar.dart';
 import 'widgets/chat_details_screen_widgets/chat_details_components/chat_details_body.dart';
@@ -62,20 +62,11 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
               hisPhoneNumber: widget.hisPhoneNumber,
             ),
             SliverFillRemaining(
-              child: Container(
-                height: MediaQuery.sizeOf(context).height,
-                width: MediaQuery.sizeOf(context).width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(widget.themeColors.chatBackGroundImage),
-                    fit: BoxFit.fitHeight,
-                  ),
-                ),
-                child: ChatDetailsBody(
-                  themeColors: widget.themeColors,
-                  hisPhoneNumber: widget.hisPhoneNumber,
-                  hisProfilePicture: widget.hisProfilePicture,
-                ),
+              child: ChatDetailsBody(
+                themeColors: widget.themeColors,
+                hisPhoneNumber: widget.hisPhoneNumber,
+                hisProfilePicture: widget.hisProfilePicture,
+                hisName: widget.hisName,
               ),
             ),
           ],

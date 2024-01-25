@@ -17,14 +17,9 @@ class ChatDetailsRequests {
     return _firebaseFirestore.collection('chats');
   }
 
-
-
   Query<Map<String, dynamic>> getMessagesData(String hisNumber, String myPhoneNumber) {
-   String sortedNumber = GlFunctions.sortPhoneNumbers(hisNumber, myPhoneNumber);
-    return getChatsCollection()
-        .doc(sortedNumber)
-        .collection('messages')
-        .orderBy('time', descending: false);
+    String sortedNumber = GlFunctions.sortPhoneNumbers(hisNumber, myPhoneNumber);
+    return getChatsCollection().doc(sortedNumber).collection('messages').orderBy('time', descending: false);
   }
 
   Future<void> sendMessage({
@@ -42,6 +37,35 @@ class ChatDetailsRequests {
       'isSeen': false,
       'message': message,
       'theSender': myPhoneNumber,
+      'time': time,
+      'messageId': messageId,
+      'type': type,
+    });
+    chatDocument.update({
+      'lastMessage': message,
+      'lastMessageTime': time,
+    });
+  }
+
+  void sendReplyMessage({
+    required String phoneNumber,
+    required String originalMessage,
+    required String message,
+    required String replyOriginalName,
+    required String theSender,
+    required String type,
+    required Timestamp time,
+    required String messageId,
+  }) {
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, theSender);
+    var chatDocument = getChatsCollection().doc(sortedNumber);
+    var messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
+    messageDocument.set({
+      'isSeen': false,
+      'originalMessage': originalMessage,
+      'message': message,
+      'replyOriginalName': replyOriginalName,
+      'theSender': theSender,
       'time': time,
       'messageId': messageId,
       'type': type,

@@ -48,6 +48,31 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     }
   }
 
+  void sendReplyMessage({
+    required String phoneNumber,
+    required String originalMessage,
+    required String message,
+    required String replyOriginalName,
+    required String theSender,
+    required String type,
+    required Timestamp time,
+  }) async {
+    try {
+      chatDetailsRepository.sendReplyMessage(
+        phoneNumber: phoneNumber,
+        originalMessage: originalMessage,
+        message: message,
+        replyOriginalName: replyOriginalName,
+        theSender: theSender,
+        type: type,
+        time: time,
+        messageId: uuid.v4(),
+      );
+    } catch (failureMessage) {
+      emit(SendMessagesFailure(failureMessage: '$failureMessage Failed to send reply message'));
+    }
+  }
+
   Future<String> pickImageFromGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);

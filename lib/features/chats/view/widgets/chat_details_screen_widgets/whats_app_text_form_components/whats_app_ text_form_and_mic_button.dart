@@ -9,12 +9,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:intl/intl.dart';
+import 'package:record/record.dart';
+import 'package:whats_app_clone/data/data_source/chats/chat_details_requests.dart';
+import 'package:whats_app_clone/features/chats/repository/chat_details_repository.dart';
 
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../../../test_text_color_ani.dart';
+import '../../../../view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
 import '../../../../view_model/chat_details_cubit/send_messages/send_messages_cubit.dart';
 import '../clip_button_pop_up_components/clip_button_pop_up.dart';
+import 'reply_on_chat_text_form.dart';
 
 part 'chat_text_form_prefix_icon.dart';
 
@@ -96,55 +101,111 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
       padding: EdgeInsets.only(right: 5.w),
       child: SizedBox(
         width: MediaQuery.sizeOf(context).width,
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          clipBehavior: Clip.none,
-          children: [
-            isRecording
-                ? _RecordingContainerComponent(
-                    redMicIcon: redMicIcon,
-                    recordTimeText: recordTimeText,
-                    themeColors: widget.themeColors,
-                  )
-                : _TextFormContainerComponent(
-                    themeColors: widget.themeColors,
-                    child: buildTextFormField(
-                      context,
-                      animationController: _animationController,
-                      isEndRecording: isEndRecording,
+        child: BlocBuilder<ChatDetailParentCubit, ChatDetailParentState>(
+          buildWhen: (previous, current) {
+            if (current is ChatDetailParentFailure) {
+              return false;
+            } else if (current is ChatDetailParentLongPressedAppbar) {
+              return false;
+            } else if (current is ChatDetailParentInitial) {
+              return false;
+            } else {
+              return true;
+            }
+          },
+          builder: (context, state) {
+            final bool replyingState = (state is ChatDetailParentReplying);
+
+            return Stack(
+              alignment: Alignment.centerLeft,
+              clipBehavior: Clip.none,
+              children: [
+                AnimatedSize(
+                  alignment: AlignmentDirectional.bottomStart,
+                  duration: const Duration(milliseconds: 150),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: 5.h,
+                      bottom: 5.h,
+                      right: 56.w,
                     ),
-                  ),
-            SizedBox(width: 5.w),
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 120),
-              left: animatedLeft,
-              child: SizedBox(
-                width: 110.r,
-                height: 110.r,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: onTap,
-                    onTapDown: onTapDown,
-                    onTapUp: onTapUp,
-                    onHorizontalDragUpdate: onHorizontalDragUpdate,
-                    onHorizontalDragEnd: onHorizontalDragEnd,
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 350),
-                      height: animatedVoiceButtonSize,
-                      width: animatedVoiceButtonSize,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF00a884),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: isTyping
-                          ? const Icon(Icons.send, color: Colors.white)
-                          : const Icon(Icons.mic, color: Colors.white),
+                    decoration: BoxDecoration(
+                        color: widget.themeColors.hisMessage,
+                        borderRadius: replyingState
+                            ? BorderRadius.only(
+                                bottomRight: Radius.circular(30.r),
+                                bottomLeft: Radius.circular(30.r),
+                                topRight: Radius.circular(15.r),
+                                topLeft: Radius.circular(15.r),
+                              )
+                            : BorderRadius.circular(30.r)),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        replyingState
+                            ? ReplyOnChatTextForm(
+                                themeColors: widget.themeColors,
+                                replyMessage: state.originalMessage,
+                                replyName: state.hisName,
+                                replyColor: state.replyColor,
+                              )
+                            : const SizedBox.shrink(),
+                        isRecording
+                            ? _RecordingContainerComponent(
+                                redMicIcon: redMicIcon,
+                                recordTimeText: recordTimeText,
+                                themeColors: widget.themeColors,
+                              )
+                            : _TextFormContainerComponent(
+                                themeColors: widget.themeColors,
+                                child: buildTextFormField(
+                                  context,
+                                  animationController: _animationController,
+                                  isEndRecording: isEndRecording,
+                                ),
+                              ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
+                SizedBox(width: 5.w),
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 120),
+                  left: animatedLeft,
+                  child: SizedBox(
+                    width: 120.r,
+                    height: 120.r,
+                    child: Column(
+                      mainAxisAlignment: replyingState ? MainAxisAlignment.end : MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () => onTap(state),
+                          onTapDown: onTapDown,
+                          onTapUp: onTapUp,
+                          onHorizontalDragUpdate: onHorizontalDragUpdate,
+                          onHorizontalDragEnd: onHorizontalDragEnd,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 350),
+                            height: animatedVoiceButtonSize,
+                            width: animatedVoiceButtonSize,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF00a884),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: isTyping
+                                ? const Icon(Icons.send, color: Colors.white)
+                                : const Icon(Icons.mic, color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -155,39 +216,41 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
     required AnimationController animationController,
     required bool isEndRecording,
   }) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        isEndRecording
-            ? Positioned(
-                top: 4,
-                right: 265.w,
-                child: _MicAnimationComponent(
-                  animationController: animationController,
-                  iconColor: Colors.red,
-                ),
-              )
-            : const SizedBox(),
-        TextFormField(
-          decoration: InputDecoration(
-            prefixIcon:
-                isEndRecording ? const SizedBox() : _ChatTextFormPrefixIcon(themeColors: widget.themeColors),
-            suffixIcon: _ChatTextFormSuffixIcon(
-              themeColors: widget.themeColors,
-              phoneNumber: widget.hisPhoneNumber,
-              myPhoneNumber: widget.myPhoneNumber,
+    return Center(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          isEndRecording
+              ? Positioned(
+                  top: 4,
+                  right: 265.w,
+                  child: _MicAnimationComponent(
+                    animationController: animationController,
+                    iconColor: Colors.red,
+                  ),
+                )
+              : const SizedBox.shrink(),
+          TextFormField(
+            decoration: InputDecoration(
+              prefixIcon:
+                  isEndRecording ? const SizedBox() : _ChatTextFormPrefixIcon(themeColors: widget.themeColors),
+              suffixIcon: _ChatTextFormSuffixIcon(
+                themeColors: widget.themeColors,
+                phoneNumber: widget.hisPhoneNumber,
+                myPhoneNumber: widget.myPhoneNumber,
+              ),
+              hintText: 'Message',
+              hintStyle: Styles.textStyle18.copyWith(
+                color: widget.themeColors.bodyTextColor,
+              ),
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
             ),
-            hintText: 'Message',
-            hintStyle: Styles.textStyle18.copyWith(
-              color: widget.themeColors.bodyTextColor,
-            ),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
+            controller: chatTextFormController,
+            onChanged: onChanged,
           ),
-          controller: chatTextFormController,
-          onChanged: onChanged,
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -212,7 +275,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
   }
 
   void onHorizontalDragUpdate(details) {
-    if (animatedVoiceButtonSize >= 150) {
+    if (animatedVoiceButtonSize >= 130) {
       startRecording(animatedVoiceButtonSizeInc: 0);
       if (animatedLeft <= 105) {
         isEndRecording = true;
@@ -236,17 +299,32 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
     endRecording();
   }
 
-  void onTap() {
+  void onTap(ChatDetailParentState state) {
     if (isTyping) {
       DateTime now = DateTime.now();
       Timestamp timestamp = Timestamp.fromDate(now);
-      BlocProvider.of<SendMessagesCubit>(context).sendMessage(
-        phoneNumber: widget.hisPhoneNumber,
-        message: chatTextFormController.text,
-        myPhoneNumber: widget.myPhoneNumber,
-        time: timestamp,
-        type: 'message',
-      );
+
+      if (state is ChatDetailParentReplying) {
+        BlocProvider.of<SendMessagesCubit>(context).sendReplyMessage(
+          phoneNumber: widget.hisPhoneNumber,
+          originalMessage: state.originalMessage,
+          message: chatTextFormController.text,
+          replyOriginalName: state.hisName,
+          theSender: widget.myPhoneNumber,
+          time: timestamp,
+          type: 'reply',
+        );
+        BlocProvider.of<ChatDetailParentCubit>(context).closeReplyMessage();
+      } else {
+        BlocProvider.of<SendMessagesCubit>(context).sendMessage(
+          phoneNumber: widget.hisPhoneNumber,
+          message: chatTextFormController.text,
+          myPhoneNumber: widget.myPhoneNumber,
+          time: timestamp,
+          type: 'message',
+        );
+      }
+
       chatTextFormController.clear();
       isTyping = false;
     }
@@ -264,7 +342,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
     if (isTyping == false) {
       timerPeriodicForIconAndTimeText();
       setState(() {
-        startRecording();
+        startRecording(animatedVoiceButtonSizeInc: 80);
       });
       BlocProvider.of<SendMessagesCubit>(context).startRecording();
     }
@@ -275,7 +353,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
       endRecording();
       var time = Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
 
-      await BlocProvider.of<SendMessagesCubit>(context).stopRecording(time, widget.hisPhoneNumber,maxDuration);
+      await BlocProvider.of<SendMessagesCubit>(context).stopRecording(time, widget.hisPhoneNumber, maxDuration);
     }
   }
 
@@ -309,7 +387,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
     recordTimeText = '0:00';
   }
 
-  void startRecording({double animatedVoiceButtonSizeInc = 100}) {
+  void startRecording({required double animatedVoiceButtonSizeInc}) {
     hapticFeedBackMedium();
     isRecording = true;
     animatedVoiceButtonSize += animatedVoiceButtonSizeInc;

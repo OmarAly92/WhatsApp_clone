@@ -18,7 +18,9 @@ class ChatDetailParentInitial extends ChatDetailParentState {
 class ChatDetailParentLongPressedAppbar extends ChatDetailParentState {
   final int selectedItemCount;
 
-  const ChatDetailParentLongPressedAppbar({required this.selectedItemCount});
+  const ChatDetailParentLongPressedAppbar({
+    required this.selectedItemCount,
+  });
 
   @override
   List<Object> get props => [selectedItemCount];
@@ -31,4 +33,26 @@ class ChatDetailParentFailure extends ChatDetailParentState {
 
   @override
   List<Object> get props => [failureMessage];
+}
+
+class ChatDetailParentReplying extends ChatDetailParentState {
+  final String originalMessage;
+  final String hisName;
+  final Color replyColor;
+
+  const ChatDetailParentReplying({
+    required this.originalMessage,
+    required this.hisName,
+    required this.replyColor,
+  });
+
+  @override
+  List<Object> get props => [originalMessage, hisName, replyColor];
+}
+
+class ChatDetailParentNotReplying extends ChatDetailParentState {
+  const ChatDetailParentNotReplying();
+
+  @override
+  List<Object> get props => [];
 }

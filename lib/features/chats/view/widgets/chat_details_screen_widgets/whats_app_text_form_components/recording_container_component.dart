@@ -5,7 +5,6 @@ class _RecordingContainerComponent extends StatelessWidget {
     required this.themeColors,
     required this.redMicIcon,
     required this.recordTimeText,
-
   });
 
   final ThemeColors themeColors;
@@ -13,11 +12,9 @@ class _RecordingContainerComponent extends StatelessWidget {
   final String recordTimeText;
   static const Color grey = Color(0xFF8c959b);
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5.h),
       width: 300.w,
       height: 43.h,
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -25,6 +22,7 @@ class _RecordingContainerComponent extends StatelessWidget {
         color: themeColors.hisMessage,
         borderRadius: BorderRadius.circular(30),
       ),
+      alignment: AlignmentDirectional.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

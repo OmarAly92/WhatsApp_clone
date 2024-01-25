@@ -16,6 +16,17 @@ abstract class BaseChatDetailsRepository {
     required String messageId,
   });
 
+  Future<void> sendReplyMessage({
+    required String phoneNumber,
+    required String originalMessage,
+    required String message,
+    required String replyOriginalName,
+    required String theSender,
+    required String type,
+    required Timestamp time,
+    required String messageId,
+  });
+
   void sendImage({
     required String phoneNumber,
     required Timestamp time,
@@ -114,5 +125,28 @@ class ChatDetailsRepository extends BaseChatDetailsRepository {
       'waveData': waveData,
       'maxDuration': maxDuration,
     });
+  }
+
+  @override
+  Future<void> sendReplyMessage({
+    required String phoneNumber,
+    required String originalMessage,
+    required String message,
+    required String replyOriginalName,
+    required String theSender,
+    required String type,
+    required Timestamp time,
+    required String messageId,
+  }) async {
+    chatDetailsRequests.sendReplyMessage(
+      phoneNumber: phoneNumber,
+      originalMessage: originalMessage,
+      message: message,
+      theSender: theSender,
+      type: type,
+      time: time,
+      messageId: messageId,
+      replyOriginalName: replyOriginalName,
+    );
   }
 }

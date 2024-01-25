@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +18,11 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
   List<String> messagesId = [];
   List<String> fileUrl = [];
 
+  bool isReplying = false;
+  List<bool> isTheSender = [];
+  List<String> replyOriginalMessage = [];
+  List<String> messageType = [];
+
   void checkLongPressedState(int isSelectedLongPress) {
     if (selectedItemCount <= 0) {
       if (isSelectedLongPress == -1) {
@@ -32,7 +39,26 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
     selectedItemCount = 0;
     messagesId = [];
     fileUrl = [];
+    isTheSender = [];
+    replyOriginalMessage = [];
+    messageType = [];
     emit(const ChatDetailParentInitial());
+  }
+
+  void replyMessageTrigger({
+    required String replyMessage,
+    required String hisName,
+    required Color replyColor,
+  }) {
+    emit(ChatDetailParentReplying(
+      originalMessage: replyMessage,
+      hisName: hisName,
+      replyColor: replyColor,
+    ));
+  }
+
+  void closeReplyMessage() {
+    emit(const ChatDetailParentNotReplying());
   }
 
   Future<void> deleteSelectedMessages({required String hisPhoneNumber}) async {
@@ -62,7 +88,7 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
     try {
       await FirebaseStorage.instance.refFromURL(voiceUrl).delete();
     } catch (e) {
-      print("Error deleting file: $e");
+      emit(ChatDetailParentFailure(failureMessage: 'failed in _deleteFileFromStorage method: $e'));
     }
   }
 

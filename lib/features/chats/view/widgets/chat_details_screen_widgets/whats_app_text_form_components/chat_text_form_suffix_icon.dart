@@ -1,6 +1,5 @@
 part of 'whats_app_ text_form_and_mic_button.dart';
 
-
 class _ChatTextFormSuffixIcon extends StatelessWidget {
   const _ChatTextFormSuffixIcon({
     required this.themeColors,
@@ -24,10 +23,14 @@ class _ChatTextFormSuffixIcon extends StatelessWidget {
               showCupertinoModalPopup(
                 barrierColor: Colors.transparent,
                 context: context,
-                builder: (context) => ClipButtonPopUp(
-                  themeColors: themeColors,
-                  phoneNumber: phoneNumber,
-                  myPhoneNumber: myPhoneNumber,
+                builder: (context) => BlocProvider(
+                  ///todo add DI here
+                  create: (context) => SendMessagesCubit(ChatDetailsRepository(ChatDetailsRequests()), Record()),
+                  child: ClipButtonPopUp(
+                    themeColors: themeColors,
+                    phoneNumber: phoneNumber,
+                    myPhoneNumber: myPhoneNumber,
+                  ),
                 ),
               );
             },

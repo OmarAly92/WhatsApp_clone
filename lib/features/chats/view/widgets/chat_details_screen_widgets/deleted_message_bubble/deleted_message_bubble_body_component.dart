@@ -37,7 +37,6 @@ class _DeletedMessageBubbleBodyComponent extends StatelessWidget {
       decoration: BoxDecoration(
         color: isTheSender ? themeColors.myMessage : themeColors.hisMessage,
         backgroundBlendMode: backgroundBlendMode,
-        // BlendMode.src => (original)
       ),
       child: Wrap(
         alignment: WrapAlignment.end,

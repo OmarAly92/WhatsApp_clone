@@ -2,7 +2,6 @@ part of 'chat_details_body.dart';
 
 class _MessageSelectionComponent extends StatefulWidget {
   const _MessageSelectionComponent({
-    required this.messageType,
     required this.themeColors,
     required this.isTheSender,
     required this.message,
@@ -12,16 +11,17 @@ class _MessageSelectionComponent extends StatefulWidget {
     required this.isFirstMessage,
     required this.messageModel,
     required this.itemIndex,
+    required this.hisName,
   });
 
   final int itemIndex;
-  final String messageType;
   final ThemeColors themeColors;
   final bool isTheSender;
   final String message;
   final String time;
   final String hisPhoneNumber;
   final String hisProfilePicture;
+  final String hisName;
   final bool isFirstMessage;
   final MessageModel messageModel;
 
@@ -36,7 +36,7 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
   Widget messageSelection() {
     var backgroundBlendMode = isSelected == widget.itemIndex ? BlendMode.clear : BlendMode.src;
 
-    if (widget.messageType == 'message') {
+    if (widget.messageModel.type == 'message') {
       return MessageBubble(
         themeColors: widget.themeColors,
         isTheSender: widget.isTheSender,
@@ -45,7 +45,7 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
         isFirstMessage: widget.isFirstMessage,
         backgroundBlendMode: backgroundBlendMode,
       );
-    } else if (widget.messageType == 'voice') {
+    } else if (widget.messageModel.type == 'voice') {
       return BlocProvider(
         create: (context) => VoiceBubbleCubit(),
         child: VoiceBubble(
@@ -58,7 +58,7 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
           backgroundBlendMode: backgroundBlendMode,
         ),
       );
-    } else if (widget.messageType == 'image') {
+    } else if (widget.messageModel.type == 'image') {
       return ImageBubble(
         image: widget.message,
         time: widget.time,
@@ -67,10 +67,19 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
         isFirstMessage: widget.isFirstMessage,
         backgroundBlendMode: backgroundBlendMode,
       );
+    } else if (widget.messageModel.type == 'reply') {
+      return ReplyBubble(
+        themeColors: widget.themeColors,
+        isTheSender: widget.isTheSender,
+        isFirstMessage: widget.isFirstMessage,
+        backgroundBlendMode: backgroundBlendMode,
+        messageModel: widget.messageModel,
+        time: widget.time,
+      );
     } else {
-      return  DeletedMessageBubble(
+      return DeletedMessageBubble(
         message: widget.message,
-        time:widget. time,
+        time: widget.time,
         isTheSender: widget.isTheSender,
         isFirstMessage: widget.isFirstMessage,
         themeColors: widget.themeColors,
@@ -81,72 +90,103 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
 
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(builder: (context, setState) {
-      return BlocListener<ChatDetailParentCubit, ChatDetailParentState>(
-        listener: (context, state) {
-          if (state is ChatDetailParentInitial) {
-            setState(() {
-              isSelected = state.isSelected;
-              isSelectedLongPress = state.isSelectedLongPress;
-            });
-          }
-        },
-        child: InkWell(
-          onLongPress: () {
-            if (BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount < 1) {
-              if (isSelectedLongPress == widget.itemIndex) {
-              } else {
-                isSelectedLongPress = widget.itemIndex;
-                BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount++;
-                BlocProvider.of<ChatDetailParentCubit>(context).messagesId.add(widget.messageModel.messageId);
-                BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
-              }
-            }
-            BlocProvider.of<ChatDetailParentCubit>(context).checkLongPressedState(isSelectedLongPress);
-          },
-          onTap: () {
-            if (isSelectedLongPress == widget.itemIndex) {
-              isSelectedLongPress = -1;
-              BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount--;
-              BlocProvider.of<ChatDetailParentCubit>(context).messagesId.remove(widget.messageModel.messageId);
-              BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.remove(widget.messageModel.message);
-            } else if (BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount >= 1) {
-              isSelectedLongPress = widget.itemIndex;
-              BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount++;
-              BlocProvider.of<ChatDetailParentCubit>(context).messagesId.add(widget.messageModel.messageId);
-              BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
-            }
-            BlocProvider.of<ChatDetailParentCubit>(context).checkLongPressedState(isSelectedLongPress);
-          },
-          onHighlightChanged: (value) {
-            if (value) {
-              setState(() {
-                isSelected = widget.itemIndex;
-              });
-            } else {
-              setState(() {
-                isSelected = -1;
+    final Color replyColor = widget.isTheSender ? const Color(0xff068D72) : const Color(0xff8d7ed8);
+    final String hisName = widget.isTheSender ? 'You' : widget.hisName;
+
+    return SwipePlus(
+      onDragComplete: () {
+        if (widget.messageModel.type != 'deleted') {
+          BlocProvider.of<ChatDetailParentCubit>(context).replyMessageTrigger(
+            replyMessage: widget.message,
+            hisName: hisName,
+            replyColor: replyColor,
+          );
+        }
+      },
+      minThreshold: 0.25,
+      child: StatefulBuilder(builder: (context, setStates) {
+        return BlocListener<ChatDetailParentCubit, ChatDetailParentState>(
+          listener: (context, state) {
+            if (state is ChatDetailParentInitial) {
+              setStates(() {
+                isSelected = state.isSelected;
+                isSelectedLongPress = state.isSelectedLongPress;
               });
             }
           },
-          child: Container(
-            color: isSelectedLongPress == widget.itemIndex
-                ? widget.themeColors.onLongPressedMessageColor.withOpacity(.28)
-                : Colors.transparent,
-            child: messageSelection(),
+          child: InkWell(
+            onLongPress: () {
+              longPressSelectMessage(context);
+            },
+            onTap: () {
+              onTapMultiSelect(context);
+            },
+            onHighlightChanged: (value) {
+              onHighlightChanged(value, setStates);
+            },
+            child: Container(
+              color: isSelectedLongPress == widget.itemIndex
+                  ? widget.themeColors.onLongPressedMessageColor.withOpacity(.28)
+                  : Colors.transparent,
+              child: messageSelection(),
+            ),
           ),
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 
-  void onHighlightChanged(bool value, int index) {
+  void longPressSelectMessage(BuildContext context) {
+    if (BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount < 1) {
+      if (isSelectedLongPress == widget.itemIndex) {
+      } else {
+        isSelectedLongPress = widget.itemIndex;
+        BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount++;
+        BlocProvider.of<ChatDetailParentCubit>(context).messagesId.add(widget.messageModel.messageId);
+        BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
+
+        BlocProvider.of<ChatDetailParentCubit>(context).isTheSender.add(widget.isTheSender);
+        BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.add(widget.messageModel.message);
+        BlocProvider.of<ChatDetailParentCubit>(context).messageType.add(widget.messageModel.type);
+      }
+    }
+    BlocProvider.of<ChatDetailParentCubit>(context).checkLongPressedState(isSelectedLongPress);
+  }
+
+  void onTapMultiSelect(BuildContext context) {
+    if (isSelectedLongPress == widget.itemIndex) {
+      isSelectedLongPress = -1;
+      BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount--;
+      BlocProvider.of<ChatDetailParentCubit>(context).messagesId.remove(widget.messageModel.messageId);
+      BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.remove(widget.messageModel.message);
+
+      BlocProvider.of<ChatDetailParentCubit>(context).isTheSender.remove(widget.isTheSender);
+      BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.remove(widget.messageModel.message);
+      BlocProvider.of<ChatDetailParentCubit>(context).messageType.remove(widget.messageModel.type);
+    } else if (BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount >= 1) {
+      isSelectedLongPress = widget.itemIndex;
+      BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount++;
+      BlocProvider.of<ChatDetailParentCubit>(context).messagesId.add(widget.messageModel.messageId);
+      BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
+
+      BlocProvider.of<ChatDetailParentCubit>(context).isTheSender.add(widget.isTheSender);
+      BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.add(widget.messageModel.message);
+      BlocProvider.of<ChatDetailParentCubit>(context).messageType.add(widget.messageModel.type);
+
+      ///you can make method in cubit and use it here
+      ///and listener to the state in bloc listener
+      /// it will fix the delete on long press appbar issue
+    }
+    BlocProvider.of<ChatDetailParentCubit>(context).checkLongPressedState(isSelectedLongPress);
+  }
+
+  void onHighlightChanged(bool value, StateSetter setStates) {
     if (value) {
-      setState(() {
-        isSelected = index;
+      setStates(() {
+        isSelected = widget.itemIndex;
       });
     } else {
-      setState(() {
+      setStates(() {
         isSelected = -1;
       });
     }

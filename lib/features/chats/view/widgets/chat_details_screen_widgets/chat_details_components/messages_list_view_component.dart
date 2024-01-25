@@ -6,10 +6,12 @@ class _MessagesListView extends StatefulWidget {
     required this.hisProfilePicture,
     required this.themeColors,
     required this.state,
+    required this.hisName,
   });
 
   final String hisPhoneNumber;
   final String hisProfilePicture;
+  final String hisName;
   final ThemeColors themeColors;
   final GetMessagesSuccess state;
 
@@ -50,7 +52,6 @@ class _MessagesListViewState extends State<_MessagesListView> {
                 return Padding(
                   padding: EdgeInsets.only(top: 1.5.h),
                   child: _MessageSelectionComponent(
-                    messageType: item[index].type,
                     themeColors: widget.themeColors,
                     isTheSender: isTheSender,
                     message: item[index].message,
@@ -60,6 +61,7 @@ class _MessagesListViewState extends State<_MessagesListView> {
                     hisPhoneNumber: widget.hisPhoneNumber,
                     hisProfilePicture: widget.hisProfilePicture,
                     itemIndex: index,
+                    hisName: widget.hisName,
                   ),
                 );
               },

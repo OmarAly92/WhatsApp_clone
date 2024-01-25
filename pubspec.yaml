@@ -42,7 +42,9 @@ dependencies:
   dartz: ^0.10.1
   get_it: ^7.6.0
   cached_network_image: ^3.2.3
+
   custom_clippers: ^2.0.0
+  swipe_plus: ^0.8.1
 
   firebase_core: ^2.15.1
   firebase_auth: ^4.8.0
@@ -53,6 +55,7 @@ dependencies:
   pin_code_fields: ^8.0.1
   permission_handler: ^10.4.3
   contacts_service: ^0.6.3
+  emoji_picker_flutter: ^1.6.4
 #  flutter_emoji_gif_picker: ^0.1.4
 
   image_picker: ^1.0.4

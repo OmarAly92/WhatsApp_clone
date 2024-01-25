@@ -12,13 +12,13 @@ class _TextFormContainerComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5.h),
       width: 300.w,
       height: 43.h,
       decoration: BoxDecoration(
         color: themeColors.hisMessage,
         borderRadius: BorderRadius.circular(30),
       ),
+      // alignment: AlignmentDirectional.bottomCenter,
       child: child,
     );
   }

@@ -67,6 +67,9 @@ class ThemeColors {
   late final Color myMessageWaveFormLiveColor;
   late final Color hisMessageWaveFormLiveColor;
 
+  late final Color myReplyMessage;
+  late final Color hisReplyMessage;
+
   late final Color onLongPressedMessageColor;
 
   late final String chatBackGroundImage;
@@ -110,6 +113,9 @@ class ThemeColors {
 
     myMessageWaveFormFixedColor = isDarkMode ? const Color(0xff317D6D) : const Color(0xffBBD0B4);
     hisMessageWaveFormFixedColor = isDarkMode ? const Color(0xff4D565D) : const Color(0xffCFD0D1);
+
+    myReplyMessage = isDarkMode ? const Color(0xff025043) : const Color(0xffDEF6D4);
+    hisReplyMessage = isDarkMode ? const Color(0xff1E292F) : const Color(0xffF5F7F6);
 
     myMessageWaveFormLiveColor = isDarkMode ? const Color(0xffA9CCC5) : const Color(0xff627266);
     hisMessageWaveFormLiveColor = isDarkMode ? const Color(0xffB6BBBD) : const Color(0xff6C7274);

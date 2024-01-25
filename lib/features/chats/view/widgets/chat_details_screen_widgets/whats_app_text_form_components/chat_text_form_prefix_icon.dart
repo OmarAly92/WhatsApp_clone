@@ -11,7 +11,7 @@ class _ChatTextFormPrefixIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        // EmojiGifPickerPanel.onWillPop();
+
       },
       icon: Icon(CupertinoIcons.smiley_fill, color: themeColors.bodyTextColor),
     );

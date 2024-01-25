@@ -25,9 +25,17 @@ class ChatDetailsAppBar extends StatelessWidget {
     double iconSize = 25.r;
 
     return BlocBuilder<ChatDetailParentCubit, ChatDetailParentState>(
+      buildWhen: (previous, current) {
+        if (current is ChatDetailParentReplying) {
+          return false;
+        } else if (current is ChatDetailParentNotReplying) {
+          return false;
+        } else {
+          return true;
+        }
+      },
       builder: (context, state) {
         bool longPressedAppbarState = (state is ChatDetailParentLongPressedAppbar);
-
         return SliverAppBar(
           toolbarHeight: 50.h,
           leadingWidth: 65.w,
@@ -46,6 +54,9 @@ class ChatDetailsAppBar extends StatelessWidget {
     ChatDetailParentState state,
     double iconSize,
   ) {
+    int selectedItemCount = BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount;
+    List<String>? globalMessageType;
+
     List<Widget> actions = [
       IconButton(
         onPressed: () {},
@@ -71,7 +82,23 @@ class ChatDetailsAppBar extends StatelessWidget {
     ];
     List<Widget> actionsLongPress = [
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          List<bool> isTheSender = BlocProvider.of<ChatDetailParentCubit>(context).isTheSender;
+          List<String> messageType = BlocProvider.of<ChatDetailParentCubit>(context).messageType;
+          globalMessageType = messageType;
+          List<String> message = BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage;
+          final Color replyColor = isTheSender.first ? const Color(0xff068D72) : const Color(0xff8d7ed8);
+          final String hisNames = isTheSender.first ? 'You' : hisName;
+
+          if (messageType.first != 'deleted') {
+            BlocProvider.of<ChatDetailParentCubit>(context).replyMessageTrigger(
+              replyMessage: message.first,
+              hisName: hisNames,
+              replyColor: replyColor,
+            );
+          }
+          BlocProvider.of<ChatDetailParentCubit>(context).closeLongPressedAppbar();
+        },
         icon: Icon(
           Icons.reply,
           color: themeColors.privateChatAppBarColor,
@@ -118,7 +145,66 @@ class ChatDetailsAppBar extends StatelessWidget {
         ),
       ),
     ];
-    return (state is ChatDetailParentInitial) ? actions : actionsLongPress;
+    List<Widget> actionsLongPressMultiReply = [
+      IconButton(
+        onPressed: () {},
+        icon: Icon(
+          Icons.star_rounded,
+          color: themeColors.privateChatAppBarColor,
+          size: iconSize,
+        ),
+      ),
+      IconButton(
+        onPressed: () async {
+          await BlocProvider.of<ChatDetailParentCubit>(context)
+              .deleteSelectedMessages(hisPhoneNumber: hisPhoneNumber);
+        },
+        icon: Icon(
+          Icons.delete,
+          color: themeColors.privateChatAppBarColor,
+          size: iconSize,
+        ),
+      ),
+      IconButton(
+        onPressed: () {},
+        icon: Icon(
+          Icons.copy,
+          color: themeColors.privateChatAppBarColor,
+          size: iconSize,
+        ),
+      ),
+      Transform(
+        transform: Matrix4.rotationY(3.141),
+        alignment: Alignment.center,
+        child: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.reply,
+            color: themeColors.privateChatAppBarColor,
+            size: iconSize,
+          ),
+        ),
+      ),
+    ];
+    if ( globalMessageType?.single == 'deleted') {
+      return [
+        IconButton(
+          onPressed: () async {
+            await BlocProvider.of<ChatDetailParentCubit>(context)
+                .deleteSelectedMessages(hisPhoneNumber: hisPhoneNumber);
+          },
+          icon: Icon(
+            Icons.delete,
+            color: themeColors.privateChatAppBarColor,
+            size: iconSize,
+          ),
+        ),
+      ];
+    } else if (selectedItemCount > 1) {
+      return actionsLongPressMultiReply;
+    } else {
+      return (state is ChatDetailParentInitial) ? actions : actionsLongPress;
+    }
   }
 
   AnimatedSwitcher buildTitleOnState(ChatDetailParentState state) {
