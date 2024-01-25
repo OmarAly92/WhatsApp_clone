@@ -25,7 +25,7 @@ class _ChatTextFormSuffixIcon extends StatelessWidget {
                 context: context,
                 builder: (context) => BlocProvider(
                   ///todo add DI here
-                  create: (context) => SendMessagesCubit(ChatDetailsRepository(ChatDetailsRequests()), Record()),
+                  create: (context) => SendMessagesCubit(sl()),
                   child: ClipButtonPopUp(
                     themeColors: themeColors,
                     phoneNumber: phoneNumber,

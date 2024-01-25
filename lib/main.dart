@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
+import 'package:whats_app_clone/core/dependency_injection/get_it.dart';
 
 import 'core/themes/themes.dart';
 import 'firebase_options.dart';
@@ -12,8 +13,7 @@ late String initialScreen;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  AppRouter appRouter = AppRouter();
+  ServicesLocator.init();
 
   FirebaseAuth.instance.authStateChanges().listen((user) {
     if (user == null) {
@@ -23,7 +23,7 @@ void main() async {
     }
   });
 
-  runApp(MyApp(appRouter: appRouter));
+  runApp(MyApp(appRouter: sl()));
 }
 
 class MyApp extends StatelessWidget {
@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) => MaterialApp(
-
         debugShowCheckedModeBanner: false,
         title: 'WhatsApp Clone',
         themeMode: ThemeMode.system,

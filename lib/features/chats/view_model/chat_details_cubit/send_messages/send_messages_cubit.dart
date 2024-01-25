@@ -8,7 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:record/record.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/functions/global_functions.dart';
@@ -17,13 +16,12 @@ import '../../../repository/chat_details_repository.dart';
 part 'send_messages_state.dart';
 
 class SendMessagesCubit extends Cubit<SendMessagesState> {
-  SendMessagesCubit(this.chatDetailsRepository, this.record) : super(SendMessagesInitial()) {
+  SendMessagesCubit(this.chatDetailsRepository) : super(SendMessagesInitial()) {
     initialiseController();
   }
 
   final ChatDetailsRepository chatDetailsRepository;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final Record record;
   final Uuid uuid = const Uuid();
   late final RecorderController recorderController;
 
