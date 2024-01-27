@@ -1,8 +1,8 @@
 import 'package:contacts_service/contacts_service.dart';
 
-
 import '../../../data/data_source/chats/chats_requests.dart';
 import '../../../data/model/chat_model/chat_model.dart';
+import '../../../data/model/chat_model/message_model.dart';
 import '../../../data/model/user_model/user_model.dart';
 
 class ChatsRepository {
@@ -10,10 +10,10 @@ class ChatsRepository {
 
   ChatsRepository(this.chatsRequest);
 
-  Stream<List<ChatsModel>> getChats(String myPhoneNumber) {
-    return chatsRequest.getChatsFromFireStore(myPhoneNumber).snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => ChatsModel.fromSnapshot(doc)).toList();
-    });
+  Future<List<ChatsModel>> getChats(String myPhoneNumber) async {
+    var snapshot = await chatsRequest.getChatsFromFireStore(myPhoneNumber).get();
+    var result = snapshot.docs.map((doc) => ChatsModel.fromSnapshot(doc)).toList();
+    return result;
   }
 
   Future<List<UserModel>> getFireBaseUserData() async {
@@ -43,12 +43,20 @@ class ChatsRepository {
   Future<void> creatingChatRoom({
     required UserModel friendContactUserModel,
     required UserModel myContactUserModel,
-
   }) async {
     await chatsRequest.creatingChatRoom(
       friendContactUserModel: friendContactUserModel,
       myContactUserModel: myContactUserModel,
-
     );
+  }
+
+  Stream<List<MessageModel>> getLastMessage({
+    required String hisNumber,
+    required String myPhoneNumber,
+  }) {
+    var lastMessage = chatsRequest.getLastMessage(hisNumber: hisNumber, myPhoneNumber: myPhoneNumber);
+    return lastMessage.snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => MessageModel.fromSnapshot(doc)).toList();
+    });
   }
 }

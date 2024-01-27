@@ -25,7 +25,8 @@ class ChatDetailsBody extends StatefulWidget {
     Key? key,
     required this.themeColors,
     required this.hisPhoneNumber,
-    required this.hisProfilePicture, required this.hisName,
+    required this.hisProfilePicture,
+    required this.hisName,
   }) : super(key: key);
   final ThemeColors themeColors;
   final String hisPhoneNumber;
@@ -37,6 +38,8 @@ class ChatDetailsBody extends StatefulWidget {
 }
 
 class _ChatDetailsBodyState extends State<ChatDetailsBody> {
+  bool closeEmoji = false;
+
   GetMessagesCubit getMessagesCubit() {
     GetMessagesCubit bloc = BlocProvider.of<GetMessagesCubit>(context);
     return bloc;
@@ -65,13 +68,15 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
                   hisPhoneNumber: widget.hisPhoneNumber,
                   hisProfilePicture: widget.hisProfilePicture,
                   themeColors: widget.themeColors,
-                  state: state, hisName: widget.hisName,
+                  state: state,
+                  hisName: widget.hisName,
                 ),
                 WhatsAppTextFormAndMicButton(
                   themeColors: widget.themeColors,
                   myPhoneNumber: myPhoneNumber,
                   hisPhoneNumber: widget.hisPhoneNumber,
                 ),
+
               ],
             );
           } else if (state is GetMessagesInitial) {

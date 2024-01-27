@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../../../data/model/user_model/user_model.dart';
 import '../../repository/chats_repository.dart';
 
@@ -28,7 +27,6 @@ class SelectContactCubit extends Cubit<SelectContactState> {
       List<UserModel> result =
           fireBaseUserData.where((element) => localContactPhoneNumbers.contains(element.userPhone)).toList();
 
-
       emit(SelectContactSuccess(userModel: result));
     } catch (e) {
       emit(SelectContactFailure(
@@ -47,6 +45,8 @@ class SelectContactCubit extends Cubit<SelectContactState> {
       myContactUserModel: myContactUserModel,
     );
   }
+
+
 
   String _getMyPhoneNumber() {
     final String myPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');

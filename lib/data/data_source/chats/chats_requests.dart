@@ -36,6 +36,16 @@ class ChatsRequest {
     }
   }
 
+  Query<Map<String, dynamic>> getLastMessage({required String hisNumber, required String myPhoneNumber}) {
+    String sortedNumber = GlFunctions.sortPhoneNumbers(hisNumber, myPhoneNumber);
+    return _firebaseFirestore
+        .collection('chats')
+        .doc(sortedNumber)
+        .collection('messages')
+        .orderBy('time', descending: true)
+        .limit(1);
+  }
+
   Future<void> creatingChatRoom({
     required UserModel friendContactUserModel,
     required UserModel myContactUserModel,

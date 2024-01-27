@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 import '../../../../core/themes/theme_color.dart';
 import '../../../data/model/user_model/user_model.dart';
 import '../view_model/chats_cubit/chats_cubit.dart';
@@ -59,6 +58,13 @@ class _ChatsScreenState extends State<ChatsScreen> {
         SizedBox(height: 10.h),
         Expanded(
           child: BlocBuilder<ChatsCubit, ChatsState>(
+            buildWhen: (previous, current) {
+              if (current is ListenToLastMessage) {
+                return false;
+              } else {
+                return true;
+              }
+            },
             builder: (context, state) {
               if (state is ChatsLoading) {
                 return const Center(child: CircularProgressIndicator());
