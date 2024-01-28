@@ -40,51 +40,48 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
         backgroundBlendMode: backgroundBlendMode,
         // BlendMode.src => (original)
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            constraints: BoxConstraints(minWidth: 125.w),
-            padding: EdgeInsets.only(left: 4.w),
-            decoration: BoxDecoration(
-              color: replyColor,
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Container(
-              padding: EdgeInsets.only(right: 5.w, left: 10.w, bottom: 5.h),
+      child: IntrinsicWidth(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              constraints: BoxConstraints(minWidth: 125.w),
+              padding: EdgeInsets.only(left: 4.w),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: replyBackgroundColor,
-                  width: 1.89.r,
-                  style: BorderStyle.solid,
-                ),
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(8.r),
-                  bottomRight: Radius.circular(8.r),
-                ),
-                color: replyBackgroundColor,
+                color: replyColor,
+                borderRadius: BorderRadius.circular(10.r),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 3.h, bottom: 2.h),
-                    child: Text(
-                      messageModel.replyOriginalName,
-                      style: Styles.textStyle14.copyWith(fontSize: 13.spMin, color: replyColor),
-                    ),
+              child: Container(
+                padding: EdgeInsets.only(right: 5.w, left: 10.w, bottom: 5.h),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: replyBackgroundColor,
+                    width: 1.89.r,
+                    style: BorderStyle.solid,
                   ),
-                  Text(messageModel.originalMessage, maxLines: 3, overflow: TextOverflow.ellipsis),
-                  //45
-                ],
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(8.r),
+                    bottomRight: Radius.circular(8.r),
+                  ),
+                  color: replyBackgroundColor,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 3.h, bottom: 2.h),
+                      child: Text(
+                        messageModel.replyOriginalName,
+                        style: Styles.textStyle14.copyWith(fontSize: 13.spMin, color: replyColor),
+                      ),
+                    ),
+                    Text(messageModel.originalMessage, maxLines: 3, overflow: TextOverflow.ellipsis),
+                    //45
+                  ],
+                ),
               ),
             ),
-          ),
-          Container(
-            constraints: BoxConstraints(
-              maxWidth: rowConstraints(),
-            ),
-            child: Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
@@ -114,27 +111,9 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
-  }
-
-  double rowConstraints() {
-    if (messageModel.originalMessage.length >= 40) {
-      return double.maxFinite;
-    } else if (messageModel.originalMessage.length >= 30) {
-      return 275.w;
-    } else if (messageModel.originalMessage.length >= 20) {
-      return 145.w;
-    } else if (messageModel.originalMessage.length >= 18) {
-      return 140.w;
-    } else if (messageModel.originalMessage.length >= 16) {
-      return 135.w;
-    } else if (messageModel.originalMessage.length >= 14) {
-      return 130.w;
-    } else {
-      return 120.w;
-    }
   }
 }
