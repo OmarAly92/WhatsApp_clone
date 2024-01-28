@@ -231,12 +231,13 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
                   config: Config(
                     columns: 7,
                     emojiSizeMax: 32 * (foundation.defaultTargetPlatform == TargetPlatform.android ? 1.0 : 1.0),
-                    bgColor: widget.themeColors.hisMessage,
+                    bgColor: widget.themeColors.emojiBackgroundColor,
+                    iconColor: widget.themeColors.emojiIconNotActiveColor.withOpacity(.6),
                     indicatorColor: widget.themeColors.greenButton,
-                    iconColorSelected: widget.themeColors.hisMessageWaveFormLiveColor,
-                    backspaceColor: widget.themeColors.bodyIconColor,
-                      // iconColor: red
-                    recentTabBehavior: RecentTabBehavior.POPULAR
+                    iconColorSelected: widget.themeColors.emojiIconActiveColor,
+                    backspaceColor: widget.themeColors.emojiIconNotActiveColor,
+                    recentTabBehavior: RecentTabBehavior.POPULAR,
+                    buttonMode: ButtonMode.MATERIAL,
                   ),
                 ),
               )

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/dependency_injection/get_it.dart';
 import '../../../core/themes/theme_color.dart';
-import '../../../data/data_source/chats/chats_requests.dart';
 import '../../call/view/calls_screen.dart';
-import '../../chats/repository/chats_repository.dart';
 import '../../chats/view/chats_screen.dart';
 import '../../chats/view_model/chats_cubit/chats_cubit.dart';
 import '../../updates/view/updates_screen.dart';
@@ -23,7 +22,7 @@ class TabBarViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-     create:(context) => ChatsCubit(ChatsRepository(ChatsRequest()),ChatsRequest())..getContacts(),
+     create:(context) => ChatsCubit(sl())..getContacts(),
       child: TabBarView(
         controller: tabController,
         children: [

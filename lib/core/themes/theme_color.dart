@@ -70,6 +70,11 @@ class ThemeColors {
   late final Color myReplyMessage;
   late final Color hisReplyMessage;
 
+  late final Color emojiBackgroundColor;
+  late final Color emojiIconNotActiveColor;
+  late final Color emojiIconActiveColor;
+
+
   late final Color onLongPressedMessageColor;
 
   late final String chatBackGroundImage;
@@ -121,6 +126,10 @@ class ThemeColors {
     hisMessageWaveFormLiveColor = isDarkMode ? const Color(0xffB6BBBD) : const Color(0xff6C7274);
 
     onLongPressedMessageColor = isDarkMode ? const Color(0xff005d4b) : const Color(0xFF2196F3);
+
+    emojiBackgroundColor = isDarkMode ? const Color(0xff121b22) : const Color(0xffe9edf0);
+    emojiIconNotActiveColor = isDarkMode ? const Color(0xff6b7b83) : const Color(0xff818e96);
+    emojiIconActiveColor = isDarkMode ? const Color(0xfff4fafd) : const Color(0xff656c72);
 
     chatBackGroundImage = isDarkMode ? kDarkChatBackGround1 : kLightChatBackGround1;
   }

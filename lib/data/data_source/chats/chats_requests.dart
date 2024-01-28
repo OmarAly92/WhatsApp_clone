@@ -85,4 +85,9 @@ class ChatsRequest {
       });
     }
   }
+
+  void sendUserName(String userName) {
+    var userQuerySnapshot = getUserCollection().doc();
+    userQuerySnapshot.update({'userName': userName});
+  }
 }

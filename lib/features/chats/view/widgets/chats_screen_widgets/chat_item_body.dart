@@ -18,6 +18,8 @@ class ChatItemBody extends StatelessWidget {
   final String contactName;
   final String hisPhoneNumber;
 
+
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatsCubit, ChatsState>(

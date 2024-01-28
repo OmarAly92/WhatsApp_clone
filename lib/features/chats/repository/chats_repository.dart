@@ -10,10 +10,12 @@ class ChatsRepository {
 
   ChatsRepository(this.chatsRequest);
 
-  Future<List<ChatsModel>> getChats(String myPhoneNumber) async {
-    var snapshot = await chatsRequest.getChatsFromFireStore(myPhoneNumber).get();
-    var result = snapshot.docs.map((doc) => ChatsModel.fromSnapshot(doc)).toList();
-    return result;
+  Future<Stream<List<ChatsModel>>> getChats(String myPhoneNumber) async {
+    var snapshot = chatsRequest.getChatsFromFireStore(myPhoneNumber).snapshots();
+    return snapshot.map((event) {
+      var result = event.docs.map((doc) => ChatsModel.fromSnapshot(doc)).toList();
+      return result;
+    });
   }
 
   Future<List<UserModel>> getFireBaseUserData() async {
@@ -58,5 +60,9 @@ class ChatsRepository {
     return lastMessage.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => MessageModel.fromSnapshot(doc)).toList();
     });
+  }
+
+  void sendUserName(String userName) {
+    chatsRequest.sendUserName;
   }
 }

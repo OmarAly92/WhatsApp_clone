@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../data/data_source/chats/chats_requests.dart';
 import '../../../../data/model/chat_model/chat_model.dart';
 import '../../../../data/model/chat_model/message_model.dart';
 import '../../../../data/model/user_model/user_model.dart';
@@ -14,9 +13,8 @@ import '../../repository/chats_repository.dart';
 part 'chats_state.dart';
 
 class ChatsCubit extends Cubit<ChatsState> {
-  ChatsCubit(this._chatsRepository, this._chatsRequest) : super(ChatsInitial());
+  ChatsCubit(this._chatsRepository) : super(ChatsInitial());
   final ChatsRepository _chatsRepository;
-  final ChatsRequest _chatsRequest;
   var firestoreInit = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -32,12 +30,13 @@ class ChatsCubit extends Cubit<ChatsState> {
   Future<void> _getChats() async {
     final String myPhoneNumber = _getMyPhoneNumber();
     var chats = await _chatsRepository.getChats(myPhoneNumber);
-    var result = _getOtherUser(myPhoneNumber, chats);
-
-    emit(ChatsSuccess(
-      myPhoneNumber: myPhoneNumber,
-      chats: result,
-    ));
+    chats.listen((chats) {
+      var result = _getOtherUser(myPhoneNumber, chats);
+      emit(ChatsSuccess(
+        myPhoneNumber: myPhoneNumber,
+        chats: result,
+      ));
+    });
   }
 
   List<ChatsModel> _getOtherUser(String myPhoneNumber, List<ChatsModel> chats) {
@@ -53,8 +52,7 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   void sendUserName(String userName) {
-    var userQuerySnapshot = _chatsRequest.getUserCollection().doc();
-    userQuerySnapshot.update({'userName': userName});
+    _chatsRepository.sendUserName;
   }
 
   void getLastMessage({required String hisNumber}) {
