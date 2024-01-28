@@ -36,11 +36,11 @@ class ChatDetailParentFailure extends ChatDetailParentState {
 }
 
 class ChatDetailParentReplying extends ChatDetailParentState {
-  final String originalMessage;
+  final MessageModel originalMessage;
   final String hisName;
   final Color replyColor;
 
-  const ChatDetailParentReplying({
+  const ChatDetailParentReplying( {
     required this.originalMessage,
     required this.hisName,
     required this.replyColor,

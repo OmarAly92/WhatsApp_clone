@@ -1,6 +1,5 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,10 +57,8 @@ class _ImageBubbleState extends State<ImageBubble> {
         widgetBubbleBody: _ImageBubbleBodyComponent(
           isTheSender: widget.isTheSender,
           themeColors: widget.themeColors,
-          image: widget.messageModel.message,
-          time: widget.messageModel.time,
           backgroundBlendMode: widget.backgroundBlendMode,
-          hisPhoneNumber: widget.hisPhoneNumber,
+          hisPhoneNumber: widget.hisPhoneNumber, messageModel: widget.messageModel,
         ),
       ),
     );

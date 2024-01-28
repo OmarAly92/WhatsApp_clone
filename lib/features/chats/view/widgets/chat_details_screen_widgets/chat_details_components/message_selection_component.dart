@@ -33,6 +33,20 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
   int isSelected = -1;
   int isSelectedLongPress = -1;
 
+  void triggerReadStatusMethod() {
+    if (widget.isTheSender == false) {
+      BlocProvider.of<SendMessagesCubit>(context).updateMessageReadStatus(
+        messageId: widget.messageModel.messageId,
+        hisPhoneNumber: widget.hisPhoneNumber,
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget messageSelection() {
     var backgroundBlendMode = isSelected == widget.itemIndex ? BlendMode.clear : BlendMode.src;
 
@@ -40,10 +54,9 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
       return MessageBubble(
         themeColors: widget.themeColors,
         isTheSender: widget.isTheSender,
-        message: widget.message,
-        time: widget.time,
         isFirstMessage: widget.isFirstMessage,
         backgroundBlendMode: backgroundBlendMode,
+        messageModel: widget.messageModel,
       );
     } else if (widget.messageModel.type == 'voice') {
       return BlocProvider(
@@ -66,7 +79,8 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
           isTheSender: widget.isTheSender,
           themeColors: widget.themeColors,
           isFirstMessage: widget.isFirstMessage,
-          backgroundBlendMode: backgroundBlendMode, hisPhoneNumber:  widget.hisPhoneNumber,
+          backgroundBlendMode: backgroundBlendMode,
+          hisPhoneNumber: widget.hisPhoneNumber,
         ),
       );
     } else if (widget.messageModel.type == 'reply') {
@@ -94,12 +108,11 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
   Widget build(BuildContext context) {
     final Color replyColor = widget.isTheSender ? const Color(0xff068D72) : const Color(0xff8d7ed8);
     final String hisName = widget.isTheSender ? 'You' : widget.hisName;
-
     return SwipePlus(
       onDragComplete: () {
         if (widget.messageModel.type != 'deleted') {
           BlocProvider.of<ChatDetailParentCubit>(context).replyMessageTrigger(
-            replyMessage: widget.message,
+            replyMessage: widget.messageModel,
             hisName: hisName,
             replyColor: replyColor,
           );
@@ -148,7 +161,7 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
         BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
 
         BlocProvider.of<ChatDetailParentCubit>(context).isTheSender.add(widget.isTheSender);
-        BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.add(widget.messageModel.message);
+        BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.add(widget.messageModel);
         BlocProvider.of<ChatDetailParentCubit>(context).messageType.add(widget.messageModel.type);
       }
     }
@@ -163,7 +176,7 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
       BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.remove(widget.messageModel.message);
 
       BlocProvider.of<ChatDetailParentCubit>(context).isTheSender.remove(widget.isTheSender);
-      BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.remove(widget.messageModel.message);
+      BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.remove(widget.messageModel);
       BlocProvider.of<ChatDetailParentCubit>(context).messageType.remove(widget.messageModel.type);
     } else if (BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount >= 1) {
       isSelectedLongPress = widget.itemIndex;
@@ -172,7 +185,7 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
       BlocProvider.of<ChatDetailParentCubit>(context).fileUrl.add(widget.messageModel.message);
 
       BlocProvider.of<ChatDetailParentCubit>(context).isTheSender.add(widget.isTheSender);
-      BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.add(widget.messageModel.message);
+      BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage.add(widget.messageModel);
       BlocProvider.of<ChatDetailParentCubit>(context).messageType.add(widget.messageModel.type);
 
       ///you can make method in cubit and use it here

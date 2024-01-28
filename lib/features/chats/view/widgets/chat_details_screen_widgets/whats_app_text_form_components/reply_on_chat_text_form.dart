@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/data/model/chat_model/message_model.dart';
 import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
 
+import '../../../../../../core/functions/global_functions.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 
@@ -11,13 +13,13 @@ class ReplyOnChatTextForm extends StatelessWidget {
   const ReplyOnChatTextForm({
     super.key,
     required this.themeColors,
-    required this.replyMessage,
+    required this.replyOriginalMessage,
     required this.replyName,
     required this.replyColor,
   });
 
   final ThemeColors themeColors;
-  final String replyMessage;
+  final MessageModel replyOriginalMessage;
   final String replyName;
   final Color replyColor;
 
@@ -73,11 +75,75 @@ class ReplyOnChatTextForm extends StatelessWidget {
             AnimatedSize(
               duration: const Duration(milliseconds: 180),
               alignment: AlignmentDirectional.bottomStart,
-              child: Text(replyMessage),
+              child: OriginalMessageTextComponent(
+                messageModel: replyOriginalMessage,
+                themeColors: themeColors,
+              ),
             )
           ],
         ),
       ),
     );
+  }
+}
+
+class OriginalMessageTextComponent extends StatelessWidget {
+  const OriginalMessageTextComponent({
+    super.key,
+    required this.messageModel,
+    required this.themeColors,
+  });
+
+  final MessageModel messageModel;
+  final ThemeColors themeColors;
+
+  @override
+  Widget build(BuildContext context) {
+    if (messageModel.message.contains('image')) {
+      return Row(
+        children: [
+          SizedBox(width: 2.w),
+          Icon(
+            Icons.image_rounded,
+            color: themeColors.replyOriginalMessageTextFormColor,
+            size: 15.r,
+          ),
+          SizedBox(width: 2.w),
+          Text(
+            'Photo',
+            style: Styles.textStyle14.copyWith(
+              fontWeight: FontWeight.w500,
+              color: themeColors.replyOriginalMessageTextFormColor,
+            ),
+          ),
+        ],
+      );
+    } else if (messageModel.message.contains('voice')) {
+      return Row(
+        children: [
+          Icon(
+            Icons.mic_rounded,
+            color: themeColors.replyOriginalMessageTextFormColor,
+            size: 15.r,
+          ),
+          SizedBox(width: 2.w),
+          Text(
+            'Voice message (${GlFunctions.timeFormatUsingMillisecond(messageModel.maxDuration)})',
+            style: Styles.textStyle14.copyWith(
+              color: themeColors.replyOriginalMessageTextFormColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Text(
+        messageModel.message,
+        style: Styles.textStyle14.copyWith(
+          color: themeColors.replyOriginalMessageTextFormColor,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
   }
 }

@@ -16,14 +16,14 @@ import '../../../repository/chat_details_repository.dart';
 part 'send_messages_state.dart';
 
 class SendMessagesCubit extends Cubit<SendMessagesState> {
-  SendMessagesCubit(this.chatDetailsRepository) : super(SendMessagesInitial()) {
+  SendMessagesCubit(this._chatDetailsRepository) : super(SendMessagesInitial()) {
     _initialiseController();
   }
 
-  final ChatDetailsRepository chatDetailsRepository;
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final Uuid uuid = const Uuid();
-  late final RecorderController recorderController;
+  final ChatDetailsRepository _chatDetailsRepository;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final Uuid _uuid = const Uuid();
+  late final RecorderController _recorderController;
 
   void sendMessage({
     required String phoneNumber,
@@ -33,13 +33,13 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required Timestamp time,
   }) async {
     try {
-      chatDetailsRepository.sendMessage(
+      _chatDetailsRepository.sendMessage(
         phoneNumber: phoneNumber,
         message: message,
         myPhoneNumber: myPhoneNumber,
         type: type,
         time: time,
-        messageId: uuid.v4(),
+        messageId: _uuid.v4(),
       );
     } catch (failureMessage) {
       emit(SendMessagesFailure(failureMessage: '$failureMessage Failed to sendMessage'));
@@ -56,7 +56,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required Timestamp time,
   }) async {
     try {
-      chatDetailsRepository.sendReplyMessage(
+      _chatDetailsRepository.sendReplyMessage(
         phoneNumber: phoneNumber,
         originalMessage: originalMessage,
         message: message,
@@ -64,7 +64,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         theSender: theSender,
         type: type,
         time: time,
-        messageId: uuid.v4(),
+        messageId: _uuid.v4(),
       );
     } catch (failureMessage) {
       emit(SendMessagesFailure(failureMessage: '$failureMessage Failed to send reply message'));
@@ -77,34 +77,58 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required String type,
   }) async {
     try {
-      var myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+      var myPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
       String imagePath =
           await _getImagePathFromStorage(myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time);
-      chatDetailsRepository.sendImage(
+      _chatDetailsRepository.sendImage(
         phoneNumber: phoneNumber,
         time: time,
         type: type,
         myPhoneNumber: myPhoneNumber,
         imagePath: imagePath,
-        messageId: uuid.v4(),
+        messageId: _uuid.v4(),
       );
     } catch (e) {
       emit(const SendMessagesFailure(failureMessage: 'Failed to upload the Image'));
     }
   }
 
+  Future<void> updateMessageReadStatus({
+    required String messageId,
+    required String hisPhoneNumber,
+  }) async {
+    final String messageDocId = await _getMessageDocId(messageId: messageId, hisPhoneNumber: hisPhoneNumber);
+    await _chatDetailsRepository.updateMessageReadStatus(messageDocId);
+  }
+
+  Future<String> _getMessageDocId({
+    required String messageId,
+    required String hisPhoneNumber,
+  }) async {
+    final String myPhoneNumber = _getMyPhoneNumber();
+    final String chatCollectionDocId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
+
+    var data = await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chatCollectionDocId)
+        .collection('messages')
+        .where('messageId', isEqualTo: messageId)
+        .get();
+    String messageDocId = data.docs.first.id;
+    return messageDocId;
+  }
 
   Future<void> stopRecording(Timestamp time, String phoneNumber, int maxDuration) async {
-    List<double> waveData = recorderController.waveData.toList();
+    List<double> waveData = _recorderController.waveData.toList();
 
-    String? path = await recorderController.stop();
+    String? path = await _recorderController.stop();
     String myPhoneNumber = _getMyPhoneNumber();
 
     try {
       var finalPath = await _uploadVoiceToStorage(
           myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time, voicePathFromStopMethod: path!);
 
-      chatDetailsRepository.sendVoice(
+      _chatDetailsRepository.sendVoice(
         phoneNumber: phoneNumber,
         time: time,
         type: 'voice',
@@ -112,7 +136,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         voicePath: finalPath,
         waveData: waveData,
         maxDuration: maxDuration,
-        messageId: uuid.v4(),
+        messageId: _uuid.v4(),
       );
 
       emit(SendMessagesInitial());
@@ -124,7 +148,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   void startRecording() async {
     final path = await _getVoiceFilePath();
 
-    await recorderController.record(path: path);
+    await _recorderController.record(path: path);
   }
 
   Future<String> _pickImageFromGallery() async {
@@ -165,7 +189,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   }
 
   String _getMyPhoneNumber() {
-    final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+    final String myPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
     return myPhoneNumber;
   }
 
@@ -175,7 +199,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   }
 
   void _initialiseController() {
-    recorderController = RecorderController()
+    _recorderController = RecorderController()
       ..androidEncoder = AndroidEncoder.aac
       ..androidOutputFormat = AndroidOutputFormat.mpeg4
       ..iosEncoder = IosEncoder.kAudioFormatMPEG4AAC

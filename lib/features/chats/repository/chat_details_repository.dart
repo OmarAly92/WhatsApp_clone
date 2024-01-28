@@ -96,4 +96,8 @@ class ChatDetailsRepository {
       replyOriginalName: replyOriginalName,
     );
   }
+
+  Future<void> updateMessageReadStatus(String messageDocId) async {
+    await chatDetailsRequests.updateMessageReadStatus(messageDocId);
+  }
 }

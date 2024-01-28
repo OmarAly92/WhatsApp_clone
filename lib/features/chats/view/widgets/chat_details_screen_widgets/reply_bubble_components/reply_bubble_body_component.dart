@@ -75,7 +75,10 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
                         style: Styles.textStyle14.copyWith(fontSize: 13.spMin, color: replyColor),
                       ),
                     ),
-                    Text(messageModel.originalMessage, maxLines: 3, overflow: TextOverflow.ellipsis),
+                    _OriginalMessageTextComponent(
+                      messageModel: messageModel,
+                      themeColors: themeColors,
+                    ),
                     //45
                   ],
                 ),
@@ -104,7 +107,13 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
                         ),
                       ),
                       isTheSender
-                          ? Icon(Icons.done, size: 17, color: themeColors.myMessageTime)
+                          ? Icon(
+                              messageModel.isSeen.isNotEmpty ? Icons.done_all_rounded : Icons.done_all_rounded,
+                              size: 17,
+                              color: messageModel.isSeen.isNotEmpty
+                                  ? const Color(0xff6fadc7)
+                                  : themeColors.myMessageTime,
+                            )
                           : const SizedBox.shrink(),
                     ],
                   ),

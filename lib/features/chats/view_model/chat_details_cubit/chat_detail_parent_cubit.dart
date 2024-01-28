@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_clone/data/model/chat_model/message_model.dart';
 
 import '../../../../core/functions/global_functions.dart';
 
@@ -20,7 +21,7 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
 
   bool isReplying = false;
   List<bool> isTheSender = [];
-  List<String> replyOriginalMessage = [];
+  List<MessageModel> replyOriginalMessage = [];
   List<String> messageType = [];
 
   void checkLongPressedState(int isSelectedLongPress) {
@@ -46,7 +47,7 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
   }
 
   void replyMessageTrigger({
-    required String replyMessage,
+    required MessageModel replyMessage,
     required String hisName,
     required Color replyColor,
   }) {
@@ -64,7 +65,7 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
   Future<void> deleteSelectedMessages({required String hisPhoneNumber}) async {
     try {
       final String myPhoneNumber = _getMyPhoneNumber();
-      final String docId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
+      final String chatCollectionDocId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
 
       for (int i = 0; i < fileUrl.length; i++) {
         if (fileUrl[i].contains('https://firebasestorage')) {
@@ -74,7 +75,7 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
 
       for (int i = 0; i < messagesId.length; i++) {
         _deleteMessageFromFirestore(
-          docId: docId,
+          chatCollectionDocId: chatCollectionDocId,
           messageId: messagesId[i],
         );
       }
@@ -94,13 +95,13 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
 
   Future<void> _deleteMessageFromFirestore({
     required String messageId,
-    required String docId,
+    required String chatCollectionDocId,
   }) async {
-    final String messageDocId = await _getDocIdForDelete(messageId: messageId, docId: docId);
+    final String messageDocId = await _getDocIdForDelete(messageId: messageId, chatCollectionDocId: chatCollectionDocId);
 
     await FirebaseFirestore.instance
         .collection('chats')
-        .doc(docId)
+        .doc(chatCollectionDocId)
         .collection('messages')
         .doc(messageDocId)
         .update({'type': 'deleted'});
@@ -108,11 +109,11 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
 
   Future<String> _getDocIdForDelete({
     required String messageId,
-    required String docId,
+    required String chatCollectionDocId,
   }) async {
     var data = await FirebaseFirestore.instance
         .collection('chats')
-        .doc(docId)
+        .doc(chatCollectionDocId)
         .collection('messages')
         .where('messageId', isEqualTo: messageId)
         .get();

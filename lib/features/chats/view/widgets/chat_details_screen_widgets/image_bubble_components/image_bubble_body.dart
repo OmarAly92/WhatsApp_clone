@@ -2,17 +2,15 @@ part of 'image_bubble.dart';
 
 class _ImageBubbleBodyComponent extends StatelessWidget {
   const _ImageBubbleBodyComponent({
-    required this.image,
+    required this.messageModel,
     required this.isTheSender,
     required this.themeColors,
-    required this.time,
     required this.backgroundBlendMode,
     required this.hisPhoneNumber,
   });
 
-  final String image;
   final String hisPhoneNumber;
-  final Timestamp time;
+  final MessageModel messageModel;
   final bool isTheSender;
   final ThemeColors themeColors;
   final BlendMode backgroundBlendMode;
@@ -46,7 +44,7 @@ class _ImageBubbleBodyComponent extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.r),
                 child: CachedNetworkImage(
-                  imageUrl: image,
+                  imageUrl:messageModel.message,
                   fit: BoxFit.cover,
                   fadeInDuration: const Duration(milliseconds: 250),
                 ),
@@ -59,7 +57,7 @@ class _ImageBubbleBodyComponent extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  GlFunctions.timeFormat(time),
+                  GlFunctions.timeFormat(messageModel.time),
                   style: Styles.textStyle12.copyWith(
                     fontWeight: FontWeight.w500,
                     color: isTheSender ? Colors.white : themeColors.hisMessageTime,
@@ -67,9 +65,11 @@ class _ImageBubbleBodyComponent extends StatelessWidget {
                 ),
                 isTheSender
                     ? Icon(
-                        Icons.done,
+                        messageModel.isSeen.isNotEmpty ? Icons.done_all_rounded : Icons.done_all_rounded,
                         size: 17,
-                        color: themeColors.myMessageTime,
+                        color: messageModel.isSeen.isNotEmpty
+                            ? const Color(0xff6fadc7)
+                            : themeColors.myMessageTime,
                       )
                     : const SizedBox.shrink(),
               ],

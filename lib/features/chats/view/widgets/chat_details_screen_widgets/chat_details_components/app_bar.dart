@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/data/model/chat_model/message_model.dart';
 
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
@@ -86,7 +87,7 @@ class ChatDetailsAppBar extends StatelessWidget {
           List<bool> isTheSender = BlocProvider.of<ChatDetailParentCubit>(context).isTheSender;
           List<String> messageType = BlocProvider.of<ChatDetailParentCubit>(context).messageType;
           globalMessageType = messageType;
-          List<String> message = BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage;
+          List<MessageModel> message = BlocProvider.of<ChatDetailParentCubit>(context).replyOriginalMessage;
           final Color replyColor = isTheSender.first ? const Color(0xff068D72) : const Color(0xff8d7ed8);
           final String hisNames = isTheSender.first ? 'You' : hisName;
 

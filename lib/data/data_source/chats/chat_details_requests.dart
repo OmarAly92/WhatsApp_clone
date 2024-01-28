@@ -123,7 +123,9 @@ class ChatDetailsRequests {
     });
   }
 
-  void updateMessageReadStatus() {
-    getChatsCollection().doc();
+  Future<void> updateMessageReadStatus(String messageDocId) async {
+    await getChatsCollection()
+        .doc(messageDocId)
+        .update({'isSeen': DateTime.now().millisecondsSinceEpoch.toString()});
   }
 }

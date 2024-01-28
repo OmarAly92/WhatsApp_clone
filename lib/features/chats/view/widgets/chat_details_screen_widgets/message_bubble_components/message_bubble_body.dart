@@ -4,17 +4,15 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
   const _MessageBubbleBodyComponent({
     required this.themeColors,
     required this.isTheSender,
-    required this.message,
-    required this.time,
     required this.isFirstMessage,
     required this.backgroundBlendMode,
+    required this.messageModel,
   });
 
   final ThemeColors themeColors;
   final bool isTheSender;
   final bool isFirstMessage;
-  final String message;
-  final String time;
+  final MessageModel messageModel;
   final BlendMode backgroundBlendMode;
 
   @override
@@ -43,7 +41,7 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
         direction: Axis.horizontal,
         children: [
           Text(
-            message,
+            messageModel.message,
             softWrap: true,
             style: Styles.textStyle16.copyWith(fontWeight: FontWeight.w500),
           ),
@@ -53,14 +51,19 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  time,
+                  GlFunctions.timeFormat(messageModel.time),
                   style: Styles.textStyle12.copyWith(
                     fontWeight: FontWeight.w500,
                     color: isTheSender ? themeColors.myMessageTime : themeColors.hisMessageTime,
                   ),
                 ),
                 isTheSender
-                    ? Icon(Icons.done, size: 17, color: themeColors.myMessageTime)
+                    ? Icon(
+                        messageModel.isSeen.isNotEmpty ? Icons.done_all_rounded : Icons.done_all_rounded,
+                        size: 17,
+                        color:
+                            messageModel.isSeen.isNotEmpty ? const Color(0xff6fadc7) : themeColors.myMessageTime,
+                      )
                     : const SizedBox.shrink(),
               ],
             ),
