@@ -44,8 +44,30 @@ class LastMessageText extends StatelessWidget {
           SizedBox(width: 2.w),
           Text(
             GlFunctions.timeFormatUsingMillisecond(state.lastMessage.maxDuration),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: Styles.textStyle14.copyWith(
               color: themeColors.bodyTextColor,
+            ),
+          ),
+        ],
+      );
+    } else if (state.lastMessage.type == 'deleted') {
+      return Row(
+        children: [
+          Icon(
+            Icons.not_interested,
+            color: themeColors.bodyTextColor,
+            // color: Color(0xff868d8f),
+            size: 20.r,
+          ),
+          SizedBox(width: 2.w),
+          Text(
+            'This message was deleted',
+            overflow: TextOverflow.ellipsis,
+            style: Styles.textStyle14.copyWith(
+              color: themeColors.bodyTextColor,
+              fontStyle: FontStyle.italic,
             ),
           ),
         ],
@@ -53,6 +75,8 @@ class LastMessageText extends StatelessWidget {
     } else {
       return Text(
         state.lastMessage.message,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: Styles.textStyle14.copyWith(
           color: themeColors.bodyTextColor,
         ),

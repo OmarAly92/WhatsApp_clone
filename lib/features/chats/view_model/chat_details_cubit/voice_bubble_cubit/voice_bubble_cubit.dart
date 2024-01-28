@@ -13,11 +13,15 @@ import '../../../../../core/functions/global_functions.dart';
 part 'voice_bubble_state.dart';
 
 class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
-  VoiceBubbleCubit() : super(VoiceBubbleInitial());
+  VoiceBubbleCubit() : super(VoiceBubbleInitial()) {
+    dio = Dio();
+  }
+
   StreamSubscription? currentDurationChangedSubscription;
   StreamSubscription? playerStateChangedSubscription;
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final PlayerController audioPlayerController = PlayerController();
+  late final Dio dio;
 
   String checkVoicePath = '';
 
@@ -25,12 +29,10 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     required String voiceUrl,
     required String hisPhoneNumber,
   }) async {
-    Directory? appDocDir = await getDownloadsDirectory();
-    String voiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
-
-    var voiceFilePath = '${appDocDir?.path}/$voiceFileName';
-
-    bool fileExists = await File(voiceFilePath).exists();
+    final Directory? appDocDir = await getDownloadsDirectory();
+    final String voiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
+    final String voiceFilePath = '${appDocDir?.path}/$voiceFileName';
+    final bool fileExists = await File(voiceFilePath).exists();
 
     if (fileExists) {
       try {
@@ -57,12 +59,11 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     required String hisPhoneNumber,
   }) async {
     emit(const VoiceBubbleLoading(progress: 0));
-    String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
-    Directory? appDocDir = await getDownloadsDirectory();
+    final String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
+    final Directory? appDocDir = await getDownloadsDirectory();
 
-    Dio dio = Dio();
     try {
-      Response response = await dio.download(voiceUrl, '${appDocDir?.path}/$finalVoiceFileName');
+      final Response response = await dio.download(voiceUrl, '${appDocDir?.path}/$finalVoiceFileName');
       if (response.statusCode == 200) {
         emit(VoiceBubbleVoiceExistence(
           voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName',
@@ -81,8 +82,8 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     required String hisPhoneNumber,
     required int maxDurationMilliSec,
   }) async {
-    String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
-    Directory? appDocDir = await getDownloadsDirectory();
+    final String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
+    final Directory? appDocDir = await getDownloadsDirectory();
 
     await _preparePlayerControllerRecording(
       voiceFilePath: '${appDocDir?.path}/$finalVoiceFileName',
@@ -97,7 +98,7 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     });
 
     currentDurationChangedSubscription = audioPlayerController.onCurrentDurationChanged.listen((milliseconds) {
-      String formattedTime = GlFunctions.timeFormatUsingMillisecond(milliseconds);
+      final String formattedTime = GlFunctions.timeFormatUsingMillisecond(milliseconds);
 
       emit(VoiceBubblePlayerState(isPlaying: true, duration: formattedTime));
     });
@@ -132,15 +133,16 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
   }
 
   String _gettingNameForVoiceFile(String voiceUrl, String hisPhoneNumber) {
-    String myPhoneNumber = _getMyPhoneNumber();
+    final String myPhoneNumber = _getMyPhoneNumber();
 
-    String sortedNumbers = GlFunctions.sortPhoneNumbers(hisPhoneNumber, myPhoneNumber);
+    final String sortedNumbers = GlFunctions.sortPhoneNumbers(hisPhoneNumber, myPhoneNumber);
 
-    String finalVoiceFileName = voiceUrl.replaceAll(
-        'https://firebasestorage.googleapis.com/v0/b/whats-app-clone-4fe8a.appspot.com/o/chats%2F$sortedNumbers%2Fvoice%2F',
+    final String finalVoiceFileName = voiceUrl.replaceAll(
+        // 'https://firebasestorage.googleapis.com/v0/b/whats-app-clone-4fe8a.appspot.com/o/chats%2F$sortedNumbers%2Fvoice%2F',
+        'https://firebasestorage.googleapis.com/v0/b/whats-app-clone-4fe8a.appspot.com/o/chats%2F$sortedNumbers%2F',
         '');
-
-    return finalVoiceFileName.substring(0, 16);
+    // return finalVoiceFileName.substring(0, 16);
+    return finalVoiceFileName.substring(8, 16);
   }
 
   Future<void> _stopPlayerController() async {

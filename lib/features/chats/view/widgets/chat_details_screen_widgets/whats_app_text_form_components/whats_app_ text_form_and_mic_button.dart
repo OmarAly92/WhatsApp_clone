@@ -15,11 +15,11 @@ import 'package:intl/intl.dart';
 import '../../../../../../core/dependency_injection/get_it.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
-import '../../../../../../test_text_color_ani.dart';
 import '../../../../view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
 import '../../../../view_model/chat_details_cubit/send_messages/send_messages_cubit.dart';
 import '../clip_button_pop_up_components/clip_button_pop_up.dart';
 import 'reply_on_chat_text_form.dart';
+import 'test_text_color_ani.dart';
 
 part 'chat_text_form_suffix_icon.dart';
 

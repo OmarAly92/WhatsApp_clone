@@ -59,13 +59,15 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
         ),
       );
     } else if (widget.messageModel.type == 'image') {
-      return ImageBubble(
-        image: widget.message,
-        time: widget.time,
-        isTheSender: widget.isTheSender,
-        themeColors: widget.themeColors,
-        isFirstMessage: widget.isFirstMessage,
-        backgroundBlendMode: backgroundBlendMode,
+      return BlocProvider(
+        create: (context) => ImageBubbleCubit(),
+        child: ImageBubble(
+          messageModel: widget.messageModel,
+          isTheSender: widget.isTheSender,
+          themeColors: widget.themeColors,
+          isFirstMessage: widget.isFirstMessage,
+          backgroundBlendMode: backgroundBlendMode, hisPhoneNumber:  widget.hisPhoneNumber,
+        ),
       );
     } else if (widget.messageModel.type == 'reply') {
       return ReplyBubble(

@@ -55,8 +55,6 @@ class _OtpBodyState extends State<OtpBody> {
       onCompleted: (code) {
         _smsCode = code;
         _login(context, smsCode: _smsCode);
-
-
       },
       beforeTextPaste: (text) {
         return true;
@@ -92,8 +90,7 @@ class _OtpBodyState extends State<OtpBody> {
           showProgressIndicator(context);
         } else if (state is PhoneOTPVerified) {
           Navigator.pop(context);
-          Navigator.pushNamedAndRemoveUntil(
-              context, AppRouter.homeScreen, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, AppRouter.homeScreen, (route) => false);
         } else if (state is AuthenticationFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -118,8 +115,7 @@ class _OtpBodyState extends State<OtpBody> {
       margin: EdgeInsets.symmetric(horizontal: 30.w, vertical: 70.h),
       child: Column(
         children: [
-          OTPIntroText(
-              themeColors: widget.themeColors, phoneNumber: widget.phoneNumber),
+          OTPIntroText(themeColors: widget.themeColors, phoneNumber: widget.phoneNumber),
           SizedBox(height: 80.h),
           _buildPinCodeFields(context),
           SizedBox(height: 50.h),

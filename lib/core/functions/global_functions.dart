@@ -8,8 +8,8 @@ abstract class GlFunctions {
     return result.join('-');
   }
 
-  static String timeFormat(Timestamp dateTime) {
-    DateTime lastDateTime = dateTime.toDate();
+  static String timeFormat(Timestamp time) {
+    DateTime lastDateTime = time.toDate();
     String formattedLastDateTime = DateFormat('h:mm a').format(lastDateTime);
 
     return formattedLastDateTime;
