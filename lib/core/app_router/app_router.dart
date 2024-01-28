@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/data_source/chats/chats_requests.dart';
 import '../../features/auth/view/otp_screen.dart';
 import '../../features/auth/view/phone_auth_screen.dart';
 import '../../features/auth/view/welcome_screen.dart';
 import '../../features/auth/view_model/authentication_cubit.dart';
-import '../../features/chats/repository/chats_repository.dart';
 import '../../features/chats/view/chat_details_screen.dart';
 import '../../features/chats/view/select_contact_screen.dart';
 import '../../features/chats/view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
@@ -127,7 +125,7 @@ class AppRouter {
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
             return BlocProvider(
-              create: (context) => SelectContactCubit(ChatsRepository(ChatsRequest()))..sortingContactData(),
+              create: (context) => SelectContactCubit(sl())..sortingContactData(),
               child: SelectContactScreen(themeColors: ThemeColors(isDarkMode: isDarkMode)),
             );
           },

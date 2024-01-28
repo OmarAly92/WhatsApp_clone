@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../../../core/functions/global_functions.dart';
@@ -77,14 +76,6 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     }
   }
 
-  String getFormattedDuration(int durationInMilliSec) {
-    var seconds = (durationInMilliSec / 1000).round();
-    Duration duration = Duration(seconds: seconds);
-    String formattedTime = DateFormat('m:ss').format(DateTime.utc(0, 1, 1, 0, 0, 0).add(duration));
-
-    return formattedTime;
-  }
-
   void playAndPause({
     required String voiceUrl,
     required String hisPhoneNumber,
@@ -106,7 +97,7 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     });
 
     currentDurationChangedSubscription = audioPlayerController.onCurrentDurationChanged.listen((milliseconds) {
-      String formattedTime = getFormattedDuration(milliseconds);
+      String formattedTime = GlFunctions.timeFormatUsingMillisecond(milliseconds);
 
       emit(VoiceBubblePlayerState(isPlaying: true, duration: formattedTime));
     });

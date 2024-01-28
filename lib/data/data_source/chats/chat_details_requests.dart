@@ -34,7 +34,8 @@ class ChatDetailsRequests {
     var chatDocument = getChatsCollection().doc(sortedNumber);
     var messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
-      'isSeen': false,
+      'isSeen': '',
+      'reactEmoji': '',
       'message': message,
       'theSender': myPhoneNumber,
       'time': time,
@@ -44,6 +45,51 @@ class ChatDetailsRequests {
     chatDocument.update({
       'lastMessage': message,
       'lastMessageTime': time,
+    });
+  }
+
+  void sendImage({
+    required String phoneNumber,
+    required String type,
+    required String myPhoneNumber,
+    required String imagePath,
+    required Timestamp time,
+    required String messageId,
+  }) async {
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
+      'isSeen': '',
+      'reactEmoji': '',
+      'message': imagePath,
+      'theSender': myPhoneNumber,
+      'time': time,
+      'messageId': messageId,
+      'type': type,
+    });
+  }
+
+  void sendVoice({
+    required String phoneNumber,
+    required Timestamp time,
+    required String type,
+    required String myPhoneNumber,
+    required String voicePath,
+    required String messageId,
+    required List<double> waveData,
+    required int maxDuration,
+  }) {
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+
+    getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
+      'isSeen': '',
+      'reactEmoji': '',
+      'message': voicePath,
+      'theSender': myPhoneNumber,
+      'time': time,
+      'messageId': messageId,
+      'type': type,
+      'waveData': waveData,
+      'maxDuration': maxDuration,
     });
   }
 
@@ -61,7 +107,8 @@ class ChatDetailsRequests {
     var chatDocument = getChatsCollection().doc(sortedNumber);
     var messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
-      'isSeen': false,
+      'isSeen': '',
+      'reactEmoji': '',
       'originalMessage': originalMessage,
       'message': message,
       'replyOriginalName': replyOriginalName,
@@ -74,5 +121,9 @@ class ChatDetailsRequests {
       'lastMessage': message,
       'lastMessageTime': time,
     });
+  }
+
+  void updateMessageReadStatus() {
+    getChatsCollection().doc();
   }
 }

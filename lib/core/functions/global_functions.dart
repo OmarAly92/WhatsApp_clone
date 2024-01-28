@@ -8,11 +8,18 @@ abstract class GlFunctions {
     return result.join('-');
   }
 
-
-  static  String dateFormat(Timestamp dateTime) {
+  static String timeFormat(Timestamp dateTime) {
     DateTime lastDateTime = dateTime.toDate();
     String formattedLastDateTime = DateFormat('h:mm a').format(lastDateTime);
 
     return formattedLastDateTime;
+  }
+
+  static String timeFormatUsingMillisecond(int durationInMilliSec) {
+    var seconds = (durationInMilliSec / 1000).round();
+    Duration duration = Duration(seconds: seconds);
+    String formattedTime = DateFormat('m:ss').format(DateTime.utc(0, 1, 1, 0, 0, 0).add(duration));
+
+    return formattedTime;
   }
 }

@@ -17,7 +17,7 @@ part 'send_messages_state.dart';
 
 class SendMessagesCubit extends Cubit<SendMessagesState> {
   SendMessagesCubit(this.chatDetailsRepository) : super(SendMessagesInitial()) {
-    initialiseController();
+    _initialiseController();
   }
 
   final ChatDetailsRepository chatDetailsRepository;
@@ -71,17 +71,6 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     }
   }
 
-  Future<String> pickImageFromGallery() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      String imagePath = pickedFile.path;
-      return imagePath;
-    } else {
-      throw Exception();
-    }
-  }
-
   void sendImage({
     required String phoneNumber,
     required Timestamp time,
@@ -90,7 +79,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     try {
       var myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
       String imagePath =
-          await getImagePathFromStorage(myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time);
+          await _getImagePathFromStorage(myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time);
       chatDetailsRepository.sendImage(
         phoneNumber: phoneNumber,
         time: time,
@@ -104,62 +93,12 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     }
   }
 
-  Future<String> getImagePathFromStorage({
-    required String myPhoneNumber,
-    required String phoneNumber,
-    required Timestamp time,
-  }) async {
-    final String imageFromGallery = await pickImageFromGallery();
-
-    final File imageFile = File(imageFromGallery);
-
-    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-    final Reference storageReference = FirebaseStorage.instance
-        .ref()
-        .child('chats')
-        .child(sortedNumber)
-        .child('images')
-        .child('${time.microsecondsSinceEpoch}Image.jpg');
-
-    final UploadTask uploadTask = storageReference.putFile(imageFile);
-
-    await uploadTask.whenComplete(() => print('Image uploaded'));
-
-    final imagePath = await storageReference.getDownloadURL();
-
-    return imagePath;
-  }
-
-  String getMyPhoneNumber() {
-    final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-    return myPhoneNumber;
-  }
-
-  Future<String> getVoiceFilePath() async {
-    final directory = await getApplicationDocumentsDirectory();
-    return '${directory.path}/myFile.m4a';
-  }
-
-  /// this is the new record methods in  wave_audio package
-  void initialiseController() {
-    recorderController = RecorderController()
-      ..androidEncoder = AndroidEncoder.aac
-      ..androidOutputFormat = AndroidOutputFormat.mpeg4
-      ..iosEncoder = IosEncoder.kAudioFormatMPEG4AAC
-      ..sampleRate = 16000;
-  }
-
-  void startRecording() async {
-    final path = await getVoiceFilePath();
-
-    await recorderController.record(path: path);
-  }
 
   Future<void> stopRecording(Timestamp time, String phoneNumber, int maxDuration) async {
     List<double> waveData = recorderController.waveData.toList();
 
     String? path = await recorderController.stop();
-    String myPhoneNumber = getMyPhoneNumber();
+    String myPhoneNumber = _getMyPhoneNumber();
 
     try {
       var finalPath = await _uploadVoiceToStorage(
@@ -180,6 +119,67 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     } catch (e) {
       print('Error stopping recording: $e');
     }
+  }
+
+  void startRecording() async {
+    final path = await _getVoiceFilePath();
+
+    await recorderController.record(path: path);
+  }
+
+  Future<String> _pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      String imagePath = pickedFile.path;
+      return imagePath;
+    } else {
+      throw Exception();
+    }
+  }
+
+  Future<String> _getImagePathFromStorage({
+    required String myPhoneNumber,
+    required String phoneNumber,
+    required Timestamp time,
+  }) async {
+    final String imageFromGallery = await _pickImageFromGallery();
+
+    final File imageFile = File(imageFromGallery);
+
+    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    final Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child('chats')
+        .child(sortedNumber)
+        .child('images')
+        .child('${time.microsecondsSinceEpoch}Image.jpg');
+
+    final UploadTask uploadTask = storageReference.putFile(imageFile);
+
+    await uploadTask.whenComplete(() => print('Image uploaded'));
+
+    final imagePath = await storageReference.getDownloadURL();
+
+    return imagePath;
+  }
+
+  String _getMyPhoneNumber() {
+    final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+    return myPhoneNumber;
+  }
+
+  Future<String> _getVoiceFilePath() async {
+    final directory = await getApplicationDocumentsDirectory();
+    return '${directory.path}/myFile.m4a';
+  }
+
+  void _initialiseController() {
+    recorderController = RecorderController()
+      ..androidEncoder = AndroidEncoder.aac
+      ..androidOutputFormat = AndroidOutputFormat.mpeg4
+      ..iosEncoder = IosEncoder.kAudioFormatMPEG4AAC
+      ..sampleRate = 16000;
   }
 
   Future<String> _uploadVoiceToStorage({

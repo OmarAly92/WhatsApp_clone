@@ -5,6 +5,7 @@ import 'package:whats_app_clone/features/chats/view_model/chats_cubit/chats_cubi
 import '../../../../../core/functions/global_functions.dart';
 import '../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../core/themes/theme_color.dart';
+import 'last_message_text.dart';
 
 class ChatItemBody extends StatelessWidget {
   const ChatItemBody({
@@ -17,8 +18,6 @@ class ChatItemBody extends StatelessWidget {
   final ThemeColors themeColors;
   final String contactName;
   final String hisPhoneNumber;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -40,24 +39,19 @@ class ChatItemBody extends StatelessWidget {
                 children: [
                   Text(contactName, style: Styles.textStyle16),
                   Text(
-                    (state is ListenToLastMessage) ? GlFunctions.dateFormat(state.lastMessage.time) : '',
+                    (state is ListenToLastMessage) ? GlFunctions.timeFormat(state.lastMessage.time) : '',
                     style: Styles.textStyle12.copyWith(
                       color: themeColors.bodyTextColor,
                     ),
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    (state is ListenToLastMessage) ? state.lastMessage.message : '',
-                    style: Styles.textStyle14.copyWith(
-                      color: themeColors.bodyTextColor,
-                    ),
-                  ),
-                ],
-              ),
+              (state is ListenToLastMessage)
+                  ? LastMessageText(
+                      state: state,
+                      themeColors: themeColors,
+                    )
+                  : const Text(''),
             ],
           ),
         );

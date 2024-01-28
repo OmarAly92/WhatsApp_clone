@@ -55,6 +55,8 @@ class _OtpBodyState extends State<OtpBody> {
       onCompleted: (code) {
         _smsCode = code;
         _login(context, smsCode: _smsCode);
+
+
       },
       beforeTextPaste: (text) {
         return true;

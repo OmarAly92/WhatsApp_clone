@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../core/functions/global_functions.dart';
 import '../../../data/data_source/chats/chat_details_requests.dart';
 import '../../../data/model/chat_model/message_model.dart';
 
@@ -44,15 +43,14 @@ class ChatDetailsRepository {
     required Timestamp time,
     required String messageId,
   }) async {
-    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-    fireBaseInit.collection('chats').doc(sortedNumber).collection('messages').doc().set({
-      'isSeen': false,
-      'message': imagePath,
-      'theSender': myPhoneNumber,
-      'time': time,
-      'messageId': messageId,
-      'type': type,
-    });
+    chatDetailsRequests.sendImage(
+      phoneNumber: phoneNumber,
+      type: type,
+      myPhoneNumber: myPhoneNumber,
+      imagePath: imagePath,
+      time: time,
+      messageId: messageId,
+    );
   }
 
   void sendVoice({
@@ -65,18 +63,16 @@ class ChatDetailsRepository {
     required List<double> waveData,
     required int maxDuration,
   }) {
-    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-
-    fireBaseInit.collection('chats').doc(sortedNumber).collection('messages').doc().set({
-      'isSeen': false,
-      'message': voicePath,
-      'theSender': myPhoneNumber,
-      'time': time,
-      'messageId': messageId,
-      'type': type,
-      'waveData': waveData,
-      'maxDuration': maxDuration,
-    });
+    chatDetailsRequests.sendVoice(
+      phoneNumber: phoneNumber,
+      time: time,
+      type: type,
+      myPhoneNumber: myPhoneNumber,
+      voicePath: voicePath,
+      messageId: messageId,
+      waveData: waveData,
+      maxDuration: maxDuration,
+    );
   }
 
   Future<void> sendReplyMessage({
@@ -100,6 +96,4 @@ class ChatDetailsRepository {
       replyOriginalName: replyOriginalName,
     );
   }
-
-
 }

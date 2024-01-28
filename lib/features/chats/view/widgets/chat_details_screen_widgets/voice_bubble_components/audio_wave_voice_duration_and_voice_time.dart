@@ -22,7 +22,7 @@ class _AudioWaveVoiceDurationAndVoiceTimeState extends State<_AudioWaveVoiceDura
   @override
   void initState() {
     super.initState();
-    duration = BlocProvider.of<VoiceBubbleCubit>(context).getFormattedDuration(widget.messageModel.maxDuration);
+    duration = GlFunctions.timeFormatUsingMillisecond(widget.messageModel.maxDuration);
 
     waveData = widget.messageModel.waveData.cast<double>();
 
@@ -87,7 +87,7 @@ class _AudioWaveVoiceDurationAndVoiceTimeState extends State<_AudioWaveVoiceDura
                 Row(
                   children: [
                     Text(
-                      formattedTime(),
+                      GlFunctions.timeFormat(widget.messageModel.time),
                       style: Styles.textStyle12.copyWith(
                         fontWeight: FontWeight.w500,
                         color: widget.isTheSender
@@ -106,11 +106,5 @@ class _AudioWaveVoiceDurationAndVoiceTimeState extends State<_AudioWaveVoiceDura
         ),
       ),
     );
-  }
-
-  String formattedTime() {
-    DateTime dateTime = widget.messageModel.time.toDate();
-    String formattedTime = DateFormat('h:mm a').format(dateTime);
-    return formattedTime;
   }
 }

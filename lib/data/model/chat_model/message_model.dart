@@ -3,7 +3,8 @@ import 'package:equatable/equatable.dart';
 
 class MessageModel extends Equatable {
   ///this for all message bubbles
-  final bool isSeen;
+  final String isSeen;
+  final String emojiReact;
   final String message;
   final Timestamp time;
   final String theSender;
@@ -20,6 +21,7 @@ class MessageModel extends Equatable {
 
   const MessageModel({
     required this.isSeen,
+    required this.emojiReact,
     required this.message,
     required this.time,
     required this.messageId,
@@ -45,12 +47,14 @@ class MessageModel extends Equatable {
       messageId: data['messageId'] ?? '',
       originalMessage: data['originalMessage'] ?? '',
       replyOriginalName: data['replyOriginalName'] ?? '',
+      emojiReact: data['emojiReact'] ?? '',
     );
   }
 
   @override
   List<Object> get props => [
         isSeen,
+        emojiReact,
         message,
         time,
         theSender,
