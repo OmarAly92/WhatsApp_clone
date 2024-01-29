@@ -18,7 +18,7 @@ class ChatDetailsRequests {
   }
 
   Query<Map<String, dynamic>> getMessagesData(String hisNumber, String myPhoneNumber) {
-    String sortedNumber = GlFunctions.sortPhoneNumbers(hisNumber, myPhoneNumber);
+    final String sortedNumber = GlFunctions.sortPhoneNumbers(hisNumber, myPhoneNumber);
     return getChatsCollection().doc(sortedNumber).collection('messages').orderBy('time', descending: false);
   }
 
@@ -31,8 +31,8 @@ class ChatDetailsRequests {
     required Timestamp time,
   }) async {
     String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-    var chatDocument = getChatsCollection().doc(sortedNumber);
-    var messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
+    final chatDocument = getChatsCollection().doc(sortedNumber);
+    final messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
       'isSeen': '',
       'reactEmoji': '',
@@ -56,7 +56,7 @@ class ChatDetailsRequests {
     required Timestamp time,
     required String messageId,
   }) async {
-    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    final String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
     getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
       'isSeen': '',
       'reactEmoji': '',
@@ -78,7 +78,7 @@ class ChatDetailsRequests {
     required List<double> waveData,
     required int maxDuration,
   }) {
-    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+    final String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
 
     getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
       'isSeen': '',
@@ -104,8 +104,8 @@ class ChatDetailsRequests {
     required String messageId,
   }) {
     String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, theSender);
-    var chatDocument = getChatsCollection().doc(sortedNumber);
-    var messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
+    final chatDocument = getChatsCollection().doc(sortedNumber);
+    final messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
       'isSeen': '',
       'reactEmoji': '',
@@ -123,8 +123,29 @@ class ChatDetailsRequests {
     });
   }
 
-  Future<void> updateMessageReadStatus(String messageDocId) async {
+  Future<String> getMessageDocId({
+    required String messageId,
+    required String chatDocId,
+  }) async {
+    final data = await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chatDocId)
+        .collection('messages')
+        .where('messageId', isEqualTo: messageId)
+        .get();
+    String messageDocId = data.docs.single.id;
+    return messageDocId;
+  }
+
+  Future<void> updateMessageReadStatus({
+    required String chatDocId,
+    required String messageId,
+  }) async {
+    final String messageDocId = await getMessageDocId(messageId: messageId, chatDocId: chatDocId);
+
     await getChatsCollection()
+        .doc(chatDocId)
+        .collection('messages')
         .doc(messageDocId)
         .update({'isSeen': DateTime.now().millisecondsSinceEpoch.toString()});
   }

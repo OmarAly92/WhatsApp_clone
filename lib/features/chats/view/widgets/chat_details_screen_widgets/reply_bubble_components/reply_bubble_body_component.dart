@@ -109,9 +109,9 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
                       isTheSender
                           ? Icon(
                               messageModel.isSeen.isNotEmpty ? Icons.done_all_rounded : Icons.done_all_rounded,
-                              size: 17,
+                              size: 16.r,
                               color: messageModel.isSeen.isNotEmpty
-                                  ? const Color(0xff6fadc7)
+                                  ? themeColors.messageReadStatusColor
                                   : themeColors.myMessageTime,
                             )
                           : const SizedBox.shrink(),

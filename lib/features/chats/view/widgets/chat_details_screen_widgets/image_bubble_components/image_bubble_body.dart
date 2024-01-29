@@ -44,7 +44,7 @@ class _ImageBubbleBodyComponent extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.r),
                 child: CachedNetworkImage(
-                  imageUrl:messageModel.message,
+                  imageUrl: messageModel.message,
                   fit: BoxFit.cover,
                   fadeInDuration: const Duration(milliseconds: 250),
                 ),
@@ -66,9 +66,9 @@ class _ImageBubbleBodyComponent extends StatelessWidget {
                 isTheSender
                     ? Icon(
                         messageModel.isSeen.isNotEmpty ? Icons.done_all_rounded : Icons.done_all_rounded,
-                        size: 17,
+                        size: 16.r,
                         color: messageModel.isSeen.isNotEmpty
-                            ? const Color(0xff6fadc7)
+                            ? themeColors.messageReadStatusColor
                             : themeColors.myMessageTime,
                       )
                     : const SizedBox.shrink(),

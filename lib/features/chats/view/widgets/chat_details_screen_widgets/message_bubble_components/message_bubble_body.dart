@@ -60,9 +60,10 @@ class _MessageBubbleBodyComponent extends StatelessWidget {
                 isTheSender
                     ? Icon(
                         messageModel.isSeen.isNotEmpty ? Icons.done_all_rounded : Icons.done_all_rounded,
-                        size: 17,
-                        color:
-                            messageModel.isSeen.isNotEmpty ? const Color(0xff6fadc7) : themeColors.myMessageTime,
+                        size: 16.r,
+                        color: messageModel.isSeen.isNotEmpty
+                            ? themeColors.messageReadStatusColor
+                            : themeColors.myMessageTime,
                       )
                     : const SizedBox.shrink(),
               ],

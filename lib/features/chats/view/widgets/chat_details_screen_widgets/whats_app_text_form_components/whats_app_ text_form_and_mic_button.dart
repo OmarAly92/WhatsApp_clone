@@ -367,7 +367,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
       if (state is ChatDetailParentReplying) {
         BlocProvider.of<SendMessagesCubit>(context).sendReplyMessage(
           phoneNumber: widget.hisPhoneNumber,
-          originalMessage: state.originalMessage.originalMessage,
+          originalMessage: state.originalMessage.message,
           message: chatTextFormController.text,
           replyOriginalName: state.hisName,
           theSender: widget.myPhoneNumber,

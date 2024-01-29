@@ -15,7 +15,8 @@ class MessageBubble extends StatelessWidget {
     required this.themeColors,
     required this.isTheSender,
     required this.isFirstMessage,
-    required this.backgroundBlendMode, required this.messageModel,
+    required this.backgroundBlendMode,
+    required this.messageModel,
   }) : super(key: key);
   final ThemeColors themeColors;
   final bool isTheSender;
@@ -33,8 +34,8 @@ class MessageBubble extends StatelessWidget {
         isFirstMessage: isFirstMessage,
         themeColors: themeColors,
         isTheSender: isTheSender,
-
-        backgroundBlendMode: backgroundBlendMode, messageModel: messageModel,
+        backgroundBlendMode: backgroundBlendMode,
+        messageModel: messageModel,
       ),
     );
   }

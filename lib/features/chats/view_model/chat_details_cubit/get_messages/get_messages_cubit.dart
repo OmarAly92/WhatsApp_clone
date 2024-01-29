@@ -31,9 +31,7 @@ class GetMessagesCubit extends Cubit<GetMessagesState> {
     });
   }
 
-  void testMethod() {
-    emit(GetMessagesInitial());
-  }
+
 
   String getMyPhoneNumber() {
     final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');

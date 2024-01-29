@@ -70,9 +70,9 @@ class ThemeColors {
   late final Color myReplyMessage;
   late final Color hisReplyMessage;
 
-  late final Color replyOriginalMessageTextFormColor;
-
   late final Color replyOriginalMessageColor;
+
+  late final Color messageReadStatusColor;
 
   late final Color emojiBackgroundColor;
   late final Color emojiIconNotActiveColor;
@@ -124,15 +124,14 @@ class ThemeColors {
 
     myReplyMessage = isDarkMode ? const Color(0xff025043) : const Color(0xffDEF6D4);
     hisReplyMessage = isDarkMode ? const Color(0xff1E292F) : const Color(0xffF5F7F6);
-    replyOriginalMessageTextFormColor =isDarkMode ? const Color(0xff7F8D97  ) : const Color(0xff738088 );
 
-
-    replyOriginalMessageColor = isDarkMode ? const Color(0xff84ada7 ) : const Color(0xff84959F );
+    replyOriginalMessageColor = isDarkMode ? const Color(0xff7B8B94) : const Color(0xff738088);
 
     myMessageWaveFormLiveColor = isDarkMode ? const Color(0xffA9CCC5) : const Color(0xff627266);
     hisMessageWaveFormLiveColor = isDarkMode ? const Color(0xffB6BBBD) : const Color(0xff6C7274);
 
     onLongPressedMessageColor = isDarkMode ? const Color(0xff005d4b) : const Color(0xFF2196F3);
+    messageReadStatusColor = isDarkMode ? const Color(0xff1AA2D7) : const Color(0xFF1AA2D7);
 
     emojiBackgroundColor = isDarkMode ? const Color(0xff121b22) : const Color(0xffe9edf0);
     emojiIconNotActiveColor = isDarkMode ? const Color(0xff6b7b83) : const Color(0xff818e96);

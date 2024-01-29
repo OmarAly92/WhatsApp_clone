@@ -34,20 +34,21 @@ class _MessageSelectionComponentState extends State<_MessageSelectionComponent> 
   int isSelectedLongPress = -1;
 
   void triggerReadStatusMethod() {
-    if (widget.isTheSender == false) {
-      BlocProvider.of<SendMessagesCubit>(context).updateMessageReadStatus(
-        messageId: widget.messageModel.messageId,
-        hisPhoneNumber: widget.hisPhoneNumber,
-      );
+    /// todo keep watch this method
+    if (widget.messageModel.isSeen.isEmpty) {
+      if (widget.isTheSender == false) {
+        print('OMAR test triggerReadStatusMethod');
+        BlocProvider.of<SendMessagesCubit>(context).updateMessageReadStatus(
+          messageId: widget.messageModel.messageId,
+          hisPhoneNumber: widget.hisPhoneNumber,
+        );
+      }
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Widget messageSelection() {
+    triggerReadStatusMethod();
+
     var backgroundBlendMode = isSelected == widget.itemIndex ? BlendMode.clear : BlendMode.src;
 
     if (widget.messageModel.type == 'message') {

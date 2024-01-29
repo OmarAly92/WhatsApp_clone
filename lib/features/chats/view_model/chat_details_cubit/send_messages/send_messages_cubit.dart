@@ -97,25 +97,9 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required String messageId,
     required String hisPhoneNumber,
   }) async {
-    final String messageDocId = await _getMessageDocId(messageId: messageId, hisPhoneNumber: hisPhoneNumber);
-    await _chatDetailsRepository.updateMessageReadStatus(messageDocId);
-  }
-
-  Future<String> _getMessageDocId({
-    required String messageId,
-    required String hisPhoneNumber,
-  }) async {
     final String myPhoneNumber = _getMyPhoneNumber();
-    final String chatCollectionDocId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
-
-    var data = await FirebaseFirestore.instance
-        .collection('chats')
-        .doc(chatCollectionDocId)
-        .collection('messages')
-        .where('messageId', isEqualTo: messageId)
-        .get();
-    String messageDocId = data.docs.first.id;
-    return messageDocId;
+    final String chatDocId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
+    await _chatDetailsRepository.updateMessageReadStatus(chatDocId: chatDocId, messageId: messageId);
   }
 
   Future<void> stopRecording(Timestamp time, String phoneNumber, int maxDuration) async {

@@ -37,7 +37,7 @@ class MessageModel extends Equatable {
     final data = document.data();
 
     return MessageModel(
-      isSeen: data['isSeen'],
+      isSeen: data['isSeen'].toString(),
       message: data['message'] ?? '',
       time: data['time'],
       type: data['type'],

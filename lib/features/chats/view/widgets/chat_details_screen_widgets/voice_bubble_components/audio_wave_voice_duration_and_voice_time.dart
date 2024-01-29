@@ -97,12 +97,14 @@ class _AudioWaveVoiceDurationAndVoiceTimeState extends State<_AudioWaveVoiceDura
                     ),
                     widget.isTheSender
                         ? Icon(
-                    widget.  messageModel.isSeen.isNotEmpty ? Icons.done_all_rounded : Icons.done_all_rounded,
-                      size: 17,
-                      color: widget.messageModel.isSeen.isNotEmpty
-                          ? const Color(0xff6fadc7)
-                          :widget. themeColors.myMessageTime,
-                    )
+                            widget.messageModel.isSeen.isNotEmpty
+                                ? Icons.done_all_rounded
+                                : Icons.done_all_rounded,
+                            size: 16.r,
+                            color: widget.messageModel.isSeen.isNotEmpty
+                                ? widget.themeColors.messageReadStatusColor
+                                : widget.themeColors.myMessageTime,
+                          )
                         : const SizedBox.shrink(),
                   ],
                 ),

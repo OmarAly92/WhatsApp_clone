@@ -97,7 +97,13 @@ class ChatDetailsRepository {
     );
   }
 
-  Future<void> updateMessageReadStatus(String messageDocId) async {
-    await chatDetailsRequests.updateMessageReadStatus(messageDocId);
+  Future<void> updateMessageReadStatus({
+    required String chatDocId,
+    required String messageId,
+  }) async {
+    await chatDetailsRequests.updateMessageReadStatus(
+      chatDocId: chatDocId,
+      messageId: messageId,
+    );
   }
 }

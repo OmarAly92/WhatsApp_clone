@@ -62,7 +62,9 @@ class ChatsCubit extends Cubit<ChatsState> {
       myPhoneNumber: myPhoneNumber,
     );
     lastMessage.listen((lastMessage) {
-      emit(ListenToLastMessage(lastMessage: lastMessage.single));
+      if (lastMessage.toList().singleOrNull != null) {
+        emit(ListenToLastMessage(lastMessage: lastMessage.single));
+      }
     });
   }
 

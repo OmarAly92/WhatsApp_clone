@@ -9,6 +9,8 @@ import '../../../../../../core/functions/global_functions.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 
+
+part 'original_message_text_component.dart';
 class ReplyOnChatTextForm extends StatelessWidget {
   const ReplyOnChatTextForm({
     super.key,
@@ -75,7 +77,7 @@ class ReplyOnChatTextForm extends StatelessWidget {
             AnimatedSize(
               duration: const Duration(milliseconds: 180),
               alignment: AlignmentDirectional.bottomStart,
-              child: OriginalMessageTextComponent(
+              child: _OriginalMessageTextComponent(
                 messageModel: replyOriginalMessage,
                 themeColors: themeColors,
               ),
@@ -84,66 +86,5 @@ class ReplyOnChatTextForm extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class OriginalMessageTextComponent extends StatelessWidget {
-  const OriginalMessageTextComponent({
-    super.key,
-    required this.messageModel,
-    required this.themeColors,
-  });
-
-  final MessageModel messageModel;
-  final ThemeColors themeColors;
-
-  @override
-  Widget build(BuildContext context) {
-    if (messageModel.message.contains('image')) {
-      return Row(
-        children: [
-          SizedBox(width: 2.w),
-          Icon(
-            Icons.image_rounded,
-            color: themeColors.replyOriginalMessageTextFormColor,
-            size: 15.r,
-          ),
-          SizedBox(width: 2.w),
-          Text(
-            'Photo',
-            style: Styles.textStyle14.copyWith(
-              fontWeight: FontWeight.w500,
-              color: themeColors.replyOriginalMessageTextFormColor,
-            ),
-          ),
-        ],
-      );
-    } else if (messageModel.message.contains('voice')) {
-      return Row(
-        children: [
-          Icon(
-            Icons.mic_rounded,
-            color: themeColors.replyOriginalMessageTextFormColor,
-            size: 15.r,
-          ),
-          SizedBox(width: 2.w),
-          Text(
-            'Voice message (${GlFunctions.timeFormatUsingMillisecond(messageModel.maxDuration)})',
-            style: Styles.textStyle14.copyWith(
-              color: themeColors.replyOriginalMessageTextFormColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      );
-    } else {
-      return Text(
-        messageModel.message,
-        style: Styles.textStyle14.copyWith(
-          color: themeColors.replyOriginalMessageTextFormColor,
-          fontWeight: FontWeight.bold,
-        ),
-      );
-    }
   }
 }

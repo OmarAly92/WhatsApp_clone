@@ -18,13 +18,13 @@ class SelectContactCubit extends Cubit<SelectContactState> {
   void sortingContactData() async {
     emit(SelectContactLoading());
     try {
-      var localContacts = await chatsRepository.getLocalContact();
+      final localContacts = await chatsRepository.getLocalContact();
 
-      var fireBaseUserData = await chatsRepository.getFireBaseUserData();
-      List<String?> localContactPhoneNumbers =
+      final fireBaseUserData = await chatsRepository.getFireBaseUserData();
+      final  List<String?> localContactPhoneNumbers =
           localContacts.map((e) => (e.phones!.first.value).toString().replaceAll(' ', '')).toList();
 
-      List<UserModel> result =
+    final  List<UserModel> result =
           fireBaseUserData.where((element) => localContactPhoneNumbers.contains(element.userPhone)).toList();
 
       emit(SelectContactSuccess(userModel: result));
@@ -36,7 +36,7 @@ class SelectContactCubit extends Cubit<SelectContactState> {
 
   void createChatRoom({required UserModel friendContactUserModel}) async {
     final String myPhoneNumber = _getMyPhoneNumber();
-    var userData = await _firestoreFireStoreInit.collection('users').doc(myPhoneNumber).get();
+    final userData = await _firestoreFireStoreInit.collection('users').doc(myPhoneNumber).get();
 
     final UserModel myContactUserModel = UserModel.fromSnapshot(userData);
 
