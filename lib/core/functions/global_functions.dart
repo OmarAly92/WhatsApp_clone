@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 abstract class GlFunctions {
@@ -21,5 +22,11 @@ abstract class GlFunctions {
     String formattedTime = DateFormat('m:ss').format(DateTime.utc(0, 1, 1, 0, 0, 0).add(duration));
 
     return formattedTime;
+  }
+
+  static String getMyPhoneNumber() {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+    return myPhoneNumber;
   }
 }

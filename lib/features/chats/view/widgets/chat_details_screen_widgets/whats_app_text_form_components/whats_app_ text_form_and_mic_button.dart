@@ -117,7 +117,6 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
               },
               builder: (context, state) {
                 final bool replyingState = (state is ChatDetailParentReplying);
-
                 return Stack(
                   alignment: Alignment.centerLeft,
                   clipBehavior: Clip.none,

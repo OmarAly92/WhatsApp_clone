@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/functions/global_functions.dart';
 import '../../../../data/model/user_model/user_model.dart';
 import '../../repository/chats_repository.dart';
 
@@ -13,7 +13,6 @@ class SelectContactCubit extends Cubit<SelectContactState> {
 
   final ChatsRepository chatsRepository;
   final _firestoreFireStoreInit = FirebaseFirestore.instance;
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   void sortingContactData() async {
     emit(SelectContactLoading());
@@ -35,7 +34,7 @@ class SelectContactCubit extends Cubit<SelectContactState> {
   }
 
   void createChatRoom({required UserModel friendContactUserModel}) async {
-    final String myPhoneNumber = _getMyPhoneNumber();
+    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
     final userData = await _firestoreFireStoreInit.collection('users').doc(myPhoneNumber).get();
 
     final UserModel myContactUserModel = UserModel.fromSnapshot(userData);
@@ -48,8 +47,5 @@ class SelectContactCubit extends Cubit<SelectContactState> {
 
 
 
-  String _getMyPhoneNumber() {
-    final String myPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-    return myPhoneNumber;
-  }
+
 }

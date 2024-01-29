@@ -73,7 +73,7 @@ class ImageBubbleCubit extends Cubit<ImageBubbleState> {
   }
 
   String _gettingNameForImageFile(String imageUrl, String hisPhoneNumber) {
-    final String myPhoneNumber = _getMyPhoneNumber();
+    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
 
     final String sortedNumbers = GlFunctions.sortPhoneNumbers(hisPhoneNumber, myPhoneNumber);
 
@@ -84,8 +84,5 @@ class ImageBubbleCubit extends Cubit<ImageBubbleState> {
     return finalImageFileName.substring(8, 16);
   }
 
-  String _getMyPhoneNumber() {
-    final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-    return myPhoneNumber;
-  }
+
 }

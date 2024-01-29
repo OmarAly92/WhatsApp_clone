@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/functions/global_functions.dart';
 import '../../../../data/model/chat_model/chat_model.dart';
 import '../../../../data/model/chat_model/message_model.dart';
 import '../../../../data/model/user_model/user_model.dart';
@@ -16,7 +16,6 @@ class ChatsCubit extends Cubit<ChatsState> {
   ChatsCubit(this._chatsRepository) : super(ChatsInitial());
   final ChatsRepository _chatsRepository;
   var firestoreInit = FirebaseFirestore.instance;
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future<void> getContacts() async {
     emit(ChatsLoading());
@@ -28,7 +27,7 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   Future<void> _getChats() async {
-    final String myPhoneNumber = _getMyPhoneNumber();
+    final String myPhoneNumber = GlFunctions.getMyPhoneNumber();
     var chats = await _chatsRepository.getChats(myPhoneNumber);
     chats.listen((chats) {
       var result = _getOtherUser(myPhoneNumber, chats);
@@ -47,7 +46,7 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   Future<UserModel> checkUserNameIsNotEmpty() async {
-    final String myPhoneNumber = _getMyPhoneNumber();
+    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
     return _chatsRepository.checkUserNameIsNotEmpty(myPhoneNumber);
   }
 
@@ -56,7 +55,7 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   void getLastMessage({required String hisNumber}) {
-    final String myPhoneNumber = _getMyPhoneNumber();
+    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
     var lastMessage = _chatsRepository.getLastMessage(
       hisNumber: hisNumber,
       myPhoneNumber: myPhoneNumber,
@@ -68,8 +67,4 @@ class ChatsCubit extends Cubit<ChatsState> {
     });
   }
 
-  String _getMyPhoneNumber() {
-    final String myPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-    return myPhoneNumber;
-  }
 }

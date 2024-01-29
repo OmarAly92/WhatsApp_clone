@@ -97,7 +97,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required String messageId,
     required String hisPhoneNumber,
   }) async {
-    final String myPhoneNumber = _getMyPhoneNumber();
+    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
     final String chatDocId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
     await _chatDetailsRepository.updateMessageReadStatus(chatDocId: chatDocId, messageId: messageId);
   }
@@ -106,7 +106,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     List<double> waveData = _recorderController.waveData.toList();
 
     String? path = await _recorderController.stop();
-    String myPhoneNumber = _getMyPhoneNumber();
+    String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
 
     try {
       var finalPath = await _uploadVoiceToStorage(
@@ -172,10 +172,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     return imagePath;
   }
 
-  String _getMyPhoneNumber() {
-    final String myPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-    return myPhoneNumber;
-  }
+
 
   Future<String> _getVoiceFilePath() async {
     final directory = await getApplicationDocumentsDirectory();

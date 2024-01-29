@@ -64,7 +64,7 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
 
   Future<void> deleteSelectedMessages({required String hisPhoneNumber}) async {
     try {
-      final String myPhoneNumber = _getMyPhoneNumber();
+      final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
       final String chatCollectionDocId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
 
       for (int i = 0; i < fileUrl.length; i++) {
@@ -121,8 +121,5 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
     return messageDocId;
   }
 
-  String _getMyPhoneNumber() {
-    final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-    return myPhoneNumber;
-  }
+
 }
