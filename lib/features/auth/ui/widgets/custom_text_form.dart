@@ -7,11 +7,13 @@ class CustomTextForm extends StatelessWidget {
     required this.emailController,
     required this.hintText,
     required this.validator,
+    this.onFieldSubmitted,
   });
 
   final TextEditingController emailController;
   final String hintText;
   final FormFieldValidator validator;
+  final ValueChanged<String>? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class CustomTextForm extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
         ),
+        onFieldSubmitted: onFieldSubmitted,
       ),
     );
   }

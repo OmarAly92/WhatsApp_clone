@@ -6,7 +6,6 @@ import 'package:swipe_plus/swipe_plus.dart';
 import 'package:whats_app_clone/features/chats/view/widgets/chat_details_screen_widgets/reply_bubble_components/reply_bubble.dart';
 import 'package:whats_app_clone/features/chats/view_model/chat_details_cubit/send_messages/send_messages_cubit.dart';
 
-import '../../../../../../core/functions/global_functions.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../../../data/model/chat_model/message_model.dart';
 import '../../../../view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
@@ -43,11 +42,8 @@ class ChatDetailsBody extends StatefulWidget {
 class _ChatDetailsBodyState extends State<ChatDetailsBody> {
   bool closeEmoji = false;
 
-
-
   @override
   Widget build(BuildContext context) {
-    String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
     return Container(
       height: MediaQuery.sizeOf(context).height,
       width: MediaQuery.sizeOf(context).width,
@@ -73,10 +69,8 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
                 ),
                 WhatsAppTextFormAndMicButton(
                   themeColors: widget.themeColors,
-                  myPhoneNumber: myPhoneNumber,
                   hisPhoneNumber: widget.hisPhoneNumber,
                 ),
-
               ],
             );
           } else if (state is GetMessagesInitial) {

@@ -120,6 +120,19 @@ class _SignUpBodyState extends State<_SignUpBody> {
                   }
                   return null;
                 },
+                onFieldSubmitted: (value) {
+                  if (_formKey.currentState?.validate() == true) {
+                    BlocProvider.of<AuthenticationCubit>(context).createAccountWithEmailAndPassword(
+                      userSignUpData: UserSignUpData(
+                        userImage: kDefaultProfilePicture,
+                        name: nameController.text,
+                        emailAddress: emailController.text.toLowerCase().trim(),
+                        password: passwordController.text.trim(),
+                        phoneNumber: phoneNumberController.text.trim(),
+                      ),
+                    );
+                  }
+                },
               ),
             ),
             Align(
@@ -135,24 +148,28 @@ class _SignUpBodyState extends State<_SignUpBody> {
               padding: EdgeInsets.symmetric(vertical: 20.h),
               child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
                 builder: (context, state) {
-                  return (state is AuthenticationInitial)
-                      ? AuthButton(
-                          context: context,
-                          themeColors: widget.themeColors,
-                          buttonName: 'Sign up',
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() == true) {
-                              BlocProvider.of<AuthenticationCubit>(context).createAccountWithEmailAndPassword(
-                                userImage: kDefaultProfilePicture,
-                                name: nameController.text,
-                                emailAddress: emailController.text,
-                                password: passwordController.text,
-                                phoneNumber: phoneNumberController.text,
-                              );
-                            }
-                          },
-                        )
-                      : const CircularProgressIndicator();
+                  if (state is AuthenticationLoading) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return AuthButton(
+                      context: context,
+                      themeColors: widget.themeColors,
+                      buttonName: 'Sign up',
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() == true) {
+                          BlocProvider.of<AuthenticationCubit>(context).createAccountWithEmailAndPassword(
+                            userSignUpData: UserSignUpData(
+                              userImage: kDefaultProfilePicture,
+                              name: nameController.text,
+                              emailAddress: emailController.text.toLowerCase().trim(),
+                              password: passwordController.text.trim(),
+                              phoneNumber: phoneNumberController.text.trim(),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
                 },
               ),
             ),

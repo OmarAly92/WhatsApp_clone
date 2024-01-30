@@ -17,12 +17,10 @@ class ClipButtonPopUp extends StatefulWidget {
     super.key,
     required this.themeColors,
     required this.phoneNumber,
-    required this.myPhoneNumber,
   });
 
   final ThemeColors themeColors;
   final String phoneNumber;
-  final String myPhoneNumber;
 
   @override
   State<ClipButtonPopUp> createState() => _ClipButtonPopUpState();
@@ -49,7 +47,6 @@ class _ClipButtonPopUpState extends State<ClipButtonPopUp> {
               child: _IconItems(
                 themeColors: widget.themeColors,
                 phoneNumber: widget.phoneNumber,
-                myPhoneNumber: widget.myPhoneNumber,
               ),
             ),
           ),

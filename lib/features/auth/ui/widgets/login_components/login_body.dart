@@ -79,6 +79,16 @@ class _LoginBodyState extends State<_LoginBody> {
                   }
                   return null;
                 },
+                onFieldSubmitted: (String value) {
+                  if (_formKey.currentState?.validate() == true) {
+                    BlocProvider.of<AuthenticationCubit>(context).loginInWithEmailAndPassword(
+                      userLoginData: UserLoginData(
+                        emailAddress: _emailController.text.trim(),
+                        password: _passwordController.text.trim(),
+                      ),
+                    );
+                  }
+                },
               ),
             ),
             Align(
@@ -94,21 +104,25 @@ class _LoginBodyState extends State<_LoginBody> {
               padding: EdgeInsets.symmetric(vertical: 20.h),
               child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
                 builder: (context, state) {
-                  return (state is AuthenticationInitial)
-                      ? AuthButton(
-                          context: context,
-                          themeColors: widget.themeColors,
-                          buttonName: 'Login',
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() == true) {
-                              BlocProvider.of<AuthenticationCubit>(context).loginInWithEmailAndPassword(
-                                emailAddress: _emailController.text,
-                                password: _passwordController.text,
-                              );
-                            }
-                          },
-                        )
-                      : const CircularProgressIndicator();
+                  if (state is AuthenticationLoading) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return AuthButton(
+                      context: context,
+                      themeColors: widget.themeColors,
+                      buttonName: 'Login',
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() == true) {
+                          BlocProvider.of<AuthenticationCubit>(context).loginInWithEmailAndPassword(
+                            userLoginData: UserLoginData(
+                              emailAddress: _emailController.text.trim(),
+                              password: _passwordController.text.trim(),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  }
                 },
               ),
             ),

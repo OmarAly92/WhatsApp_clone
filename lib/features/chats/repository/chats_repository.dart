@@ -24,7 +24,7 @@ class ChatsRepository {
 
     if (userSnapshot.docs.isNotEmpty) {
       for (var userDoc in userSnapshot.docs) {
-        UserModel userModel = UserModel.fromSnapshot(userDoc);
+        UserModel userModel = UserModel.fromQueryDocumentSnapshot(userDoc);
         fireBaseUsers.add(userModel);
       }
     }

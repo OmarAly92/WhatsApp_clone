@@ -25,12 +25,17 @@ abstract class GlFunctions {
     return formattedTime;
   }
 
-  static String getMyPhoneNumber() {
+  static Future<String> getMyPhoneNumber() async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+    final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    final String myEmail = firebaseAuth.currentUser!.email!;
+    final userDoc = await firebaseFirestore.collection('users').doc(myEmail).get();
+    final String myPhoneNumber = userDoc.get('userPhone');
+    print('$myPhoneNumber OMAR CHEFIKdnvklosdnv');
     return myPhoneNumber;
   }
- static void showSnackBar(BuildContext context, String message) {
+
+  static void showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),

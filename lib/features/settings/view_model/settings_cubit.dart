@@ -25,7 +25,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       var userData =
           await firestoreInit.collection('users').doc(myPhoneNumber).get();
 
-      final UserModel user = UserModel.fromSnapshot(userData);
+      final UserModel user = UserModel.fromQueryDocumentSnapshot(userData);
 
       emit(SettingsSuccess(user: user));
     } catch (e) {

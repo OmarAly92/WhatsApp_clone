@@ -64,7 +64,7 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
 
   Future<void> deleteSelectedMessages({required String hisPhoneNumber}) async {
     try {
-      final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
+      final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
       final String chatCollectionDocId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
 
       for (int i = 0; i < fileUrl.length; i++) {

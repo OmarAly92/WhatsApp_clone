@@ -33,12 +33,10 @@ class WhatsAppTextFormAndMicButton extends StatefulWidget {
   const WhatsAppTextFormAndMicButton({
     super.key,
     required this.themeColors,
-    required this.myPhoneNumber,
     required this.hisPhoneNumber,
   });
 
   final ThemeColors themeColors;
-  final String myPhoneNumber;
   final String hisPhoneNumber;
 
   @override
@@ -296,7 +294,6 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
               suffixIcon: _ChatTextFormSuffixIcon(
                 themeColors: widget.themeColors,
                 phoneNumber: widget.hisPhoneNumber,
-                myPhoneNumber: widget.myPhoneNumber,
               ),
               hintText: 'Message',
               hintStyle: Styles.textStyle18.copyWith(
@@ -369,7 +366,6 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
           originalMessage: state.originalMessage.message,
           message: chatTextFormController.text,
           replyOriginalName: state.hisName,
-          theSender: widget.myPhoneNumber,
           time: timestamp,
           type: 'reply',
         );
@@ -378,7 +374,6 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
         BlocProvider.of<SendMessagesCubit>(context).sendMessage(
           phoneNumber: widget.hisPhoneNumber,
           message: chatTextFormController.text,
-          myPhoneNumber: widget.myPhoneNumber,
           time: timestamp,
           type: 'message',
         );

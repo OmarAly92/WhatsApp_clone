@@ -17,7 +17,7 @@ class GetMessagesCubit extends Cubit<GetMessagesState> {
   StreamSubscription<List<MessageModel>>? messagesSubscription;
 
   void getMessages({required String hisPhoneNumber}) async {
-    final String myPhoneNumber = GlFunctions.getMyPhoneNumber();
+    final String myPhoneNumber =await GlFunctions.getMyPhoneNumber();
 
     await messagesSubscription?.cancel();
 

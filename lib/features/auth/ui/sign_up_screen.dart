@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
 import 'package:whats_app_clone/core/functions/global_functions.dart';
+import 'package:whats_app_clone/core/parameters_data/user_sign_up.dart';
 import 'package:whats_app_clone/core/themes/theme_color.dart';
 import 'package:whats_app_clone/features/auth/ui/widgets/auth_button.dart';
 

@@ -4,12 +4,10 @@ class _IconItems extends StatelessWidget {
   const _IconItems({
     required this.themeColors,
     required this.phoneNumber,
-    required this.myPhoneNumber,
   });
 
   final ThemeColors themeColors;
   final String phoneNumber;
-  final String myPhoneNumber;
 
   @override
   Widget build(BuildContext context) {

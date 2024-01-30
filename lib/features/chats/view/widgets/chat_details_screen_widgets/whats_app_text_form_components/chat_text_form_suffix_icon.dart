@@ -4,12 +4,10 @@ class _ChatTextFormSuffixIcon extends StatelessWidget {
   const _ChatTextFormSuffixIcon({
     required this.themeColors,
     required this.phoneNumber,
-    required this.myPhoneNumber,
   });
 
   final ThemeColors themeColors;
   final String phoneNumber;
-  final String myPhoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +22,10 @@ class _ChatTextFormSuffixIcon extends StatelessWidget {
                 barrierColor: Colors.transparent,
                 context: context,
                 builder: (context) => BlocProvider(
-                  ///todo add DI here
                   create: (context) => SendMessagesCubit(sl()),
                   child: ClipButtonPopUp(
                     themeColors: themeColors,
                     phoneNumber: phoneNumber,
-                    myPhoneNumber: myPhoneNumber,
                   ),
                 ),
               );

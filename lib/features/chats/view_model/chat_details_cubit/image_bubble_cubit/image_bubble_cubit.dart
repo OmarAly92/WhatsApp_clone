@@ -25,7 +25,8 @@ class ImageBubbleCubit extends Cubit<ImageBubbleState> {
     required String hisPhoneNumber,
   }) async {
     final Directory? appDocDir = await getDownloadsDirectory();
-    final String imageFileName = _gettingNameForImageFile(imageUrl, hisPhoneNumber);
+    final String myPhoneNumber =await  GlFunctions.getMyPhoneNumber();
+    final String imageFileName = _gettingNameForImageFile(imageUrl, hisPhoneNumber,myPhoneNumber);
     final String imageFilePath = '${appDocDir?.path}/$imageFileName';
     final bool fileExists = await File(imageFilePath).exists();
 
@@ -55,7 +56,9 @@ class ImageBubbleCubit extends Cubit<ImageBubbleState> {
     required String hisPhoneNumber,
   }) async {
     emit(const ImageBubbleLoading(progress: 0));
-    final String finalImageFileName = _gettingNameForImageFile(imageUrl, hisPhoneNumber);
+    final String myPhoneNumber =await  GlFunctions.getMyPhoneNumber();
+
+    final String finalImageFileName = _gettingNameForImageFile(imageUrl, hisPhoneNumber,myPhoneNumber);
     final Directory? appDocDir = await getDownloadsDirectory();
     try {
       final Response response = await dio.download(imageUrl, '${appDocDir?.path}/$finalImageFileName');
@@ -72,8 +75,7 @@ class ImageBubbleCubit extends Cubit<ImageBubbleState> {
     }
   }
 
-  String _gettingNameForImageFile(String imageUrl, String hisPhoneNumber) {
-    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
+  String _gettingNameForImageFile(String imageUrl, String hisPhoneNumber,String myPhoneNumber) {
 
     final String sortedNumbers = GlFunctions.sortPhoneNumbers(hisPhoneNumber, myPhoneNumber);
 

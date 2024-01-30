@@ -34,10 +34,10 @@ class SelectContactCubit extends Cubit<SelectContactState> {
   }
 
   void createChatRoom({required UserModel friendContactUserModel}) async {
-    final String myPhoneNumber = GlFunctions.getMyPhoneNumber();
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
     final userData = await _firestoreFireStoreInit.collection('users').doc(myPhoneNumber).get();
 
-    final UserModel myContactUserModel = UserModel.fromSnapshot(userData);
+    final UserModel myContactUserModel = UserModel.fromQueryDocumentSnapshot(userData);
 
     chatsRepository.creatingChatRoom(
       friendContactUserModel: friendContactUserModel,

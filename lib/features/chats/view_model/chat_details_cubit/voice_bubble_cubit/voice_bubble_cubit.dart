@@ -30,7 +30,13 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     required String hisPhoneNumber,
   }) async {
     final Directory? appDocDir = await getDownloadsDirectory();
-    final String voiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+
+    final String voiceFileName = _gettingNameForVoiceFile(
+      voiceUrl: voiceUrl,
+      hisPhoneNumber: hisPhoneNumber,
+      myPhoneNumber: myPhoneNumber,
+    );
     final String voiceFilePath = '${appDocDir?.path}/$voiceFileName';
     final bool fileExists = await File(voiceFilePath).exists();
 
@@ -59,7 +65,13 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     required String hisPhoneNumber,
   }) async {
     emit(const VoiceBubbleLoading(progress: 0));
-    final String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+
+    final String finalVoiceFileName = _gettingNameForVoiceFile(
+      voiceUrl: voiceUrl,
+      hisPhoneNumber: hisPhoneNumber,
+      myPhoneNumber: myPhoneNumber,
+    );
     final Directory? appDocDir = await getDownloadsDirectory();
 
     try {
@@ -82,7 +94,13 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     required String hisPhoneNumber,
     required int maxDurationMilliSec,
   }) async {
-    final String finalVoiceFileName = _gettingNameForVoiceFile(voiceUrl, hisPhoneNumber);
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+
+    final String finalVoiceFileName = _gettingNameForVoiceFile(
+      voiceUrl: voiceUrl,
+      hisPhoneNumber: hisPhoneNumber,
+      myPhoneNumber: myPhoneNumber,
+    );
     final Directory? appDocDir = await getDownloadsDirectory();
 
     await _preparePlayerControllerRecording(
@@ -127,14 +145,8 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     }
   }
 
-  String _getMyPhoneNumber() {
-    final String myPhoneNumber = firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-    return myPhoneNumber;
-  }
-
-  String _gettingNameForVoiceFile(String voiceUrl, String hisPhoneNumber) {
-    final String myPhoneNumber = _getMyPhoneNumber();
-
+  String _gettingNameForVoiceFile(
+      {required String voiceUrl, required String hisPhoneNumber, required String myPhoneNumber}) {
     final String sortedNumbers = GlFunctions.sortPhoneNumbers(hisPhoneNumber, myPhoneNumber);
 
     final String finalVoiceFileName = voiceUrl.replaceAll(

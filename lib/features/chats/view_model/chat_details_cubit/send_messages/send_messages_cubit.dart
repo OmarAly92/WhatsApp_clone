@@ -28,11 +28,12 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   void sendMessage({
     required String phoneNumber,
     required String message,
-    required String myPhoneNumber,
     required String type,
     required Timestamp time,
   }) async {
     try {
+      final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+
       _chatDetailsRepository.sendMessage(
         phoneNumber: phoneNumber,
         message: message,
@@ -51,17 +52,17 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required String originalMessage,
     required String message,
     required String replyOriginalName,
-    required String theSender,
     required String type,
     required Timestamp time,
   }) async {
     try {
+      final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
       _chatDetailsRepository.sendReplyMessage(
         phoneNumber: phoneNumber,
         originalMessage: originalMessage,
         message: message,
         replyOriginalName: replyOriginalName,
-        theSender: theSender,
+        theSenderNumber: myPhoneNumber,
         type: type,
         time: time,
         messageId: _uuid.v4(),
@@ -97,7 +98,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required String messageId,
     required String hisPhoneNumber,
   }) async {
-    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
     final String chatDocId = GlFunctions.sortPhoneNumbers(myPhoneNumber, hisPhoneNumber);
     await _chatDetailsRepository.updateMessageReadStatus(chatDocId: chatDocId, messageId: messageId);
   }
@@ -106,7 +107,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     List<double> waveData = _recorderController.waveData.toList();
 
     String? path = await _recorderController.stop();
-    String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
+    String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
 
     try {
       var finalPath = await _uploadVoiceToStorage(
@@ -171,8 +172,6 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
 
     return imagePath;
   }
-
-
 
   Future<String> _getVoiceFilePath() async {
     final directory = await getApplicationDocumentsDirectory();

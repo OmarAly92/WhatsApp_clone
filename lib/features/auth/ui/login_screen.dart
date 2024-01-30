@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/core/parameters_data/user_login_data.dart';
 
 import '../../../core/app_router/app_router.dart';
 import '../../../core/functions/global_functions.dart';

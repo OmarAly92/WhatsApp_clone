@@ -27,7 +27,7 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   Future<void> _getChats() async {
-    final String myPhoneNumber = GlFunctions.getMyPhoneNumber();
+    final String myPhoneNumber =await GlFunctions.getMyPhoneNumber();
     var chats = await _chatsRepository.getChats(myPhoneNumber);
     chats.listen((chats) {
       var result = _getOtherUser(myPhoneNumber, chats);
@@ -46,7 +46,7 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   Future<UserModel> checkUserNameIsNotEmpty() async {
-    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
     return _chatsRepository.checkUserNameIsNotEmpty(myPhoneNumber);
   }
 
@@ -54,8 +54,8 @@ class ChatsCubit extends Cubit<ChatsState> {
     _chatsRepository.sendUserName;
   }
 
-  void getLastMessage({required String hisNumber}) {
-    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
+  void getLastMessage({required String hisNumber})async {
+    final String myPhoneNumber =await  GlFunctions.getMyPhoneNumber();
     var lastMessage = _chatsRepository.getLastMessage(
       hisNumber: hisNumber,
       myPhoneNumber: myPhoneNumber,
