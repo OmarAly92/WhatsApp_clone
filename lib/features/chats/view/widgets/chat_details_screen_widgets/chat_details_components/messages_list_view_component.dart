@@ -39,6 +39,7 @@ class _MessagesListViewState extends State<_MessagesListView> {
     return Expanded(
       child: CustomScrollView(
         slivers: [
+
           SliverFillRemaining(
             child: ListView.builder(
               reverse: true,

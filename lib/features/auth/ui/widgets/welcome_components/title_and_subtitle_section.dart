@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/themes/text_style/text_styles.dart';
-import '../../../../core/themes/theme_color.dart';
+import '../../../../../core/themes/text_style/text_styles.dart';
+import '../../../../../core/themes/theme_color.dart';
 
 class WelcomeTitleAndSubtitleSection extends StatelessWidget {
   const WelcomeTitleAndSubtitleSection({

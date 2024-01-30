@@ -14,12 +14,7 @@ class AuthenticationLoading extends AuthenticationState {
   List<Object> get props => [];
 }
 
-class PhoneNumberSubmitted extends AuthenticationState {
-  @override
-  List<Object> get props => [];
-}
-
-class PhoneOTPVerified extends AuthenticationState {
+class AuthenticationSuccess extends AuthenticationState {
   @override
   List<Object> get props => [];
 }

@@ -3,17 +3,17 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'authentication_state.dart';
+part 'authentication_old_state.dart';
 
-class AuthenticationCubit extends Cubit<AuthenticationState> {
-  AuthenticationCubit() : super(AuthenticationInitial());
+class AuthenticationOldCubit extends Cubit<AuthenticationOldState> {
+  AuthenticationOldCubit() : super(AuthenticationInitialOld());
 
   final _auth = FirebaseAuth.instance;
   late String _verificationId;
   late String phoneNumber;
 
   void submitPhoneNumber({required String phoneNumber}) async {
-    emit(AuthenticationLoading());
+    emit(AuthenticationLoadingOld());
     this.phoneNumber = phoneNumber;
     await _auth.verifyPhoneNumber(
       phoneNumber: '+2$phoneNumber',
@@ -34,10 +34,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     if (failureMessage.code == 'invalid-phone-number') {
       print(failureMessage.toString());
 
-      emit(const AuthenticationFailure(failureMessage: 'The provided phone number is not valid.'));
+      emit(const AuthenticationFailureOld(failureMessage: 'The provided phone number is not valid.'));
     }
     print(failureMessage.toString());
-    emit(AuthenticationFailure(failureMessage: failureMessage.message!));
+    emit(AuthenticationFailureOld(failureMessage: failureMessage.message!));
   }
 
   void _codeSent(String verificationId, int? resendToken) async {
@@ -85,7 +85,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
       emit(PhoneOTPVerified());
     } catch (failureMessage) {
-      emit(AuthenticationFailure(failureMessage: failureMessage.toString()));
+      emit(AuthenticationFailureOld(failureMessage: failureMessage.toString()));
     }
   }
 

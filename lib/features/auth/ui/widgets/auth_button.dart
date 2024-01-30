@@ -20,22 +20,19 @@ class AuthButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          minimumSize: Size(90.w, 40.h),
-          backgroundColor: themeColors.greenButton,
-          foregroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        ),
-        child: Text(
-          buttonName,
-          style: Styles.textStyle14.copyWith(
-            color: themeColors.backgroundColor,
-          ),
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(90.w, 40.h),
+        backgroundColor: themeColors.greenButton,
+        foregroundColor: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+      ),
+      child: Text(
+        buttonName,
+        style: Styles.textStyle14.copyWith(
+          color: themeColors.backgroundColor,
         ),
       ),
     );

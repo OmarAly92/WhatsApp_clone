@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
 import 'package:whats_app_clone/core/dependency_injection/get_it.dart';
-import 'package:whats_app_clone/test_voice_wave.dart';
 
 import 'core/themes/themes.dart';
 import 'firebase_options.dart';
@@ -46,7 +45,7 @@ class MyApp extends StatelessWidget {
         darkTheme: MyThemes.darkTheme,
         onGenerateRoute: appRouter.generateRoute,
         initialRoute: initialScreen,
-        // home: const Home(),
+        // home: MyTest(themeColors: ThemeColors(isDarkMode: true)),
       ),
     );
   }

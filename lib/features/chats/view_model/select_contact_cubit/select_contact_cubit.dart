@@ -20,10 +20,10 @@ class SelectContactCubit extends Cubit<SelectContactState> {
       final localContacts = await chatsRepository.getLocalContact();
 
       final fireBaseUserData = await chatsRepository.getFireBaseUserData();
-      final  List<String?> localContactPhoneNumbers =
+      final List<String?> localContactPhoneNumbers =
           localContacts.map((e) => (e.phones!.first.value).toString().replaceAll(' ', '')).toList();
 
-    final  List<UserModel> result =
+      final List<UserModel> result =
           fireBaseUserData.where((element) => localContactPhoneNumbers.contains(element.userPhone)).toList();
 
       emit(SelectContactSuccess(userModel: result));
@@ -34,7 +34,7 @@ class SelectContactCubit extends Cubit<SelectContactState> {
   }
 
   void createChatRoom({required UserModel friendContactUserModel}) async {
-    final String myPhoneNumber =  GlFunctions.getMyPhoneNumber();
+    final String myPhoneNumber = GlFunctions.getMyPhoneNumber();
     final userData = await _firestoreFireStoreInit.collection('users').doc(myPhoneNumber).get();
 
     final UserModel myContactUserModel = UserModel.fromSnapshot(userData);
@@ -44,8 +44,4 @@ class SelectContactCubit extends Cubit<SelectContactState> {
       myContactUserModel: myContactUserModel,
     );
   }
-
-
-
-
 }

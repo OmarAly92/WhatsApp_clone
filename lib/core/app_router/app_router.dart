@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_clone/features/auth/logic/authentication_cubit.dart';
 
-import '../../features/auth/view/otp_screen.dart';
-import '../../features/auth/view/phone_auth_screen.dart';
-import '../../features/auth/view/welcome_screen.dart';
-import '../../features/auth/view_model/authentication_cubit.dart';
+import '../../features/auth/logic/authentication_old_cubit.dart';
+import '../../features/auth/ui/login_screen.dart';
+import '../../features/auth/ui/otp_screen.dart';
+import '../../features/auth/ui/phone_auth_screen.dart';
+import '../../features/auth/ui/sign_up_screen.dart';
+import '../../features/auth/ui/welcome_screen.dart';
 import '../../features/chats/view/chat_details_screen.dart';
 import '../../features/chats/view/select_contact_screen.dart';
 import '../../features/chats/view_model/chat_details_cubit/chat_detail_parent_cubit.dart';
@@ -20,21 +23,25 @@ import '../themes/theme_color.dart';
 
 class AppRouter {
   static const String welcomeScreen = '/welcomeScreen';
+  static const String otpScreen = '/otpScreen';
+  static const String phoneAuthScreen = '/phoneAuthScreen';
+
+  static const String signUpScreen = '/signUpScreen';
+  static const String loginScreen = '/loginScreen';
+
   static const String homeScreen = '/homeScreen';
   static const String selectContactScreen = '/selectContactScreen';
-  static const String phoneAuthScreen = '/phoneAuthScreen';
-  static const String otpScreen = '/otpScreen';
   static const String chatDetailScreen = '/chatDetailScreen';
   static const String settingsScreen = '/settingsScreen';
   static const String profileScreen = '/profileScreen';
 
-  late final AuthenticationCubit authenticationCubit;
+  late final AuthenticationOldCubit authenticationCubit;
   late final GetMessagesCubit getMessagesCubit;
   late final ChatDetailParentCubit chatDetailParentCubit;
   late final SendMessagesCubit sendMessagesCubit;
 
   AppRouter() {
-    authenticationCubit = AuthenticationCubit();
+    authenticationCubit = AuthenticationOldCubit();
     getMessagesCubit = GetMessagesCubit(sl());
     chatDetailParentCubit = ChatDetailParentCubit();
     sendMessagesCubit = SendMessagesCubit(sl());
@@ -48,9 +55,33 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
-            return BlocProvider<AuthenticationCubit>.value(
+            return BlocProvider<AuthenticationOldCubit>.value(
               value: authenticationCubit,
               child: PhoneAuthScreen(
+                themeColors: ThemeColors(isDarkMode: isDarkMode),
+              ),
+            );
+          },
+        );
+      case signUpScreen:
+        return MaterialPageRoute(
+          builder: (context) {
+            bool isDarkMode = _checkThemeMode(context);
+            return BlocProvider(
+              create: (context) => AuthenticationCubit(),
+              child: SignUpScreen(
+                themeColors: ThemeColors(isDarkMode: isDarkMode),
+              ),
+            );
+          },
+        );
+      case loginScreen:
+        return MaterialPageRoute(
+          builder: (context) {
+            bool isDarkMode = _checkThemeMode(context);
+            return BlocProvider(
+              create: (context) => AuthenticationCubit(),
+              child: LoginScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
               ),
             );
@@ -61,7 +92,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
-            return BlocProvider<AuthenticationCubit>.value(
+            return BlocProvider<AuthenticationOldCubit>.value(
               value: authenticationCubit,
               child: OtpScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),

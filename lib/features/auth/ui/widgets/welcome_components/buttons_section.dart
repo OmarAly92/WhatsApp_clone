@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/app_router/app_router.dart';
-import '../../../../core/themes/text_style/text_styles.dart';
-import '../../../../core/themes/theme_color.dart';
+import '../../../../../core/app_router/app_router.dart';
+import '../../../../../core/themes/text_style/text_styles.dart';
+import '../../../../../core/themes/theme_color.dart';
 
 class WelcomeButtonsSection extends StatelessWidget {
   const WelcomeButtonsSection({
@@ -29,8 +29,7 @@ class WelcomeButtonsSection extends StatelessWidget {
               foregroundColor: Colors.white,
             ),
             onPressed: () async {
-              // GoRouter.of(context).push(AppRouter.phoneAuthScreen);
-              Navigator.pushNamed(context, AppRouter.phoneAuthScreen);
+              Navigator.pushNamed(context, AppRouter.loginScreen);
             },
             child: Text(
               'Agree and continue',
@@ -63,7 +62,7 @@ class WelcomeButtonsSection extends StatelessWidget {
               Icon(
                 Icons.keyboard_arrow_down_rounded,
                 color: themeColors.greenButton,
-              )
+              ),
             ],
           ),
         ),

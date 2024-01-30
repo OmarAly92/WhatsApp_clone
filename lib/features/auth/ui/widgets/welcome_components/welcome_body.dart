@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/themes/theme_color.dart';
+import '../../../../../core/themes/theme_color.dart';
 import 'buttons_section.dart';
 import 'icon_image_section.dart';
 import 'title_and_subtitle_section.dart';

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/app_router/app_router.dart';
 import '../../../core/themes/text_style/text_styles.dart';
 import '../../../core/themes/theme_color.dart';
-import '../view_model/authentication_cubit.dart';
+import '../logic/authentication_old_cubit.dart';
 import 'widgets/auth_button.dart';
 import 'widgets/phone_auth_screen_top_title_section.dart';
 
@@ -46,17 +46,17 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   }
 
   Widget buildBlocListener() {
-    return BlocListener<AuthenticationCubit, AuthenticationState>(
+    return BlocListener<AuthenticationOldCubit, AuthenticationOldState>(
       listenWhen: (previous, current) {
         return previous != current;
       },
       listener: (context, state) {
-        if (state is AuthenticationLoading) {
+        if (state is AuthenticationLoadingOld) {
           showProgressIndicator(context);
         } else if (state is PhoneNumberSubmitted) {
           Navigator.pop(context);
           Navigator.pushNamed(context, AppRouter.otpScreen, arguments: phoneNumberController.text);
-        } else if (state is AuthenticationFailure) {
+        } else if (state is AuthenticationFailureOld) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -79,7 +79,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
     } else {
       Navigator.pop(context);
       _phoneFormKey.currentState!.save();
-      BlocProvider.of<AuthenticationCubit>(context).submitPhoneNumber(phoneNumber: phoneNumberController.text);
+      BlocProvider.of<AuthenticationOldCubit>(context).submitPhoneNumber(phoneNumber: phoneNumberController.text);
     }
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/themes/theme_color.dart';
-import 'widgets/welcome_body.dart';
+import 'widgets/welcome_components/welcome_body.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key, required this.themeColors});

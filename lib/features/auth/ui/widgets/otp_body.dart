@@ -5,7 +5,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../core/app_router/app_router.dart';
 import '../../../../core/themes/theme_color.dart';
-import '../../view_model/authentication_cubit.dart';
+import '../../logic/authentication_old_cubit.dart';
 import 'otp_intro_text.dart';
 
 class OtpBody extends StatefulWidget {
@@ -81,17 +81,17 @@ class _OtpBodyState extends State<OtpBody> {
   }
 
   Widget _buildPhoneVerificationBloc() {
-    return BlocListener<AuthenticationCubit, AuthenticationState>(
+    return BlocListener<AuthenticationOldCubit, AuthenticationOldState>(
       listenWhen: (previous, current) {
         return previous != current;
       },
       listener: (context, state) {
-        if (state is AuthenticationLoading) {
+        if (state is AuthenticationLoadingOld) {
           showProgressIndicator(context);
         } else if (state is PhoneOTPVerified) {
           Navigator.pop(context);
           Navigator.pushNamedAndRemoveUntil(context, AppRouter.homeScreen, (route) => false);
-        } else if (state is AuthenticationFailure) {
+        } else if (state is AuthenticationFailureOld) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.failureMessage),
@@ -106,7 +106,7 @@ class _OtpBodyState extends State<OtpBody> {
   }
 
   void _login(BuildContext context, {required String smsCode}) {
-    BlocProvider.of<AuthenticationCubit>(context).submitOtp(smsCode);
+    BlocProvider.of<AuthenticationOldCubit>(context).submitOtp(smsCode);
   }
 
   @override

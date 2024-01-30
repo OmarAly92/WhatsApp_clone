@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/app_router/app_router.dart';
 import '../../../../core/themes/text_style/text_styles.dart';
 import '../../../../core/themes/theme_color.dart';
-import '../../../auth/view_model/authentication_cubit.dart';
+import '../../../auth/logic/authentication_old_cubit.dart';
 import 'custom_list_tile.dart';
 
 class SettingsItem extends StatelessWidget {
@@ -98,8 +98,8 @@ class SettingsItem extends StatelessWidget {
           minLeadingWidth: 28.w,
           onTap: () {},
         ),
-        BlocProvider<AuthenticationCubit>(
-          create: (context) => AuthenticationCubit(),
+        BlocProvider<AuthenticationOldCubit>(
+          create: (context) => AuthenticationOldCubit(),
           child: ListTile(
             leading: const Icon(Icons.people_rounded, color: Colors.red),
             title: Text(
@@ -110,7 +110,7 @@ class SettingsItem extends StatelessWidget {
             ),
             minLeadingWidth: 28.w,
             onTap: () {
-              AuthenticationCubit authenticationCubit = AuthenticationCubit();
+              AuthenticationOldCubit authenticationCubit = AuthenticationOldCubit();
               authenticationCubit.logOut();
               // GoRouter.of(context).pushReplacement(AppRouter.welcomeScreen);
               Navigator.pushReplacementNamed(context, AppRouter.welcomeScreen);
