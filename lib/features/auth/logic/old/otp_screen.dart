@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/themes/theme_color.dart';
-import 'widgets/otp_body.dart';
+import '../../../../core/themes/theme_color.dart';
+import '../../ui/widgets/otp_body.dart';
 
 class OtpScreen extends StatelessWidget {
   const OtpScreen({

@@ -41,6 +41,7 @@ dependencies:
   equatable: ^2.0.5
   dartz: ^0.10.1
   get_it: ^7.6.7
+  shimmer: ^3.0.0
 
   custom_clippers: ^2.0.0
   swipe_plus: ^0.8.1

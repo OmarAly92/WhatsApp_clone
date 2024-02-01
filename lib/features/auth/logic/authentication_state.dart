@@ -27,3 +27,12 @@ class AuthenticationFailure extends AuthenticationState {
   @override
   List<Object> get props => [failureMessage];
 }
+
+class AuthenticationProfileImageChanged extends AuthenticationState {
+  final String profileImage;
+
+  const AuthenticationProfileImageChanged({required this.profileImage});
+
+  @override
+  List<Object> get props => [profileImage];
+}

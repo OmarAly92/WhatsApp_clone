@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_app_clone/features/auth/logic/authentication_cubit.dart';
 
-import '../../features/auth/logic/authentication_old_cubit.dart';
+import '../../features/auth/logic/old/authentication_old_cubit.dart';
+import '../../features/auth/logic/old/otp_screen.dart';
+import '../../features/auth/logic/old/phone_auth_screen.dart';
 import '../../features/auth/ui/login_screen.dart';
-import '../../features/auth/ui/otp_screen.dart';
-import '../../features/auth/ui/phone_auth_screen.dart';
 import '../../features/auth/ui/sign_up_screen.dart';
 import '../../features/auth/ui/welcome_screen.dart';
 import '../../features/chats/view/chat_details_screen.dart';
@@ -46,8 +46,6 @@ class AppRouter {
     chatDetailParentCubit = ChatDetailParentCubit();
     sendMessagesCubit = SendMessagesCubit(sl());
   }
-
-  SettingsCubit settingsCubit = SettingsCubit()..getSettingData();
 
   Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -130,18 +128,7 @@ class AppRouter {
             );
           },
         );
-      case settingsScreen:
-        return MaterialPageRoute(
-          builder: (context) {
-            bool isDarkMode = _checkThemeMode(context);
-            return BlocProvider.value(
-              value: settingsCubit,
-              child: SettingsScreen(
-                themeColors: ThemeColors(isDarkMode: isDarkMode),
-              ),
-            );
-          },
-        );
+
       case welcomeScreen:
         return MaterialPageRoute(
           builder: (context) {
@@ -161,12 +148,24 @@ class AppRouter {
             );
           },
         );
+      case settingsScreen:
+        return MaterialPageRoute(
+          builder: (context) {
+            bool isDarkMode = _checkThemeMode(context);
+            return BlocProvider(
+              create: (context) => SettingsCubit()..getSettingData(),
+              child: SettingsScreen(
+                themeColors: ThemeColors(isDarkMode: isDarkMode),
+              ),
+            );
+          },
+        );
       case profileScreen:
         return MaterialPageRoute(
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
-            return BlocProvider.value(
-              value: settingsCubit,
+            return BlocProvider(
+              create: (context) => SettingsCubit()..getSettingData(),
               child: ProfileScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
               ),

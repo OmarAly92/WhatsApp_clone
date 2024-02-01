@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,16 +14,15 @@ part 'settings_state.dart';
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit() : super(SettingsInitial());
 
-  var firestoreInit = FirebaseFirestore.instance;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final _firebaseFirestore = FirebaseFirestore.instance;
 
   Future<void> getSettingData() async {
     try {
       final String myEmail = await GlFunctions.getMyEmail();
 
-      var userData = await firestoreInit.collection('users').doc(myEmail).get();
+      final userRawData = await _firebaseFirestore.collection('users').doc(myEmail).get();
 
-      final UserModel user = UserModel.fromQueryDocumentSnapshot(userData);
+      final UserModel user = UserModel.fromQueryDocumentSnapshot(userRawData);
 
       emit(SettingsSuccess(user: user));
     } catch (e) {
@@ -64,7 +62,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       final image = await storageReference.getDownloadURL();
 
-      firestoreInit.collection('users').doc(myEmail).update({
+      _firebaseFirestore.collection('users').doc(myEmail).update({
         'profileImage': image,
       });
     } catch (e) {
@@ -73,4 +71,6 @@ class SettingsCubit extends Cubit<SettingsState> {
 
     getSettingData();
   }
+
+
 }

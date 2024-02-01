@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/app_router/app_router.dart';
 import '../../../../core/themes/text_style/text_styles.dart';
 import '../../../../core/themes/theme_color.dart';
-import '../../../auth/logic/authentication_old_cubit.dart';
+import '../../../auth/logic/old/authentication_old_cubit.dart';
 import 'custom_list_tile.dart';
 
 class SettingsItem extends StatelessWidget {

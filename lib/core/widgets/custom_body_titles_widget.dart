@@ -10,8 +10,8 @@ class CustomBodyTitlesWidget extends StatelessWidget {
     required this.themeColors,
   });
 
-  final Text textTitle;
-  final Text textSubTitle;
+  final Widget textTitle;
+  final Widget textSubTitle;
   final ThemeColors themeColors;
 
   @override

@@ -103,6 +103,15 @@ class _LoginBodyState extends State<_LoginBody> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 20.h),
               child: BlocBuilder<AuthenticationCubit, AuthenticationState>(
+                buildWhen: (previous, current) {
+                  if (current is AuthenticationProfileImageChanged) {
+                    return false;
+                  } else if (previous is AuthenticationProfileImageChanged) {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                },
                 builder: (context, state) {
                   if (state is AuthenticationLoading) {
                     return const CircularProgressIndicator();

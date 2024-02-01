@@ -5,7 +5,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../core/app_router/app_router.dart';
 import '../../../../core/themes/theme_color.dart';
-import '../../logic/authentication_old_cubit.dart';
+import '../../logic/old/authentication_old_cubit.dart';
 import 'otp_intro_text.dart';
 
 class OtpBody extends StatefulWidget {

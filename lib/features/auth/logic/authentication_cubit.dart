@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:whats_app_clone/core/utils/assets_data.dart';
 import 'package:whats_app_clone/data/model/user_model/user_model.dart';
 
 import '../../../core/parameters_data/user_login_data.dart';
@@ -16,7 +20,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   final _firebaseAuth = FirebaseAuth.instance;
   final _firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<void> createAccountWithEmailAndPassword({required UserSignUpData userSignUpData}) async {
+  String imagePath = kNetworkDefaultProfilePicture;
+
+  Future<void> createAccountWithEmailAndPassword({
+    required UserSignUpData userSignUpData,
+  }) async {
     emit(AuthenticationLoading());
     try {
       final userDoc = await _firebaseFirestore
@@ -25,13 +33,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           .get();
       final userModel = userDoc.docs.map((e) => UserModel.fromQueryDocumentSnapshot(e));
       if (userDoc.docs.isEmpty || userSignUpData.phoneNumber != userModel.single.userPhone) {
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: userSignUpData.emailAddress, password: userSignUpData.password)
-            .timeout(
-          const Duration(seconds: 15),
-          onTimeout: () {
-            throw Exception('Timeout');
-          },
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: userSignUpData.emailAddress,
+          password: userSignUpData.password,
         );
         await _createUserProfileDoc(userSignUpData: userSignUpData);
         emit(AuthenticationSuccess());
@@ -51,12 +55,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> _createUserProfileDoc({required UserSignUpData userSignUpData}) async {
-    const String defaultImage =
-        'https://firebasestorage.googleapis.com/v0/b/whats-app-clone-4fe8a.appspot.com/o/default%2Fdefault_profile_picture.jpg?alt=media&token=facbc559-4b44-4f58-b21d-2e101dfa2da7';
-
+    String defaultImage = kNetworkDefaultProfilePicture;
     final CollectionReference createUser = _firebaseFirestore.collection('users');
 
     final DocumentSnapshot documentSnapshot = await createUser.doc(userSignUpData.emailAddress).get();
+
+    defaultImage = await changeProfilePicture(myEmail: userSignUpData.emailAddress, imagePath: imagePath);
+
     if (!documentSnapshot.exists) {
       var userId = _firebaseAuth.currentUser!.uid;
       createUser.doc(userSignUpData.emailAddress).set({
@@ -88,6 +93,40 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       } else if (e.code == 'wrong-password') {
         emit(const AuthenticationFailure(failureMessage: 'Wrong password provided for that user.'));
       }
+    }
+  }
+
+  Future<void> pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      imagePath = pickedFile.path;
+      emit(AuthenticationProfileImageChanged(profileImage: imagePath));
+    } else {
+      imagePath = kNetworkDefaultProfilePicture;
+    }
+  }
+
+  Future<String> changeProfilePicture({required String myEmail, required String imagePath}) async {
+    if (imagePath != kNetworkDefaultProfilePicture) {
+      final Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('users')
+          .child(myEmail)
+          .child('profile_picture')
+          .child('user_profile_picture.jpg');
+
+      final File imageFile = File(imagePath);
+      final UploadTask uploadTask = storageReference.putFile(imageFile);
+
+      await uploadTask.whenComplete(() => print('Image uploaded'));
+
+      final image = await storageReference.getDownloadURL();
+
+      return image;
+    } else {
+      return kNetworkDefaultProfilePicture;
     }
   }
 }

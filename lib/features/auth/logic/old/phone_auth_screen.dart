@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/app_router/app_router.dart';
-import '../../../core/themes/text_style/text_styles.dart';
-import '../../../core/themes/theme_color.dart';
-import '../logic/authentication_old_cubit.dart';
-import 'widgets/auth_button.dart';
-import 'widgets/phone_auth_screen_top_title_section.dart';
+import '../../../../core/app_router/app_router.dart';
+import '../../../../core/themes/text_style/text_styles.dart';
+import '../../../../core/themes/theme_color.dart';
+import 'authentication_old_cubit.dart';
+import '../../ui/widgets/auth_button.dart';
+import '../../ui/widgets/phone_auth_screen_top_title_section.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
   const PhoneAuthScreen({Key? key, required this.themeColors}) : super(key: key);
