@@ -31,8 +31,13 @@ abstract class GlFunctions {
     final String myEmail = firebaseAuth.currentUser!.email!;
     final userDoc = await firebaseFirestore.collection('users').doc(myEmail).get();
     final String myPhoneNumber = userDoc.get('userPhone');
-    print('$myPhoneNumber OMAR CHEFIKdnvklosdnv');
     return myPhoneNumber;
+  }
+
+  static Future<String> getMyEmail() async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    final String myEmail = firebaseAuth.currentUser!.email!;
+    return myEmail;
   }
 
   static void showSnackBar(BuildContext context, String message) {

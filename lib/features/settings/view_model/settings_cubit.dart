@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/functions/global_functions.dart';
 import '../../../data/model/user_model/user_model.dart';
 
 part 'settings_state.dart';
@@ -19,11 +20,9 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> getSettingData() async {
     try {
-      var myPhoneNumber =
-          firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+      final String myEmail = await GlFunctions.getMyEmail();
 
-      var userData =
-          await firestoreInit.collection('users').doc(myPhoneNumber).get();
+      var userData = await firestoreInit.collection('users').doc(myEmail).get();
 
       final UserModel user = UserModel.fromQueryDocumentSnapshot(userData);
 
@@ -48,12 +47,13 @@ class SettingsCubit extends Cubit<SettingsState> {
   void changeProfilePicture() async {
     try {
       final String imagePath = await pickImageFromGallery();
-      var myPhoneNumber =
-          firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
+      final String myEmail = await GlFunctions.getMyEmail();
+
+      // final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
       final Reference storageReference = FirebaseStorage.instance
           .ref()
           .child('users')
-          .child(myPhoneNumber)
+          .child(myEmail)
           .child('profile_picture')
           .child('user_profile_picture.jpg');
 
@@ -64,7 +64,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       final image = await storageReference.getDownloadURL();
 
-      firestoreInit.collection('users').doc(myPhoneNumber).update({
+      firestoreInit.collection('users').doc(myEmail).update({
         'profileImage': image,
       });
     } catch (e) {
