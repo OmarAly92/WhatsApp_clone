@@ -8,8 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whats_app_clone/core/utils/assets_data.dart';
-import 'package:whats_app_clone/data/model/user_model/user_model.dart';
 
+import '../../../core/networking/model/user_model/user_model.dart';
 import '../../../core/parameters_data/user_login_data.dart';
 import '../../../core/parameters_data/user_sign_up.dart';
 
@@ -40,7 +40,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         await _createUserProfileDoc(userSignUpData: userSignUpData);
         emit(AuthenticationSuccess());
       } else {
-        print('Phone number already used OMAR');
         emit(const AuthenticationFailure(failureMessage: 'Phone number already used'));
       }
     } on FirebaseAuthException catch (e) {

@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/data/model/chat_model/message_model.dart';
 
 import '../../../../../../core/functions/global_functions.dart';
+import '../../../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../logic/chat_details_cubit/chat_detail_parent_cubit.dart';
 
 
-part 'original_message_text_component.dart';
+part 'original_message_text.dart';
 class ReplyOnChatTextForm extends StatelessWidget {
   const ReplyOnChatTextForm({
     super.key,
@@ -77,7 +77,7 @@ class ReplyOnChatTextForm extends StatelessWidget {
             AnimatedSize(
               duration: const Duration(milliseconds: 180),
               alignment: AlignmentDirectional.bottomStart,
-              child: _OriginalMessageTextComponent(
+              child: _OriginalMessageText(
                 messageModel: replyOriginalMessage,
                 themeColors: themeColors,
               ),

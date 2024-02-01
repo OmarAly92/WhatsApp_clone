@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/functions/global_functions.dart';
-import '../../../../data/model/user_model/user_model.dart';
+import '../../../../core/networking/model/user_model/user_model.dart';
 import '../../data/repository/chats_repository.dart';
 
 part 'select_contact_state.dart';

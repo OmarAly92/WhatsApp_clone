@@ -14,7 +14,7 @@ class _IconItems extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _FirstRowIconComponents(themeColors: themeColors, phoneNumber: phoneNumber),
+        _FirstRowIcon(themeColors: themeColors, phoneNumber: phoneNumber),
         _SecondRowIconComponent(themeColors: themeColors, phoneNumber: phoneNumber),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 35.w),

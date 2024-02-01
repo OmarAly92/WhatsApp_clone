@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:swipe_plus/swipe_plus.dart';
 
+import '../../../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../../../core/themes/theme_color.dart';
-import '../../../../../../data/model/chat_model/message_model.dart';
 import '../../../../logic/chat_details_cubit/chat_detail_parent_cubit.dart';
 import '../../../../logic/chat_details_cubit/get_messages/get_messages_cubit.dart';
 import '../../../../logic/chat_details_cubit/image_bubble_cubit/image_bubble_cubit.dart';
@@ -18,9 +18,9 @@ import '../reply_bubble_components/reply_bubble.dart';
 import '../voice_bubble_components/voice_bubble.dart';
 import '../whats_app_text_form_components/whats_app_ text_form_and_mic_button.dart';
 
-part 'message_selection_component.dart';
+part 'message_selection.dart';
 
-part 'messages_list_view_component.dart';
+part 'messages_list_view.dart';
 
 class ChatDetailsBody extends StatefulWidget {
   const ChatDetailsBody({

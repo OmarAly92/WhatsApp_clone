@@ -5,7 +5,7 @@ import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../custom_bubble_parent.dart';
 
-part 'deleted_message_bubble_body_component.dart';
+part 'deleted_message_bubble_body.dart';
 
 class DeletedMessageBubble extends StatelessWidget {
   const DeletedMessageBubble({
@@ -30,7 +30,7 @@ class DeletedMessageBubble extends StatelessWidget {
       themeColors: themeColors,
       isTheSender: isTheSender,
       isFirstMessage: isFirstMessage,
-      widgetBubbleBody: _DeletedMessageBubbleBodyComponent(
+      widgetBubbleBody: _DeletedMessageBubbleBody(
         themeColors: themeColors,
         isTheSender: isTheSender,
         isFirstMessage: isFirstMessage,

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/functions/global_functions.dart';
-import 'package:whats_app_clone/data/model/chat_model/message_model.dart';
 
+import '../../../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../logic/chat_details_cubit/image_bubble_cubit/image_bubble_cubit.dart';
 import '../custom_bubble_parent.dart';
 
-part 'error_image_handling_component.dart';
+part 'error_image_handling.dart';
 
 part 'image_bubble_body.dart';
 
@@ -49,12 +49,12 @@ class _ImageBubbleState extends State<ImageBubble> {
 
   @override
   Widget build(BuildContext context) {
-    return _ErrorImageHandlingComponent(
+    return _ErrorImageHandling(
       child: CustomBubbleParent(
         isFirstMessage: widget.isFirstMessage,
         themeColors: widget.themeColors,
         isTheSender: widget.isTheSender,
-        widgetBubbleBody: _ImageBubbleBodyComponent(
+        widgetBubbleBody: _ImageBubbleBody(
           isTheSender: widget.isTheSender,
           themeColors: widget.themeColors,
           backgroundBlendMode: widget.backgroundBlendMode,

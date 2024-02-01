@@ -52,7 +52,7 @@ class _MessagesListViewState extends State<_MessagesListView> {
                 final haveNips = haveNip(index, item);
                 return Padding(
                   padding: EdgeInsets.only(top: 1.5.h),
-                  child: _MessageSelectionComponent(
+                  child: _MessageSelection(
                     themeColors: widget.themeColors,
                     isTheSender: isTheSender,
                     message: item[index].message,

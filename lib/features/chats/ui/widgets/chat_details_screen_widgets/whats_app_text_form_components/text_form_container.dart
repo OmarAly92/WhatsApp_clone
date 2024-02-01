@@ -1,7 +1,7 @@
 part of 'whats_app_ text_form_and_mic_button.dart';
 
-class _TextFormContainerComponent extends StatelessWidget {
-  const _TextFormContainerComponent({
+class _TextFormContainer extends StatelessWidget {
+  const _TextFormContainer({
     required this.themeColors,
     required this.child,
   });

@@ -1,7 +1,7 @@
 part of 'voice_bubble.dart';
 
-class _ErrorVoiceHandlingComponent extends StatelessWidget {
-  const _ErrorVoiceHandlingComponent({required this.child});
+class _ErrorVoiceHandling extends StatelessWidget {
+  const _ErrorVoiceHandling({required this.child});
 
   final Widget child;
 

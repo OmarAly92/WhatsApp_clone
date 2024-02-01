@@ -75,7 +75,7 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
                         style: Styles.textStyle14.copyWith(fontSize: 13.spMin, color: replyColor),
                       ),
                     ),
-                    _OriginalMessageTextComponent(
+                    _OriginalMessageText(
                       messageModel: messageModel,
                       themeColors: themeColors,
                     ),

@@ -1,7 +1,7 @@
 part of 'reply_bubble.dart';
 
-class _OriginalMessageTextComponent extends StatelessWidget {
-  const _OriginalMessageTextComponent({
+class _OriginalMessageText extends StatelessWidget {
+  const _OriginalMessageText({
     required this.messageModel,
     required this.themeColors,
   });

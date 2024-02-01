@@ -1,7 +1,7 @@
 part of 'clip_button_pop_up.dart';
 
-class _FirstRowIconComponents extends StatelessWidget {
-  const _FirstRowIconComponents({
+class _FirstRowIcon extends StatelessWidget {
+  const _FirstRowIcon({
     Key? key,
     required this.themeColors,
     required this.phoneNumber,

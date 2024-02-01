@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 
-import '../../data/data_source/chats/chat_details_requests.dart';
-import '../../data/data_source/chats/chats_requests.dart';
+import '../../features/chats/data/data_source/chats/chat_details_requests.dart';
+import '../../features/chats/data/data_source/chats/chats_requests.dart';
 import '../../features/chats/data/repository/chat_details_repository.dart';
 import '../../features/chats/data/repository/chats_repository.dart';
 import '../app_router/app_router.dart';

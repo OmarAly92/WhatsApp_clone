@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/functions/global_functions.dart';
-import 'package:whats_app_clone/data/model/chat_model/message_model.dart';
 
+import '../../../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../custom_bubble_parent.dart';
 
-part 'reply_bubble_body_component.dart';
-part 'original_message_text_component.dart';
+part 'reply_bubble_body.dart';
+part 'original_message_text.dart';
 
 class ReplyBubble extends StatelessWidget {
   const ReplyBubble({

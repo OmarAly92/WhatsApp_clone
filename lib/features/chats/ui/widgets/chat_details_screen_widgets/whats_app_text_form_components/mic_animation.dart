@@ -1,7 +1,7 @@
 part of 'whats_app_ text_form_and_mic_button.dart';
 
-class _MicAnimationComponent extends StatefulWidget {
-  const _MicAnimationComponent({
+class _MicAnimation extends StatefulWidget {
+  const _MicAnimation({
     required AnimationController animationController,
     required this.iconColor,
   }) : _animationController = animationController;
@@ -10,10 +10,10 @@ class _MicAnimationComponent extends StatefulWidget {
   final AnimationController _animationController;
 
   @override
-  State<_MicAnimationComponent> createState() => _MicAnimationComponentState();
+  State<_MicAnimation> createState() => _MicAnimationState();
 }
 
-class _MicAnimationComponentState extends State<_MicAnimationComponent> {
+class _MicAnimationState extends State<_MicAnimation> {
   late Animation<double> _micTranslateTop;
   late Animation<double> _micRotationFirst;
   late Animation<double> _micTranslateRight;

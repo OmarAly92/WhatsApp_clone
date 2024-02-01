@@ -23,11 +23,11 @@ import 'test_text_color_ani.dart';
 
 part 'chat_text_form_suffix_icon.dart';
 
-part 'mic_animation_component.dart';
+part 'mic_animation.dart';
 
-part 'recording_container_component.dart';
+part 'recording_container.dart';
 
-part 'text_form_container_component.dart';
+part 'text_form_container.dart';
 
 class WhatsAppTextFormAndMicButton extends StatefulWidget {
   const WhatsAppTextFormAndMicButton({
@@ -150,12 +150,12 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
                                   )
                                 : const SizedBox.shrink(),
                             isRecording
-                                ? _RecordingContainerComponent(
+                                ? _RecordingContainer(
                                     redMicIcon: redMicIcon,
                                     recordTimeText: recordTimeText,
                                     themeColors: widget.themeColors,
                                   )
-                                : _TextFormContainerComponent(
+                                : _TextFormContainer(
                                     themeColors: widget.themeColors,
                                     child: buildTextFormField(
                                       context,
@@ -256,7 +256,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
               ? Positioned(
                   top: 4,
                   right: 265.w,
-                  child: _MicAnimationComponent(
+                  child: _MicAnimation(
                     animationController: animationController,
                     iconColor: Colors.red,
                   ),

@@ -1,9 +1,9 @@
 import 'package:contacts_service/contacts_service.dart';
 
-import '../../../../data/data_source/chats/chats_requests.dart';
-import '../../../../data/model/chat_model/chat_model.dart';
-import '../../../../data/model/chat_model/message_model.dart';
-import '../../../../data/model/user_model/user_model.dart';
+import '../../../../core/networking/model/chat_model/chat_model.dart';
+import '../../../../core/networking/model/chat_model/message_model.dart';
+import '../../../../core/networking/model/user_model/user_model.dart';
+import '../data_source/chats/chats_requests.dart';
 
 
 class ChatsRepository {

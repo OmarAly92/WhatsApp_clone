@@ -1,7 +1,7 @@
 part of 'image_bubble.dart';
 
-class _ErrorImageHandlingComponent extends StatelessWidget {
-  const _ErrorImageHandlingComponent({required this.child});
+class _ErrorImageHandling extends StatelessWidget {
+  const _ErrorImageHandling({required this.child});
 
   final Widget child;
 

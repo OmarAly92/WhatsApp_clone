@@ -1,7 +1,7 @@
 part of 'image_bubble.dart';
 
-class _ImageBubbleBodyComponent extends StatelessWidget {
-  const _ImageBubbleBodyComponent({
+class _ImageBubbleBody extends StatelessWidget {
+  const _ImageBubbleBody({
     required this.messageModel,
     required this.isTheSender,
     required this.themeColors,

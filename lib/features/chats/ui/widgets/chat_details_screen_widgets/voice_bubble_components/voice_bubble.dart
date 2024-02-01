@@ -6,10 +6,10 @@ import 'package:intl/intl.dart';
 import 'package:whats_app_clone/core/functions/global_functions.dart';
 
 
+import '../../../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../../../core/widgets/custom_circle_image.dart';
-import '../../../../../../data/model/chat_model/message_model.dart';
 import '../../../../logic/chat_details_cubit/voice_bubble_cubit/voice_bubble_cubit.dart';
 import '../custom_bubble_parent.dart';
 
@@ -17,7 +17,7 @@ part 'audio_wave_voice_duration_and_voice_time.dart';
 
 part 'circle_image.dart';
 
-part 'error_voice_handling_component.dart';
+part 'error_voice_handling.dart';
 
 part 'voice_button_states.dart';
 
@@ -56,7 +56,7 @@ class _VoiceBubbleState extends State<VoiceBubble> {
 
   @override
   Widget build(BuildContext context) {
-    return _ErrorVoiceHandlingComponent(
+    return _ErrorVoiceHandling(
       child: CustomBubbleParent(
         themeColors: widget.themeColors,
         isTheSender: widget.isTheSender,

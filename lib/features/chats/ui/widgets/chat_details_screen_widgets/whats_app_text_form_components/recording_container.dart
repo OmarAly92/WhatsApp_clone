@@ -1,7 +1,7 @@
 part of 'whats_app_ text_form_and_mic_button.dart';
 
-class _RecordingContainerComponent extends StatelessWidget {
-  const _RecordingContainerComponent({
+class _RecordingContainer extends StatelessWidget {
+  const _RecordingContainer({
     required this.themeColors,
     required this.redMicIcon,
     required this.recordTimeText,

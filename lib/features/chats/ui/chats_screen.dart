@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/themes/theme_color.dart';
-import '../../../data/model/user_model/user_model.dart';
+import '../../../core/networking/model/user_model/user_model.dart';
 import '../logic/chats_cubit/chats_cubit.dart';
 import 'widgets/chats_screen_widgets/chat_screen_user_name_alert_dialog.dart';
 import 'widgets/chats_screen_widgets/chats_list_view.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../../core/app_router/app_router.dart';
 import '../../../../../core/dependency_injection/get_it.dart';
-import '../../../../../data/model/chat_model/chat_model.dart';
+import '../../../../../core/networking/model/chat_model/chat_model.dart';
 import '../../../logic/chats_cubit/chats_cubit.dart';
 import 'chat_item.dart';
 

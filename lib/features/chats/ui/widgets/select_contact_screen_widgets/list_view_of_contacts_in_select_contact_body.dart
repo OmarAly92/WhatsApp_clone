@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/app_router/app_router.dart';
-import '../../../../../data/model/user_model/user_model.dart';
+import '../../../../../core/networking/model/user_model/user_model.dart';
 import '../../../logic/select_contact_cubit/select_contact_cubit.dart';
 import 'local_mobile_contacts.dart';
 
@@ -30,7 +30,6 @@ class ListViewOfContactsInSelectContactBody extends StatelessWidget {
             BlocProvider.of<SelectContactCubit>(context).createChatRoom(
               friendContactUserModel: userModelList[index],
             );
-            print('DONE');
             Navigator.pushNamed(context, AppRouter.chatDetailScreen, arguments: {
               'hisPicture': userModelList[index].profilePicture,
               'hisPhoneNumber': userModelList[index].userPhone,

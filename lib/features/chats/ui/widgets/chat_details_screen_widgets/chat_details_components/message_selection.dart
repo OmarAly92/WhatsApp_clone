@@ -1,7 +1,7 @@
 part of 'chat_details_body.dart';
 
-class _MessageSelectionComponent extends StatefulWidget {
-  const _MessageSelectionComponent({
+class _MessageSelection extends StatefulWidget {
+  const _MessageSelection({
     required this.themeColors,
     required this.isTheSender,
     required this.message,
@@ -26,10 +26,10 @@ class _MessageSelectionComponent extends StatefulWidget {
   final MessageModel messageModel;
 
   @override
-  State<_MessageSelectionComponent> createState() => _MessageSelectionComponentState();
+  State<_MessageSelection> createState() => _MessageSelectionState();
 }
 
-class _MessageSelectionComponentState extends State<_MessageSelectionComponent> {
+class _MessageSelectionState extends State<_MessageSelection> {
   int isSelected = -1;
   int isSelectedLongPress = -1;
 

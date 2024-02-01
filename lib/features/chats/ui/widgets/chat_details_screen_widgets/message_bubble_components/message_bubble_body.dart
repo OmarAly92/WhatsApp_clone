@@ -1,7 +1,7 @@
 part of 'message_bubble.dart';
 
-class _MessageBubbleBodyComponent extends StatelessWidget {
-  const _MessageBubbleBodyComponent({
+class _MessageBubbleBody extends StatelessWidget {
+  const _MessageBubbleBody({
     required this.themeColors,
     required this.isTheSender,
     required this.isFirstMessage,

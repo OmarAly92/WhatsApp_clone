@@ -1,7 +1,7 @@
 part of 'deleted_message_bubble.dart';
 
-class _DeletedMessageBubbleBodyComponent extends StatelessWidget {
-  const _DeletedMessageBubbleBodyComponent({
+class _DeletedMessageBubbleBody extends StatelessWidget {
+  const _DeletedMessageBubbleBody({
     required this.themeColors,
     required this.isTheSender,
     required this.isFirstMessage,

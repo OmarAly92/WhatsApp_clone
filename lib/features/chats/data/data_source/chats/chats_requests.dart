@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../core/functions/global_functions.dart';
-import '../../model/user_model/user_model.dart';
+import '../../../../../core/functions/global_functions.dart';
+import '../../../../../core/networking/model/user_model/user_model.dart';
+
 
 class ChatsRequest {
   late final FirebaseFirestore _firebaseFirestore;

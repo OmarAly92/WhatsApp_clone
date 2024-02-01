@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../core/functions/global_functions.dart';
+import '../../../../../core/functions/global_functions.dart';
+
 
 class ChatDetailsRequests {
   late final FirebaseFirestore _firebaseFirestore;

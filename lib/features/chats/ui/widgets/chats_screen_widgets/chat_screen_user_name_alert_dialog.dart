@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/themes/theme_color.dart';
+import '../../../../../core/networking/model/user_model/user_model.dart';
 import '../../../../../core/themes/text_style/text_styles.dart';
-import '../../../../../data/model/user_model/user_model.dart';
 
 class UserNameAlertDialogWidget extends StatefulWidget {
   const UserNameAlertDialogWidget({
@@ -16,19 +16,16 @@ class UserNameAlertDialogWidget extends StatefulWidget {
   final UserModel userModel;
 
   @override
-  State<UserNameAlertDialogWidget> createState() =>
-      _UserNameAlertDialogWidgetState();
+  State<UserNameAlertDialogWidget> createState() => _UserNameAlertDialogWidgetState();
 }
 
-class _UserNameAlertDialogWidgetState
-    extends State<UserNameAlertDialogWidget> {
+class _UserNameAlertDialogWidgetState extends State<UserNameAlertDialogWidget> {
   late String userName;
 
   final GlobalKey<FormState> popUpUserFormKey = GlobalKey<FormState>();
 
   void sendUserNameFireStore(String userName, UserModel userModel) {
-    var userQuerySnapshot =
-        FirebaseFirestore.instance.collection('users').doc(userModel.userPhone);
+    var userQuerySnapshot = FirebaseFirestore.instance.collection('users').doc(userModel.userPhone);
     userQuerySnapshot.update({
       'userName': userName,
     });

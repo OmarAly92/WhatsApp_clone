@@ -10,7 +10,7 @@ import 'icon_item_widget.dart';
 
 part 'icon_items.dart';
 
-part 'row_icon_components.dart';
+part 'row_icon.dart';
 
 class ClipButtonPopUp extends StatefulWidget {
   const ClipButtonPopUp({
