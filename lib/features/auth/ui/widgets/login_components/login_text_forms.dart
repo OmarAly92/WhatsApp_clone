@@ -3,9 +3,11 @@ part of '../../login_screen.dart';
 class EmailPasswordTextForm extends StatefulWidget {
   const EmailPasswordTextForm({
     super.key,
-    required this. emailController,
-    required this.themeColors, required this.passwordController, required this.formKey,
-  }) ;
+    required this.emailController,
+    required this.themeColors,
+    required this.passwordController,
+    required this.formKey,
+  });
 
   final TextEditingController emailController;
   final GlobalKey<FormState> formKey;
@@ -17,9 +19,7 @@ class EmailPasswordTextForm extends StatefulWidget {
 }
 
 class _EmailPasswordTextFormState extends State<EmailPasswordTextForm> {
-
   bool obscureText = true;
-
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +40,15 @@ class _EmailPasswordTextFormState extends State<EmailPasswordTextForm> {
             },
             keyboardType: TextInputType.emailAddress,
             icon: Icons.email_rounded,
-            themeColors:widget.themeColors,
+            themeColors: widget.themeColors,
           ),
         ),
-
         Padding(
           padding: EdgeInsets.all(customTextHeightPadding),
           child: StatefulBuilder(builder: (context, setState) {
             return CustomTextForm(
               obscureText: obscureText,
-              emailController:widget. passwordController,
+              emailController: widget.passwordController,
               hintText: 'Password',
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -61,8 +60,8 @@ class _EmailPasswordTextFormState extends State<EmailPasswordTextForm> {
                 if (widget.formKey.currentState?.validate() == true) {
                   BlocProvider.of<AuthenticationCubit>(context).loginInWithEmailAndPassword(
                     userLoginData: UserLoginData(
-                      emailAddress:widget. emailController.text.trim(),
-                      password:widget. passwordController.text.trim(),
+                      emailAddress: widget.emailController.text.trim(),
+                      password: widget.passwordController.text.trim(),
                     ),
                   );
                 }

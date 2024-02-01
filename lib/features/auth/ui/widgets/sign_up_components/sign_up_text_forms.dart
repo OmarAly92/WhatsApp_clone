@@ -72,6 +72,8 @@ class _SignUpTextFormsState extends State<SignUpTextForms> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your password';
+                } else if (value.toString().length < 7) {
+                  return 'Your password too short';
                 }
                 return null;
               },
@@ -102,6 +104,10 @@ class _SignUpTextFormsState extends State<SignUpTextForms> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your phone number';
+              } else if (value.toString().length > 11) {
+                return 'You have entered more than 11 number';
+              } else if (value.toString().length < 11) {
+                return 'You have entered less than 11 number';
               }
               return null;
             },

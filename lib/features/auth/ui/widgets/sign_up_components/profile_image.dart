@@ -52,9 +52,9 @@ class _ProfileImage extends StatelessWidget {
                   onPressed: () {
                     BlocProvider.of<AuthenticationCubit>(context).pickImageFromGallery();
                   },
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.camera_alt_rounded,
-                    size: 22,
+                    size: 20.r,
                     color: Colors.white,
                   ),
                 ),

@@ -19,13 +19,6 @@ class _Buttons extends StatefulWidget {
 
 class _ButtonsState extends State<_Buttons> {
   @override
-  void dispose() {
-    widget.emailController.dispose();
-    widget.passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
