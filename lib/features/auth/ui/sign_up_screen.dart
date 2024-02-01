@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,15 @@ import '../../../core/utils/assets_data.dart';
 import '../logic/authentication_cubit.dart';
 import 'widgets/custom_text_form.dart';
 
+part 'widgets/sign_up_components/bloc_listener.dart';
+
+part 'widgets/sign_up_components/buttons.dart';
+
+part 'widgets/sign_up_components/profile_image.dart';
+
 part 'widgets/sign_up_components/sign_up_body.dart';
+
+part 'widgets/sign_up_components/sign_up_text_forms.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key, required this.themeColors}) : super(key: key);
@@ -24,11 +33,6 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
-            leading: SizedBox.shrink(),
-            centerTitle: true,
-            title: Text('Sign up'),
-          ),
           SliverToBoxAdapter(
             child: Center(child: _SignUpBody(themeColors: themeColors)),
           ),
