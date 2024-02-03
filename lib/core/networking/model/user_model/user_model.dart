@@ -3,17 +3,19 @@ import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
   final bool isOnline;
-  final String userId;
+  final Timestamp lastSeen;
   final String userName;
+  final String profilePicture;
   final String userEmail;
   final String userPhone;
-  final String profilePicture;
+  final String userId;
 
   const UserModel({
     required this.isOnline,
+    required this.lastSeen,
     required this.userId,
     required this.userName,
-    required  this.userEmail,
+    required this.userEmail,
     required this.userPhone,
     required this.profilePicture,
   });
@@ -23,6 +25,7 @@ class UserModel extends Equatable {
     final json = document.data()!;
     return UserModel(
       isOnline: json['isOnline'],
+      lastSeen: json['lastSeen'],
       userId: json['userId'],
       userName: json['userName'],
       userEmail: json['userEmail'] ?? '',
@@ -35,6 +38,7 @@ class UserModel extends Equatable {
     final json = document.docs.first;
     return UserModel(
       isOnline: json['isOnline'],
+      lastSeen: json['lastSeen'],
       userId: json['userId'],
       userName: json['userName'],
       userEmail: json['userEmail'] ?? '',
@@ -46,6 +50,7 @@ class UserModel extends Equatable {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       isOnline: json['isOnline'],
+      lastSeen: json['lastSeen'] ?? Timestamp(0, 0),
       userId: json['userId'],
       userName: json['userName'],
       userEmail: json['userEmail'] ?? '',
@@ -57,6 +62,7 @@ class UserModel extends Equatable {
   @override
   List<Object> get props => [
         isOnline,
+        lastSeen,
         userId,
         userName,
         userEmail,

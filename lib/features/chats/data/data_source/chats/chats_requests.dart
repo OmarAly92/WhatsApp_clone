@@ -5,7 +5,6 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../../../core/functions/global_functions.dart';
 import '../../../../../core/networking/model/user_model/user_model.dart';
 
-
 class ChatsRequest {
   late final FirebaseFirestore _firebaseFirestore;
 
@@ -61,18 +60,16 @@ class ChatsRequest {
     if (!snapshot.exists) {
       await chatCollection.doc(sortedNumber).set({
         'chatType': 'private',
-        'lastMessage': '',
-        'lastMessageTime': DateTime.timestamp(),
         'usersData': {
           myContactUserModel.userPhone: {
-            'isOnline': true,
+            'isOnline': myContactUserModel.isOnline,
             'userId': myContactUserModel.userId,
             'userName': myContactUserModel.userName,
             'userPhone': myContactUserModel.userPhone,
             'profileImage': myContactUserModel.profilePicture,
           },
           friendContactUserModel.userPhone: {
-            'isOnline': true,
+            'isOnline': myContactUserModel.isOnline,
             'userId': friendContactUserModel.userId,
             'userName': friendContactUserModel.userName,
             'userPhone': friendContactUserModel.userPhone,

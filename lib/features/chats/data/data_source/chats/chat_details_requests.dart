@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../../core/functions/global_functions.dart';
 
-
 class ChatDetailsRequests {
   late final FirebaseFirestore _firebaseFirestore;
 
@@ -31,8 +30,7 @@ class ChatDetailsRequests {
     required String messageId,
     required Timestamp time,
   }) async {
-    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-    final chatDocument = getChatsCollection().doc(sortedNumber);
+    final String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
     final messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
       'isSeen': '',
@@ -42,10 +40,6 @@ class ChatDetailsRequests {
       'time': time,
       'messageId': messageId,
       'type': type,
-    });
-    chatDocument.update({
-      'lastMessage': message,
-      'lastMessageTime': time,
     });
   }
 
@@ -80,7 +74,6 @@ class ChatDetailsRequests {
     required int maxDuration,
   }) {
     final String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
-
     getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
       'isSeen': '',
       'reactEmoji': '',
@@ -105,7 +98,6 @@ class ChatDetailsRequests {
     required String messageId,
   }) {
     String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, theSender);
-    final chatDocument = getChatsCollection().doc(sortedNumber);
     final messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
       'isSeen': '',
@@ -117,10 +109,6 @@ class ChatDetailsRequests {
       'time': time,
       'messageId': messageId,
       'type': type,
-    });
-    chatDocument.update({
-      'lastMessage': message,
-      'lastMessageTime': time,
     });
   }
 
@@ -137,6 +125,20 @@ class ChatDetailsRequests {
     String messageDocId = data.docs.single.id;
     return messageDocId;
   }
+
+  // Future<String> getMessageDocId({
+  //   required String messageId,
+  //   required String chatDocId,
+  // }) async {
+  //   final data = await FirebaseFirestore.instance
+  //       .collection('chats')
+  //       .doc(chatDocId)
+  //       .collection('messages')
+  //       .where('messageId', isEqualTo: messageId)
+  //       .get();
+  //   String messageDocId = data.docs.single.id;
+  //   return messageDocId;
+  // }
 
   Future<void> updateMessageReadStatus({
     required String chatDocId,

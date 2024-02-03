@@ -47,7 +47,7 @@ class Buttons extends StatelessWidget {
               } else {
                 return AuthButton(
                   context: context,
-                  themeColors:themeColors,
+                  themeColors: themeColors,
                   buttonName: 'Sign up',
                   onPressed: () {
                     if (_formKey.currentState?.validate() == true) {
@@ -58,6 +58,8 @@ class Buttons extends StatelessWidget {
                           emailAddress: emailController.text.toLowerCase().trim(),
                           password: passwordController.text.trim(),
                           phoneNumber: phoneNumberController.text.trim(),
+                          isOnline: false,
+                          lastSeen: Timestamp(0, 0),
                         ),
                       );
                     }

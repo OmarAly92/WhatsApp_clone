@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -54,17 +55,21 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> _createUserProfileDoc({required UserSignUpData userSignUpData}) async {
-    String defaultImage = kNetworkDefaultProfilePicture;
+    // String defaultImage = kNetworkDefaultProfilePicture;
     final CollectionReference createUser = _firebaseFirestore.collection('users');
 
     final DocumentSnapshot documentSnapshot = await createUser.doc(userSignUpData.emailAddress).get();
 
-    defaultImage = await changeProfilePicture(myEmail: userSignUpData.emailAddress, imagePath: imagePath);
+    final String defaultImage = await changeProfilePicture(
+      myEmail: userSignUpData.emailAddress,
+      imagePath: imagePath,
+    );
 
     if (!documentSnapshot.exists) {
-      var userId = _firebaseAuth.currentUser!.uid;
+      final userId = _firebaseAuth.currentUser!.uid;
       createUser.doc(userSignUpData.emailAddress).set({
-        'isOnline': true,
+        'isOnline': userSignUpData.isOnline,
+        'lastSeen': userSignUpData.lastSeen,
         'userId': userId,
         'userName': userSignUpData.name,
         'userEmail': userSignUpData.emailAddress,
@@ -119,7 +124,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       final File imageFile = File(imagePath);
       final UploadTask uploadTask = storageReference.putFile(imageFile);
 
-      await uploadTask.whenComplete(() => print('Image uploaded'));
+      await uploadTask.whenComplete(() => log('Image uploaded'));
 
       final image = await storageReference.getDownloadURL();
 

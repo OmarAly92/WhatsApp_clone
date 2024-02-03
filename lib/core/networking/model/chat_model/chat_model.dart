@@ -5,8 +5,6 @@ import '../user_model/user_model.dart';
 
 class ChatsModel extends Equatable {
   final String chatType;
-  final String lastMessage;
-  final Timestamp lastMessageTime;
   final Map<String, UserModel> usersData;
   final List usersPhoneNumber;
 
@@ -15,8 +13,6 @@ class ChatsModel extends Equatable {
     required this.chatType,
     required this.usersData,
     required this.usersPhoneNumber,
-    required this.lastMessage,
-    required this.lastMessageTime,
   });
 
   factory ChatsModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
@@ -28,16 +24,12 @@ class ChatsModel extends Equatable {
       chatType: data['chatType'],
       usersPhoneNumber: data['usersPhoneNumber'],
       usersData: usersData,
-      lastMessage: data['lastMessage'],
-      lastMessageTime: data['lastMessageTime'],
     );
   }
 
   @override
   List<Object?> get props => [
         chatType,
-        lastMessage,
-        lastMessageTime,
         usersData,
         usersPhoneNumber,
       ];

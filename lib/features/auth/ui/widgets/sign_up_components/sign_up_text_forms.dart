@@ -120,6 +120,8 @@ class _SignUpTextFormsState extends State<SignUpTextForms> {
                     emailAddress: widget.emailController.text.toLowerCase().trim(),
                     password: widget.passwordController.text.trim(),
                     phoneNumber: widget.phoneNumberController.text.trim(),
+                    isOnline: false,
+                    lastSeen: Timestamp(0, 0),
                   ),
                 );
               }
