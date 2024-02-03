@@ -55,7 +55,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> _createUserProfileDoc({required UserSignUpData userSignUpData}) async {
-    // String defaultImage = kNetworkDefaultProfilePicture;
     final CollectionReference createUser = _firebaseFirestore.collection('users');
 
     final DocumentSnapshot documentSnapshot = await createUser.doc(userSignUpData.emailAddress).get();
@@ -75,6 +74,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         'userEmail': userSignUpData.emailAddress,
         'userPhone': userSignUpData.phoneNumber,
         'profileImage': defaultImage,
+        'pushToken': '',
       });
     }
   }

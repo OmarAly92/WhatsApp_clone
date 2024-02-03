@@ -9,11 +9,13 @@ class UserModel extends Equatable {
   final String userEmail;
   final String userPhone;
   final String userId;
+  final String pushToken;
 
   const UserModel({
     required this.isOnline,
     required this.lastSeen,
     required this.userId,
+    required this.pushToken,
     required this.userName,
     required this.userEmail,
     required this.userPhone,
@@ -31,6 +33,7 @@ class UserModel extends Equatable {
       userEmail: json['userEmail'] ?? '',
       userPhone: json['userPhone'],
       profilePicture: json['profileImage'],
+      pushToken: json['pushToken'] ?? '',
     );
   }
 
@@ -44,6 +47,7 @@ class UserModel extends Equatable {
       userEmail: json['userEmail'] ?? '',
       userPhone: json['userPhone'],
       profilePicture: json['profileImage'],
+      pushToken: json['pushToken'] ?? '',
     );
   }
 
@@ -56,6 +60,7 @@ class UserModel extends Equatable {
       userEmail: json['userEmail'] ?? '',
       userPhone: json['userPhone'],
       profilePicture: json['profileImage'],
+      pushToken: json['pushToken'] ?? '',
     );
   }
 
