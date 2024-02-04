@@ -3,7 +3,6 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../../core/functions/global_functions.dart';
-import '../../../../../core/networking/model/user_model/user_model.dart';
 
 class ChatsRequest {
   late final FirebaseFirestore _firebaseFirestore;
@@ -47,44 +46,27 @@ class ChatsRequest {
   }
 
   Future<void> creatingChatRoom({
-    required UserModel friendContactUserModel,
-    required UserModel myContactUserModel,
+    required DocumentReference<Map<String, dynamic>> myDoc,
+    required DocumentReference<Map<String, dynamic>> hisDoc,
+    required String myPhoneNumber,
+    required String hisPhoneNumber,
   }) async {
     final chatCollection = getChatsCollection();
 
-    String sortedNumber =
-        GlFunctions.sortPhoneNumbers(friendContactUserModel.userPhone, myContactUserModel.userPhone);
+    final String sortedNumber = GlFunctions.sortPhoneNumbers(hisPhoneNumber, myPhoneNumber);
 
-    DocumentSnapshot snapshot = await chatCollection.doc(sortedNumber).get();
+    final DocumentSnapshot snapshot = await chatCollection.doc(sortedNumber).get();
 
     if (!snapshot.exists) {
       await chatCollection.doc(sortedNumber).set({
         'chatType': 'private',
-        'usersData': {
-          myContactUserModel.userPhone: {
-            'isOnline': myContactUserModel.isOnline,
-            'userId': myContactUserModel.userId,
-            'userName': myContactUserModel.userName,
-            'userPhone': myContactUserModel.userPhone,
-            'profileImage': myContactUserModel.profilePicture,
-            'lastActive': myContactUserModel.lastActive,
-            'userEmail': myContactUserModel.userEmail,
-            'pushToken': myContactUserModel.pushToken,
-          },
-          friendContactUserModel.userPhone: {
-            'isOnline': myContactUserModel.isOnline,
-            'userId': friendContactUserModel.userId,
-            'userName': friendContactUserModel.userName,
-            'userPhone': friendContactUserModel.userPhone,
-            'profileImage': friendContactUserModel.profilePicture,
-            'lastActive': friendContactUserModel.lastActive,
-            'userEmail': friendContactUserModel.userEmail,
-            'pushToken': friendContactUserModel.pushToken,
-          },
-        },
+        'usersDocs': [
+          myDoc,
+          hisDoc,
+        ],
         'usersPhoneNumber': [
-          friendContactUserModel.userPhone,
-          myContactUserModel.userPhone,
+          myPhoneNumber,
+          hisPhoneNumber,
         ],
       });
     }
@@ -98,8 +80,8 @@ class ChatsRequest {
   Future<void> updateActiveStatus({
     required bool isOnline,
   }) async {
-    final String email = await GlFunctions.getMyEmail();
-    final userQuerySnapshot = getUserCollection().doc(email);
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+    final userQuerySnapshot = getUserCollection().doc(myPhoneNumber);
     await userQuerySnapshot.update({
       'isOnline': isOnline,
       'lastActive': DateTime.now().millisecondsSinceEpoch,

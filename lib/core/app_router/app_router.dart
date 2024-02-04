@@ -121,7 +121,7 @@ class AppRouter {
               ],
               child: ChatDetailsScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
-                userModel: arguments['userModel'],
+                hisUserModel: arguments['userModel'],
               ),
             );
           },

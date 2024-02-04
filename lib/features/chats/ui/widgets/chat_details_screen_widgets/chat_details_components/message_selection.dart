@@ -6,12 +6,10 @@ class _MessageSelection extends StatefulWidget {
     required this.isTheSender,
     required this.message,
     required this.time,
-    required this.hisPhoneNumber,
-    required this.hisProfilePicture,
+    required this.hisUserModel,
     required this.isFirstMessage,
     required this.messageModel,
     required this.itemIndex,
-    required this.hisName,
   });
 
   final int itemIndex;
@@ -19,9 +17,7 @@ class _MessageSelection extends StatefulWidget {
   final bool isTheSender;
   final String message;
   final String time;
-  final String hisPhoneNumber;
-  final String hisProfilePicture;
-  final String hisName;
+  final UserModel hisUserModel;
   final bool isFirstMessage;
   final MessageModel messageModel;
 
@@ -38,7 +34,7 @@ class _MessageSelectionState extends State<_MessageSelection> {
       if (widget.isTheSender == false) {
         BlocProvider.of<SendMessagesCubit>(context).updateMessageReadStatus(
           messageId: widget.messageModel.messageId,
-          hisPhoneNumber: widget.hisPhoneNumber,
+          hisPhoneNumber: widget.hisUserModel.phoneNumber,
         );
       }
     }
@@ -63,10 +59,9 @@ class _MessageSelectionState extends State<_MessageSelection> {
         child: VoiceBubble(
           themeColors: widget.themeColors,
           isTheSender: widget.isTheSender,
-          hisProfilePicture: widget.hisProfilePicture,
+          hisUserModel: widget.hisUserModel,
           isFirstMessage: widget.isFirstMessage,
           messageModel: widget.messageModel,
-          hisPhoneNumber: widget.hisPhoneNumber,
           backgroundBlendMode: backgroundBlendMode,
         ),
       );
@@ -79,7 +74,7 @@ class _MessageSelectionState extends State<_MessageSelection> {
           themeColors: widget.themeColors,
           isFirstMessage: widget.isFirstMessage,
           backgroundBlendMode: backgroundBlendMode,
-          hisPhoneNumber: widget.hisPhoneNumber,
+          hisPhoneNumber: widget.hisUserModel.phoneNumber,
         ),
       );
     } else if (widget.messageModel.type == 'reply') {
@@ -106,7 +101,7 @@ class _MessageSelectionState extends State<_MessageSelection> {
   @override
   Widget build(BuildContext context) {
     final Color replyColor = widget.isTheSender ? const Color(0xff068D72) : const Color(0xff8d7ed8);
-    final String hisName = widget.isTheSender ? 'You' : widget.hisName;
+    final String hisName = widget.isTheSender ? 'You' : widget.hisUserModel.userName;
     return SwipePlus(
       onDragComplete: () {
         if (widget.messageModel.type != 'deleted') {

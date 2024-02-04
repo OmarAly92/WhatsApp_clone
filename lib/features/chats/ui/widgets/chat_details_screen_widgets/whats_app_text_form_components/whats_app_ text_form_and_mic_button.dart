@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:intl/intl.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../../core/dependency_injection/get_it.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
@@ -33,11 +34,11 @@ class WhatsAppTextFormAndMicButton extends StatefulWidget {
   const WhatsAppTextFormAndMicButton({
     super.key,
     required this.themeColors,
-    required this.hisPhoneNumber,
+    required this.hisUserModel,
   });
 
   final ThemeColors themeColors;
-  final String hisPhoneNumber;
+  final UserModel hisUserModel;
 
   @override
   State<WhatsAppTextFormAndMicButton> createState() => _WhatsAppTextFormAndMicButtonState();
@@ -293,7 +294,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
                     ),
               suffixIcon: _ChatTextFormSuffixIcon(
                 themeColors: widget.themeColors,
-                phoneNumber: widget.hisPhoneNumber,
+                hisUserModel: widget.hisUserModel,
               ),
               hintText: 'Message',
               hintStyle: Styles.textStyle18.copyWith(
@@ -362,7 +363,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
 
       if (state is ChatDetailParentReplying) {
         BlocProvider.of<SendMessagesCubit>(context).sendReplyMessage(
-          phoneNumber: widget.hisPhoneNumber,
+          hisUserModel: widget.hisUserModel,
           originalMessage: state.originalMessage.message,
           message: chatTextFormController.text,
           replyOriginalName: state.hisName,
@@ -372,7 +373,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
         BlocProvider.of<ChatDetailParentCubit>(context).closeReplyMessage();
       } else {
         BlocProvider.of<SendMessagesCubit>(context).sendMessage(
-          phoneNumber: widget.hisPhoneNumber,
+          hisUserModel: widget.hisUserModel,
           message: chatTextFormController.text,
           time: timestamp,
           type: 'message',
@@ -407,7 +408,11 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
       endRecording();
       var time = Timestamp.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
 
-      await BlocProvider.of<SendMessagesCubit>(context).stopRecording(time, widget.hisPhoneNumber, maxDuration);
+      await BlocProvider.of<SendMessagesCubit>(context).stopRecording(
+        hisUserModel: widget.hisUserModel,
+        maxDuration: maxDuration,
+        time: time,
+      );
     }
   }
 

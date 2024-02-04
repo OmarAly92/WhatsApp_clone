@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:whats_app_clone/core/networking/model/chat_model/message_model.dart';
 
 import '../../../../../core/functions/global_functions.dart';
+import '../../../../../core/networking/model/user_model/user_model.dart';
 
 class ChatDetailsRequests {
   late final FirebaseFirestore _firebaseFirestore;
@@ -60,7 +61,7 @@ class ChatDetailsRequests {
 
   Future<void> sendMessage({required String sortedNumber, required MessageModel messageModel}) async {
     final messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
-    messageDocument.set({
+    await messageDocument.set({
       'isSeen': '',
       'reactEmoji': '',
       'message': messageModel.message,
@@ -71,11 +72,11 @@ class ChatDetailsRequests {
     });
   }
 
-  void sendImage({
+  Future<void> sendImage({
     required String sortedNumber,
     required MessageModel messageModel,
   }) async {
-    getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
+    await getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
       'isSeen': '',
       'reactEmoji': '',
       'message': messageModel.message,
@@ -86,11 +87,11 @@ class ChatDetailsRequests {
     });
   }
 
-  void sendVoice({
+  Future<void> sendVoice({
     required String sortedNumber,
     required MessageModel messageModel,
-  }) {
-    getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
+  }) async {
+    await getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
       'isSeen': '',
       'reactEmoji': '',
       'message': messageModel.message,
@@ -103,12 +104,12 @@ class ChatDetailsRequests {
     });
   }
 
-  void sendReplyMessage({
+  Future<void> sendReplyMessage({
     required String sortedNumber,
     required MessageModel messageModel,
-  }) {
+  }) async {
     final messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
-    messageDocument.set({
+    await messageDocument.set({
       'isSeen': '',
       'reactEmoji': '',
       'originalMessage': messageModel.originalMessage,
@@ -124,16 +125,21 @@ class ChatDetailsRequests {
   void globalSendingMessage({
     required String sortedNumber,
     required MessageModel messageModel,
-  }) {
+    required UserModel hisUserModel,
+  }) async {
     if (messageModel.type == 'message') {
-      sendMessage(sortedNumber: sortedNumber, messageModel: messageModel);
+      await sendMessage(sortedNumber: sortedNumber, messageModel: messageModel);
     } else if (messageModel.type == 'voice') {
-      sendVoice(sortedNumber: sortedNumber, messageModel: messageModel);
+      await sendVoice(sortedNumber: sortedNumber, messageModel: messageModel);
     } else if (messageModel.type == 'image') {
-      sendImage(sortedNumber: sortedNumber, messageModel: messageModel);
+      await sendImage(sortedNumber: sortedNumber, messageModel: messageModel);
     } else if (messageModel.type == 'reply') {
-      sendReplyMessage(sortedNumber: sortedNumber, messageModel: messageModel);
+      await sendReplyMessage(sortedNumber: sortedNumber, messageModel: messageModel);
     }
+
+    log('${hisUserModel.pushToken} OMARTOKEN');
+
+    pushNotification(hisUserModel.pushToken, messageModel);
   }
 
   Future<void> pushNotification(
@@ -151,15 +157,22 @@ class ChatDetailsRequests {
       final data = json.encode({
         "to": userPushToken,
         "notification": {
-          "title": "hello",
+          "title": messageModel.senderName,
           "body": messageModel.message,
-        }
+          "android_channel_id": "chats",
+        },
+      "data": {
+      "some_data" : "User ID: ${messageModel.theSender}",
+      }
       });
-      await dio.post(
+      var response = await dio.post(
         options: Options(headers: headers),
         pushApi,
         data: data,
       );
+      if (response.statusCode == 200) {
+        log('OMAR TEST WORK');
+      }
     } catch (e) {
       log('-----------------------$e-----------------------');
     }

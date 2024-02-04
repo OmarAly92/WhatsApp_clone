@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_notification_channel/flutter_notification_channel.dart';
+import 'package:flutter_notification_channel/notification_importance.dart';
+import 'package:flutter_notification_channel/notification_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
 import 'package:whats_app_clone/core/dependency_injection/get_it.dart';
@@ -13,6 +16,18 @@ late String initialScreen;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  var result = await FlutterNotificationChannel.registerNotificationChannel(
+    description: 'Your channel description',
+    id: 'chat',
+    importance: NotificationImportance.IMPORTANCE_HIGH,
+    name: 'Chat',
+    visibility: NotificationVisibility.VISIBILITY_PUBLIC,
+    allowBubbles: true,
+    enableVibration: true,
+    enableSound: true,
+    showBadge: true,
+  );
+  print(result);
   ServicesLocator.init();
 
   FirebaseAuth.instance.authStateChanges().listen((user) {

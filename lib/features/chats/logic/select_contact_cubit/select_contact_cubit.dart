@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,22 +8,22 @@ import '../../data/repository/chats_repository.dart';
 part 'select_contact_state.dart';
 
 class SelectContactCubit extends Cubit<SelectContactState> {
-  SelectContactCubit(this.chatsRepository) : super(SelectContactInitial());
+  SelectContactCubit(this._chatsRepository) : super(SelectContactInitial());
 
-  final ChatsRepository chatsRepository;
-  final _firestoreFireStoreInit = FirebaseFirestore.instance;
+  final ChatsRepository _chatsRepository;
 
   void sortingContactData() async {
     emit(SelectContactLoading());
     try {
-      final localContacts = await chatsRepository.getLocalContact();
+      final localContacts = await _chatsRepository.getLocalContact();
 
-      final fireBaseUserData = await chatsRepository.getFireBaseUserData();
+      final fireBaseUserData = await _chatsRepository.getFireBaseUserData();
+
       final List<String?> localContactPhoneNumbers =
           localContacts.map((e) => (e.phones!.first.value).toString().replaceAll(' ', '')).toList();
 
       final List<UserModel> result =
-          fireBaseUserData.where((element) => localContactPhoneNumbers.contains(element.userPhone)).toList();
+          fireBaseUserData.where((element) => localContactPhoneNumbers.contains(element.phoneNumber)).toList();
 
       emit(SelectContactSuccess(userModel: result));
     } catch (e) {
@@ -34,13 +33,15 @@ class SelectContactCubit extends Cubit<SelectContactState> {
   }
 
   void createChatRoom({required UserModel friendContactUserModel}) async {
-    final String myEmail = await GlFunctions.getMyEmail();
-    final userData = await _firestoreFireStoreInit.collection('users').doc(myEmail).get();
-    final UserModel myContactUserModel = UserModel.fromQueryDocumentSnapshot(userData);
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+    final hisDoc = _chatsRepository.getSingleUserDoc(phoneNumber: friendContactUserModel.phoneNumber);
+    final myDoc = _chatsRepository.getSingleUserDoc(phoneNumber: myPhoneNumber);
 
-    chatsRepository.creatingChatRoom(
-      friendContactUserModel: friendContactUserModel,
-      myContactUserModel: myContactUserModel,
+    _chatsRepository.creatingChatRoom(
+      hisDoc: hisDoc,
+      myDoc: myDoc,
+      myPhoneNumber: myPhoneNumber,
+      hisPhoneNumber: friendContactUserModel.phoneNumber,
     );
   }
 }

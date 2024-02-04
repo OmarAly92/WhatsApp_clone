@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:swipe_plus/swipe_plus.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../../../core/themes/theme_color.dart';
@@ -26,14 +27,10 @@ class ChatDetailsBody extends StatefulWidget {
   const ChatDetailsBody({
     Key? key,
     required this.themeColors,
-    required this.hisPhoneNumber,
-    required this.hisProfilePicture,
-    required this.hisName,
+    required this.hisUserModel,
   }) : super(key: key);
   final ThemeColors themeColors;
-  final String hisPhoneNumber;
-  final String hisProfilePicture;
-  final String hisName;
+  final UserModel hisUserModel;
 
   @override
   State<ChatDetailsBody> createState() => _ChatDetailsBodyState();
@@ -68,15 +65,13 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
             return Column(
               children: [
                 _MessagesListView(
-                  hisPhoneNumber: widget.hisPhoneNumber,
-                  hisProfilePicture: widget.hisProfilePicture,
+                  hisUserModel: widget.hisUserModel,
                   themeColors: widget.themeColors,
                   state: state,
-                  hisName: widget.hisName,
                 ),
                 WhatsAppTextFormAndMicButton(
                   themeColors: widget.themeColors,
-                  hisPhoneNumber: widget.hisPhoneNumber,
+                  hisUserModel: widget.hisUserModel,
                 ),
               ],
             );

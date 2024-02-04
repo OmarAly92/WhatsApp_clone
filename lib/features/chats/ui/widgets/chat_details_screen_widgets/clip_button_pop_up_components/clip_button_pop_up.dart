@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../../core/app_router/app_router.dart';
 import '../../../../../../core/themes/theme_color.dart';
@@ -16,11 +17,11 @@ class ClipButtonPopUp extends StatefulWidget {
   const ClipButtonPopUp({
     super.key,
     required this.themeColors,
-    required this.phoneNumber,
+    required this.hisUserModel,
   });
 
   final ThemeColors themeColors;
-  final String phoneNumber;
+  final UserModel hisUserModel;
 
   @override
   State<ClipButtonPopUp> createState() => _ClipButtonPopUpState();
@@ -46,7 +47,7 @@ class _ClipButtonPopUpState extends State<ClipButtonPopUp> {
               value: appRouter.getMessagesCubit,
               child: _IconItems(
                 themeColors: widget.themeColors,
-                phoneNumber: widget.phoneNumber,
+                hisUserModel: widget.hisUserModel,
               ),
             ),
           ),

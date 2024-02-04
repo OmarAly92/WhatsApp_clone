@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,9 @@ class _ChatsScreenState extends State<ChatsScreen> {
   @override
   void initState() {
     GlobalRequests.getFirebaseMessagingToken();
+
+
+
     updateActiveStatus();
     super.initState();
   }
@@ -64,7 +68,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                 return ChatsListView(
                   themeColors: widget.themeColors,
                   chats: state.chats,
-                  // user: state.user,
+                  users: state.users,
                 );
               } else if (state is ChatsFailure) {
                 return Center(child: Text(state.failureMessage));

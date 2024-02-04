@@ -8,6 +8,7 @@ class MessageModel extends Equatable {
   final String message;
   final Timestamp time;
   final String theSender;
+  final String senderName;
   final String type;
   final String messageId;
 
@@ -26,6 +27,7 @@ class MessageModel extends Equatable {
     required this.time,
     required this.messageId,
     required this.theSender,
+    required this.senderName,
     required this.type,
     required this.waveData,
     required this.maxDuration,
@@ -42,6 +44,7 @@ class MessageModel extends Equatable {
       time: data['time'],
       type: data['type'],
       theSender: data['theSender'],
+      senderName:  data['senderName']??'',
       waveData: data['waveData'] ?? [],
       maxDuration: data['maxDuration'] ?? 0,
       messageId: data['messageId'] ?? '',

@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 import 'package:whats_app_clone/features/chats/data/data_source/chats/chats_requests.dart';
 
 import '../dependency_injection/get_it.dart';
 
 abstract class GlFunctions {
-
   ChatsRequest chatsRequest = sl();
+
   static String sortPhoneNumbers(String firstNumber, secondNumber) {
     List<String> result = [firstNumber, secondNumber]..sort();
 
@@ -39,8 +40,9 @@ abstract class GlFunctions {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     final String myEmail = firebaseAuth.currentUser!.email!;
-    final userDoc = await firebaseFirestore.collection('users').doc(myEmail).get();
-    final String myPhoneNumber = userDoc.get('userPhone');
+    final userDoc = await firebaseFirestore.collection('users').where('userEmail', isEqualTo: myEmail).get();
+    final userModel = UserModel.fromQueryDocumentSnapshot(userDoc.docs.first);
+    final String myPhoneNumber = userModel.phoneNumber;
     return myPhoneNumber;
   }
 
@@ -59,10 +61,10 @@ abstract class GlFunctions {
     );
   }
 
- static Future<void> updateActiveStatus({
+  static Future<void> updateActiveStatus({
     required bool isOnline,
   }) async {
-   final firebaseFirestore = FirebaseFirestore.instance;
+    final firebaseFirestore = FirebaseFirestore.instance;
     final String email = await GlFunctions.getMyEmail();
     final userQuerySnapshot = firebaseFirestore.collection('users').doc(email);
     await userQuerySnapshot.update({

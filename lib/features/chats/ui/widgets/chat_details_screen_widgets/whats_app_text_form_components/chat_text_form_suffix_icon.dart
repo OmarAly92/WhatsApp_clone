@@ -3,11 +3,11 @@ part of 'whats_app_ text_form_and_mic_button.dart';
 class _ChatTextFormSuffixIcon extends StatelessWidget {
   const _ChatTextFormSuffixIcon({
     required this.themeColors,
-    required this.phoneNumber,
+    required this.hisUserModel,
   });
 
   final ThemeColors themeColors;
-  final String phoneNumber;
+  final UserModel hisUserModel;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _ChatTextFormSuffixIcon extends StatelessWidget {
                   create: (context) => SendMessagesCubit(sl()),
                   child: ClipButtonPopUp(
                     themeColors: themeColors,
-                    phoneNumber: phoneNumber,
+                    hisUserModel: hisUserModel,
                   ),
                 ),
               );

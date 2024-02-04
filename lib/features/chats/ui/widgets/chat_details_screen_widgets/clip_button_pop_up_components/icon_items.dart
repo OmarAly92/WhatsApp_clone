@@ -3,19 +3,19 @@ part of 'clip_button_pop_up.dart';
 class _IconItems extends StatelessWidget {
   const _IconItems({
     required this.themeColors,
-    required this.phoneNumber,
+    required this.hisUserModel,
   });
 
   final ThemeColors themeColors;
-  final String phoneNumber;
+  final UserModel hisUserModel;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _FirstRowIcon(themeColors: themeColors, phoneNumber: phoneNumber),
-        _SecondRowIconComponent(themeColors: themeColors, phoneNumber: phoneNumber),
+        _FirstRowIcon(themeColors: themeColors, hisUserModel: hisUserModel),
+        _SecondRowIconComponent(themeColors: themeColors),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 35.w),
           child: Row(

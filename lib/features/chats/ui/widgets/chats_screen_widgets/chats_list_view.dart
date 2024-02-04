@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../../core/app_router/app_router.dart';
@@ -12,25 +13,25 @@ class ChatsListView extends StatelessWidget {
   const ChatsListView({
     super.key,
     required this.themeColors,
-    required this.chats,
+    required this.chats, required this.users,
   });
 
   final ThemeColors themeColors;
   final List<ChatsModel> chats;
+  final List<UserModel> users;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: chats.length,
       itemBuilder: (context, index) {
-        var itemUserChat = chats[index].usersData;
         return InkWell(
           onTap: () {
             Navigator.pushNamed(
               context,
               AppRouter.chatDetailScreen,
               arguments: {
-                'userModel': itemUserChat.values.first,
+                'userModel': users[index],
               },
             );
           },
@@ -40,9 +41,9 @@ class ChatsListView extends StatelessWidget {
               create: (context) => ChatsCubit(sl()),
               child: ChatItem(
                 themeColors: themeColors,
-                contactName: itemUserChat.values.first.userName,
-                profileImage: itemUserChat.values.first.profilePicture,
-                hisPhoneNumber: itemUserChat.values.first.userPhone,
+                contactName:users[index].userName,
+                profileImage: users[index].profilePicture,
+                hisPhoneNumber: users[index].phoneNumber,
               ),
             ),
           ),

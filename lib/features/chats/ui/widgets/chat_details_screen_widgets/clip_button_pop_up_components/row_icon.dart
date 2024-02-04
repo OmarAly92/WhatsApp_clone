@@ -4,10 +4,10 @@ class _FirstRowIcon extends StatelessWidget {
   const _FirstRowIcon({
     Key? key,
     required this.themeColors,
-    required this.phoneNumber,
+    required this.hisUserModel,
   }) : super(key: key);
   final ThemeColors themeColors;
-  final String phoneNumber;
+  final UserModel hisUserModel;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _FirstRowIcon extends StatelessWidget {
             DateTime now = DateTime.now();
             Timestamp timestamp = Timestamp.fromDate(now);
             BlocProvider.of<SendMessagesCubit>(context).sendImage(
-              phoneNumber: phoneNumber,
+              hisUserModel: hisUserModel,
               time: timestamp,
               type: 'image',
             );
@@ -58,13 +58,8 @@ class _FirstRowIcon extends StatelessWidget {
 }
 
 class _SecondRowIconComponent extends StatelessWidget {
-  const _SecondRowIconComponent({
-    Key? key,
-    required this.themeColors,
-    required this.phoneNumber,
-  }) : super(key: key);
+  const _SecondRowIconComponent({Key? key, required this.themeColors}) : super(key: key);
   final ThemeColors themeColors;
-  final String phoneNumber;
 
   @override
   Widget build(BuildContext context) {

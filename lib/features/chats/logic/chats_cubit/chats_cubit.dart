@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../core/functions/global_functions.dart';
 import '../../../../core/networking/model/chat_model/chat_model.dart';
@@ -27,25 +28,28 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   Future<void> _getChats() async {
     final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
-    var chats = await _chatsRepository.getChats(myPhoneNumber);
-    chats.listen((chats) {
-      var result = _getOtherUser(myPhoneNumber, chats);
+    final chats = await _chatsRepository.getChats(myPhoneNumber);
+    chats.listen((chats) async {
+      final users = await fetchUserDoc(chats, myPhoneNumber);
       emit(ChatsSuccess(
         myPhoneNumber: myPhoneNumber,
-        chats: result,
+        chats: chats,
+        users: users,
       ));
     });
   }
 
-  List<ChatsModel> _getOtherUser(String myPhoneNumber, List<ChatsModel> chats) {
-    for (int index = 0; index < chats.length; index++) {
-      chats[index].usersData.removeWhere((key, value) => key == myPhoneNumber);
+  Future<List<UserModel>> fetchUserDoc(List<ChatsModel> chats, String myPhoneNumber) async {
+    final List<UserModel> users = [];
+    for (var element in chats) {
+      final userDocOne = await element.usersDocs[0].get();
+      final userDocTwo = await element.usersDocs[1].get();
+      final userModelOne = UserModel.fromQueryDocumentSnapshot(userDocOne);
+      final userModelTwo = UserModel.fromQueryDocumentSnapshot(userDocTwo);
+      final userModel = userModelOne.phoneNumber != myPhoneNumber ? userModelOne : userModelTwo;
+      users.add(userModel);
     }
-    return chats;
-  }
-
-  void sendUserName(String userName) {
-    _chatsRepository.sendUserName;
+    return users;
   }
 
   void getLastMessage({required String hisNumber}) async {

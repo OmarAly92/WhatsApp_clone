@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:whats_app_clone/core/functions/global_functions.dart';
-
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
@@ -27,16 +27,14 @@ class VoiceBubble extends StatefulWidget {
     required this.themeColors,
     required this.isTheSender,
     required this.isFirstMessage,
-    required this.hisProfilePicture,
+    required this.hisUserModel,
     required this.messageModel,
-    required this.hisPhoneNumber,
     required this.backgroundBlendMode,
   }) : super(key: key);
   final ThemeColors themeColors;
   final bool isTheSender;
   final bool isFirstMessage;
-  final String hisProfilePicture;
-  final String hisPhoneNumber;
+  final UserModel hisUserModel;
   final MessageModel messageModel;
   final BlendMode backgroundBlendMode;
 
@@ -50,7 +48,7 @@ class _VoiceBubbleState extends State<VoiceBubble> {
     super.initState();
     BlocProvider.of<VoiceBubbleCubit>(context).checkIfFileExistsAndPlayOrDownload(
       voiceUrl: widget.messageModel.message,
-      hisPhoneNumber: widget.hisPhoneNumber,
+      hisPhoneNumber: widget.hisUserModel.phoneNumber,
     );
   }
 
@@ -64,7 +62,7 @@ class _VoiceBubbleState extends State<VoiceBubble> {
         widgetBubbleBody: Container(
           decoration: BoxDecoration(
             color: widget.isTheSender ? widget.themeColors.myMessage : widget.themeColors.hisMessage,
-            backgroundBlendMode:widget. backgroundBlendMode,
+            backgroundBlendMode: widget.backgroundBlendMode,
           ),
           child: Padding(
             padding: EdgeInsets.only(
@@ -76,14 +74,14 @@ class _VoiceBubbleState extends State<VoiceBubble> {
               children: [
                 widget.isTheSender
                     ? _CircleImage(
-                        hisProfilePicture: widget.hisProfilePicture,
+                        hisProfilePicture: widget.hisUserModel.profilePicture,
                         isTheSender: widget.isTheSender,
                       )
                     : const SizedBox.shrink(),
                 _VoiceButtonStates(
                   themeColors: widget.themeColors,
                   messageModel: widget.messageModel,
-                  hisPhoneNumber: widget.hisPhoneNumber,
+                  hisPhoneNumber: widget.hisUserModel.phoneNumber,
                   isTheSender: widget.isTheSender,
                 ),
                 _AudioWaveVoiceDurationAndVoiceTime(
@@ -94,7 +92,7 @@ class _VoiceBubbleState extends State<VoiceBubble> {
                 widget.isTheSender
                     ? const SizedBox.shrink()
                     : _CircleImage(
-                        hisProfilePicture: widget.hisProfilePicture,
+                        hisProfilePicture: widget.hisUserModel.phoneNumber,
                         isTheSender: widget.isTheSender,
                       ),
               ],

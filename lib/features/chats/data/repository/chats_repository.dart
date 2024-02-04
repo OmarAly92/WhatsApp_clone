@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 import '../../../../core/networking/model/chat_model/chat_model.dart';
@@ -11,44 +12,39 @@ class ChatsRepository {
   ChatsRepository(this.chatsRequest);
 
   Future<Stream<List<ChatsModel>>> getChats(String myPhoneNumber) async {
-    var snapshot = chatsRequest.getChatsFromFireStore(myPhoneNumber).snapshots();
+    final snapshot = chatsRequest.getChatsFromFireStore(myPhoneNumber).snapshots();
     return snapshot.map((event) {
-      var result = event.docs.map((doc) => ChatsModel.fromSnapshot(doc)).toList();
+      final result = event.docs.map((doc) => ChatsModel.fromSnapshot(doc)).toList();
       return result;
     });
   }
 
   Future<List<UserModel>> getFireBaseUserData() async {
-    List<UserModel> fireBaseUsers = [];
     final userSnapshot = await chatsRequest.getUserCollection().get();
-
-    if (userSnapshot.docs.isNotEmpty) {
-      for (var userDoc in userSnapshot.docs) {
-        UserModel userModel = UserModel.fromQueryDocumentSnapshot(userDoc);
-        fireBaseUsers.add(userModel);
-      }
-    }
+    final fireBaseUsers = userSnapshot.docs.map((e) => UserModel.fromQueryDocumentSnapshot((e))).toList();
     return fireBaseUsers;
+  }
+
+  DocumentReference<Map<String, dynamic>> getSingleUserDoc({required String phoneNumber}) {
+    final userSnapshot = chatsRequest.getUserCollection().doc(phoneNumber);
+    return userSnapshot;
   }
 
   Future<List<Contact>> getLocalContact() async {
     return await chatsRequest.getLocalContact();
   }
 
-  Future<UserModel> checkUserNameIsNotEmpty(String myPhoneNumber) async {
-    var userQuerySnapshot =
-        await chatsRequest.getUserCollection().where('userPhone', isEqualTo: myPhoneNumber).get();
-    UserModel user = UserModel.fromQuerySnapshot(userQuerySnapshot);
-    return user;
-  }
-
   Future<void> creatingChatRoom({
-    required UserModel friendContactUserModel,
-    required UserModel myContactUserModel,
+    required DocumentReference<Map<String, dynamic>> myDoc,
+    required DocumentReference<Map<String, dynamic>> hisDoc,
+    required String myPhoneNumber,
+    required String hisPhoneNumber,
   }) async {
     await chatsRequest.creatingChatRoom(
-      friendContactUserModel: friendContactUserModel,
-      myContactUserModel: myContactUserModel,
+      hisDoc: hisDoc,
+      myDoc: myDoc,
+      myPhoneNumber: myPhoneNumber,
+      hisPhoneNumber: hisPhoneNumber,
     );
   }
 

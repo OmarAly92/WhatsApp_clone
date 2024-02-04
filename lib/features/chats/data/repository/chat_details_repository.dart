@@ -19,10 +19,11 @@ class ChatDetailsRepository {
   Future<void> globalSendMessage({
     required String sortedNumber,
     required MessageModel messageModel,
+    required UserModel hisUserModel,
   }) async {
     chatDetailsRequests.globalSendingMessage(
       sortedNumber: sortedNumber,
-      messageModel: messageModel,
+      messageModel: messageModel, hisUserModel: hisUserModel,
     );
   }
 

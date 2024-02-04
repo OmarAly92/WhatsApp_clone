@@ -2,16 +2,12 @@ part of 'chat_details_body.dart';
 
 class _MessagesListView extends StatefulWidget {
   const _MessagesListView({
-    required this.hisPhoneNumber,
-    required this.hisProfilePicture,
+    required this.hisUserModel,
     required this.themeColors,
     required this.state,
-    required this.hisName,
   });
 
-  final String hisPhoneNumber;
-  final String hisProfilePicture;
-  final String hisName;
+  final UserModel hisUserModel;
   final ThemeColors themeColors;
   final GetMessagesSuccess state;
 
@@ -59,10 +55,8 @@ class _MessagesListViewState extends State<_MessagesListView> {
                     time: formattedTime,
                     isFirstMessage: haveNips,
                     messageModel: item[index],
-                    hisPhoneNumber: widget.hisPhoneNumber,
-                    hisProfilePicture: widget.hisProfilePicture,
+                    hisUserModel:  widget.hisUserModel,
                     itemIndex: index,
-                    hisName: widget.hisName,
                   ),
                 );
               },

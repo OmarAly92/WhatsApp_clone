@@ -84,7 +84,7 @@ class ProfileBody extends StatelessWidget {
                         themeColors: themeColors,
                         leadingIcon: Icons.phone,
                         title: 'Phone',
-                        subTitle: '+2${state.user.userPhone}',
+                        subTitle: '+2${state.user.phoneNumber}',
                       ),
                     ),
                     SizedBox(height: 11.h),

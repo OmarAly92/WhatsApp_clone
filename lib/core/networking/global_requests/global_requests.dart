@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -19,11 +20,20 @@ class GlobalRequests {
     await messaging.requestPermission();
     final String? pushToken = await messaging.getToken();
     if (pushToken != null) {
-      final String email = await GlFunctions.getMyEmail();
-      final userQuerySnapshot = getUserCollection().doc(email);
+      final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+      final userQuerySnapshot = getUserCollection().doc(myPhoneNumber);
       await userQuerySnapshot.update({
         'pushToken': pushToken,
       });
     }
+
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   log('Got a message whilst in the foreground!');
+    //   log('Message data: ${message.data}');
+    //
+    //   if (message.notification != null) {
+    //     log('Message also contained a notification: ${message.notification}');
+    //   }
+    // });
   }
 }

@@ -11,11 +11,11 @@ class ChatDetailsScreen extends StatefulWidget {
   const ChatDetailsScreen({
     Key? key,
     required this.themeColors,
-    required this.userModel,
+    required this.hisUserModel,
   }) : super(key: key);
 
   final ThemeColors themeColors;
-  final UserModel userModel;
+  final UserModel hisUserModel;
 
   @override
   State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
@@ -35,8 +35,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
   @override
   void initState() {
-    getMessagesCubit().getMessages(hisPhoneNumber: widget.userModel.userPhone);
-    getMessagesCubit().getUserInfo(email: widget.userModel.userEmail);
+    getMessagesCubit().getMessages(hisPhoneNumber: widget.hisUserModel.phoneNumber);
+    getMessagesCubit().getUserInfo(email: widget.hisUserModel.userEmail);
     super.initState();
   }
 
@@ -55,16 +55,14 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           slivers: [
             ChatDetailsAppBar(
               themeColors: widget.themeColors,
-              hisName: widget.userModel.userName,
-              hisProfilePicture: widget.userModel.profilePicture,
-              hisPhoneNumber: widget.userModel.userPhone,
+              hisName: widget.hisUserModel.userName,
+              hisProfilePicture: widget.hisUserModel.profilePicture,
+              hisPhoneNumber: widget.hisUserModel.phoneNumber,
             ),
             SliverFillRemaining(
               child: ChatDetailsBody(
                 themeColors: widget.themeColors,
-                hisPhoneNumber: widget.userModel.userPhone,
-                hisProfilePicture: widget.userModel.profilePicture,
-                hisName: widget.userModel.userName,
+                hisUserModel:  widget.hisUserModel,
               ),
             ),
           ],

@@ -7,7 +7,7 @@ class UserModel extends Equatable {
   final String userName;
   final String profilePicture;
   final String userEmail;
-  final String userPhone;
+  final String phoneNumber;
   final String userId;
   final String pushToken;
 
@@ -18,11 +18,10 @@ class UserModel extends Equatable {
     required this.pushToken,
     required this.userName,
     required this.userEmail,
-    required this.userPhone,
+    required this.phoneNumber,
     required this.profilePicture,
   });
 
-  // QuerySnapshot
   factory UserModel.fromQueryDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
     final json = document.data()!;
     return UserModel(
@@ -31,9 +30,9 @@ class UserModel extends Equatable {
       userId: json['userId'],
       userName: json['userName'],
       userEmail: json['userEmail'] ?? '',
-      userPhone: json['userPhone'],
+      phoneNumber: json['userPhone'],
       profilePicture: json['profileImage'],
-      pushToken: json['pushToken'] ?? '',
+      pushToken: json['pushToken'] ,
     );
   }
 
@@ -45,9 +44,9 @@ class UserModel extends Equatable {
       userId: json['userId'],
       userName: json['userName'],
       userEmail: json['userEmail'] ?? '',
-      userPhone: json['userPhone'],
+      phoneNumber: json['userPhone'],
       profilePicture: json['profileImage'],
-      pushToken: json['pushToken'] ?? '',
+      pushToken: json['pushToken'] ,
     );
   }
 
@@ -58,9 +57,9 @@ class UserModel extends Equatable {
       userId: json['userId'],
       userName: json['userName'],
       userEmail: json['userEmail'] ?? '',
-      userPhone: json['userPhone'],
+      phoneNumber: json['userPhone'],
       profilePicture: json['profileImage'],
-      pushToken: json['pushToken'] ?? '',
+      pushToken: json['pushToken'] ,
     );
   }
 
@@ -69,7 +68,7 @@ class UserModel extends Equatable {
         isOnline,
         userId,
         userName,
-        userPhone,
+        phoneNumber,
         profilePicture,
         lastActive,
         userEmail,

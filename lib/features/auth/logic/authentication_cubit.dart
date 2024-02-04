@@ -33,7 +33,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           .where('userPhone', isEqualTo: userSignUpData.phoneNumber)
           .get();
       final userModel = userDoc.docs.map((e) => UserModel.fromQueryDocumentSnapshot(e));
-      if (userDoc.docs.isEmpty || userSignUpData.phoneNumber != userModel.single.userPhone) {
+      if (userDoc.docs.isEmpty || userSignUpData.phoneNumber != userModel.single.phoneNumber) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: userSignUpData.emailAddress,
           password: userSignUpData.password,
@@ -57,7 +57,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   Future<void> _createUserProfileDoc({required UserSignUpData userSignUpData}) async {
     final CollectionReference createUser = _firebaseFirestore.collection('users');
 
-    final DocumentSnapshot documentSnapshot = await createUser.doc(userSignUpData.emailAddress).get();
+    final DocumentSnapshot documentSnapshot = await createUser.doc(userSignUpData.phoneNumber).get();
 
     final String defaultImage = await changeProfilePicture(
       myEmail: userSignUpData.emailAddress,
@@ -66,7 +66,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
     if (!documentSnapshot.exists) {
       final userId = _firebaseAuth.currentUser!.uid;
-      createUser.doc(userSignUpData.emailAddress).set({
+      createUser.doc(userSignUpData.phoneNumber).set({
         'isOnline': userSignUpData.isOnline,
         'lastActive': userSignUpData.lastActive,
         'userId': userId,

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,9 +19,9 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> getSettingData() async {
     try {
-      final String myEmail = await GlFunctions.getMyEmail();
+      final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
 
-      final userRawData = await _firebaseFirestore.collection('users').doc(myEmail).get();
+      final userRawData = await _firebaseFirestore.collection('users').doc(myPhoneNumber).get();
 
       final UserModel user = UserModel.fromQueryDocumentSnapshot(userRawData);
 
@@ -58,7 +59,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       final File imageFile = File(imagePath);
       final UploadTask uploadTask = storageReference.putFile(imageFile);
 
-      await uploadTask.whenComplete(() => print('Image uploaded'));
+      await uploadTask.whenComplete(() => log('Image uploaded'));
 
       final image = await storageReference.getDownloadURL();
 
