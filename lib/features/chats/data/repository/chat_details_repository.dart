@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../core/networking/model/chat_model/message_model.dart';
@@ -9,7 +8,6 @@ class ChatDetailsRepository {
 
   ChatDetailsRepository(this.chatDetailsRequests);
 
-  var fireBaseInit = FirebaseFirestore.instance;
 
   Stream<List<MessageModel>> getMessages({required String hisPhoneNumber, required String myPhoneNumber}) {
     var chatSubCollection = chatDetailsRequests.getMessagesData(hisPhoneNumber, myPhoneNumber);
@@ -18,37 +16,13 @@ class ChatDetailsRepository {
     });
   }
 
-  Future<void> sendMessage({
-    required String sortedNumbers,
+  Future<void> globalSendMessage({
+    required String sortedNumber,
     required MessageModel messageModel,
   }) async {
-    chatDetailsRequests.sendMessage(
-      sortedNumbers: sortedNumbers,
-      messageModel: messageModel,
-    );
-  }
-
-  void sendImage({required String sortedNumber, required MessageModel messageModel}) async {
-    chatDetailsRequests.sendImage(
+    chatDetailsRequests.globalSendingMessage(
       sortedNumber: sortedNumber,
       messageModel: messageModel,
-    );
-  }
-
-  void sendVoice({required String sortedNumber, required MessageModel messageModel}) {
-    chatDetailsRequests.sendVoice(
-      sortedNumber: sortedNumber,
-      messageModel: messageModel,
-    );
-  }
-
-  Future<void> sendReplyMessage({
-    required String sortedNumber,
-    required MessageModel messageModel
-  }) async {
-    chatDetailsRequests.sendReplyMessage(
-      sortedNumber: sortedNumber,
-     messageModel: messageModel,
     );
   }
 

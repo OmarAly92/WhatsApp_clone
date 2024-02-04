@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
@@ -57,8 +58,8 @@ class ChatDetailsRequests {
     return getUserCollection().where('userEmail', isEqualTo: email);
   }
 
-  Future<void> sendMessage({required String sortedNumbers, required MessageModel messageModel}) async {
-    final messageDocument = getChatsCollection().doc(sortedNumbers).collection('messages').doc();
+  Future<void> sendMessage({required String sortedNumber, required MessageModel messageModel}) async {
+    final messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
       'isSeen': '',
       'reactEmoji': '',
@@ -120,6 +121,21 @@ class ChatDetailsRequests {
     });
   }
 
+  void globalSendingMessage({
+    required String sortedNumber,
+    required MessageModel messageModel,
+  }) {
+    if (messageModel.type == 'message') {
+      sendMessage(sortedNumber: sortedNumber, messageModel: messageModel);
+    } else if (messageModel.type == 'voice') {
+      sendVoice(sortedNumber: sortedNumber, messageModel: messageModel);
+    } else if (messageModel.type == 'image') {
+      sendImage(sortedNumber: sortedNumber, messageModel: messageModel);
+    } else if (messageModel.type == 'reply') {
+      sendReplyMessage(sortedNumber: sortedNumber, messageModel: messageModel);
+    }
+  }
+
   Future<void> pushNotification(
     String userPushToken,
     MessageModel messageModel,
@@ -144,6 +160,8 @@ class ChatDetailsRequests {
         pushApi,
         data: data,
       );
-    } catch (e) {}
+    } catch (e) {
+      log('-----------------------$e-----------------------');
+    }
   }
 }

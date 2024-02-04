@@ -48,8 +48,8 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         replyOriginalName: '',
       );
 
-      _chatDetailsRepository.sendMessage(
-        sortedNumbers: sortedNumbers,
+      _chatDetailsRepository.globalSendMessage(
+        sortedNumber: sortedNumbers,
         messageModel: messageModel,
       );
     } catch (failureMessage) {
@@ -83,7 +83,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         replyOriginalName: replyOriginalName,
       );
 
-      _chatDetailsRepository.sendReplyMessage(
+      _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
       );
@@ -118,7 +118,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         replyOriginalName: '',
       );
 
-      _chatDetailsRepository.sendImage(
+      _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
       );
@@ -161,7 +161,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         replyOriginalName: '',
       );
 
-      _chatDetailsRepository.sendVoice(
+      _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
       );
