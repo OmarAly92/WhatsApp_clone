@@ -23,70 +23,32 @@ class ChatDetailsRepository {
     required MessageModel messageModel,
   }) async {
     chatDetailsRequests.sendMessage(
-      sortedNumbers:  sortedNumbers,
+      sortedNumbers: sortedNumbers,
       messageModel: messageModel,
     );
   }
 
-  void sendImage({
-    required String phoneNumber,
-    required String type,
-    required String myPhoneNumber,
-    required String imagePath,
-    required Timestamp time,
-    required String messageId,
-  }) async {
+  void sendImage({required String sortedNumber, required MessageModel messageModel}) async {
     chatDetailsRequests.sendImage(
-      phoneNumber: phoneNumber,
-      type: type,
-      myPhoneNumber: myPhoneNumber,
-      imagePath: imagePath,
-      time: time,
-      messageId: messageId,
+      sortedNumber: sortedNumber,
+      messageModel: messageModel,
     );
   }
 
-  void sendVoice({
-    required String phoneNumber,
-    required Timestamp time,
-    required String type,
-    required String myPhoneNumber,
-    required String voicePath,
-    required String messageId,
-    required List<double> waveData,
-    required int maxDuration,
-  }) {
+  void sendVoice({required String sortedNumber, required MessageModel messageModel}) {
     chatDetailsRequests.sendVoice(
-      phoneNumber: phoneNumber,
-      time: time,
-      type: type,
-      myPhoneNumber: myPhoneNumber,
-      voicePath: voicePath,
-      messageId: messageId,
-      waveData: waveData,
-      maxDuration: maxDuration,
+      sortedNumber: sortedNumber,
+      messageModel: messageModel,
     );
   }
 
   Future<void> sendReplyMessage({
-    required String phoneNumber,
-    required String originalMessage,
-    required String message,
-    required String replyOriginalName,
-    required String theSenderNumber,
-    required String type,
-    required Timestamp time,
-    required String messageId,
+    required String sortedNumber,
+    required MessageModel messageModel
   }) async {
     chatDetailsRequests.sendReplyMessage(
-      phoneNumber: phoneNumber,
-      originalMessage: originalMessage,
-      message: message,
-      theSender: theSenderNumber,
-      type: type,
-      time: time,
-      messageId: messageId,
-      replyOriginalName: replyOriginalName,
+      sortedNumber: sortedNumber,
+     messageModel: messageModel,
     );
   }
 
@@ -108,6 +70,4 @@ class ChatDetailsRepository {
       return snapshot.docs.map((doc) => UserModel.fromQueryDocumentSnapshot(doc)).toList();
     });
   }
-
-
 }

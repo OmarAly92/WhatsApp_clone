@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,7 +21,6 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   }
 
   final ChatDetailsRepository _chatDetailsRepository;
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final Uuid _uuid = const Uuid();
   late final RecorderController _recorderController;
 
@@ -68,16 +66,26 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required Timestamp time,
   }) async {
     try {
-      final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
-      _chatDetailsRepository.sendReplyMessage(
-        phoneNumber: phoneNumber,
-        originalMessage: originalMessage,
+      final myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+      final sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+
+      MessageModel messageModel = MessageModel(
+        isSeen: '',
+        emojiReact: '',
         message: message,
-        replyOriginalName: replyOriginalName,
-        theSenderNumber: myPhoneNumber,
-        type: type,
         time: time,
         messageId: _uuid.v4(),
+        theSender: myPhoneNumber,
+        type: type,
+        waveData: const [],
+        maxDuration: 0,
+        originalMessage: originalMessage,
+        replyOriginalName: replyOriginalName,
+      );
+
+      _chatDetailsRepository.sendReplyMessage(
+        sortedNumber: sortedNumber,
+        messageModel: messageModel,
       );
     } catch (failureMessage) {
       emit(SendMessagesFailure(failureMessage: '$failureMessage Failed to send reply message'));
@@ -90,16 +98,29 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required String type,
   }) async {
     try {
-      var myPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!.replaceAll('+2', '');
-      String imagePath =
+      final myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+      final sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
+
+      final String imagePath =
           await _getImagePathFromStorage(myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time);
-      _chatDetailsRepository.sendImage(
-        phoneNumber: phoneNumber,
+
+      MessageModel messageModel = MessageModel(
+        isSeen: '',
+        emojiReact: '',
+        message: imagePath,
         time: time,
-        type: type,
-        myPhoneNumber: myPhoneNumber,
-        imagePath: imagePath,
         messageId: _uuid.v4(),
+        theSender: myPhoneNumber,
+        type: type,
+        waveData: const [],
+        maxDuration: 0,
+        originalMessage: '',
+        replyOriginalName: '',
+      );
+
+      _chatDetailsRepository.sendImage(
+        sortedNumber: sortedNumber,
+        messageModel: messageModel,
       );
     } catch (e) {
       emit(const SendMessagesFailure(failureMessage: 'Failed to upload the Image'));
@@ -124,16 +145,25 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     try {
       var finalPath = await _uploadVoiceToStorage(
           myPhoneNumber: myPhoneNumber, phoneNumber: phoneNumber, time: time, voicePathFromStopMethod: path!);
+      final String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
 
-      _chatDetailsRepository.sendVoice(
-        phoneNumber: phoneNumber,
+      final MessageModel messageModel = MessageModel(
+        isSeen: '',
+        emojiReact: '',
+        message: finalPath,
         time: time,
+        messageId: _uuid.v4(),
+        theSender: myPhoneNumber,
         type: 'voice',
-        myPhoneNumber: myPhoneNumber,
-        voicePath: finalPath,
         waveData: waveData,
         maxDuration: maxDuration,
-        messageId: _uuid.v4(),
+        originalMessage: '',
+        replyOriginalName: '',
+      );
+
+      _chatDetailsRepository.sendVoice(
+        sortedNumber: sortedNumber,
+        messageModel: messageModel,
       );
 
       emit(SendMessagesInitial());

@@ -71,71 +71,52 @@ class ChatDetailsRequests {
   }
 
   void sendImage({
-    required String phoneNumber,
-    required String type,
-    required String myPhoneNumber,
-    required String imagePath,
-    required Timestamp time,
-    required String messageId,
+    required String sortedNumber,
+    required MessageModel messageModel,
   }) async {
-    final String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
     getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
       'isSeen': '',
       'reactEmoji': '',
-      'message': imagePath,
-      'theSender': myPhoneNumber,
-      'time': time,
-      'messageId': messageId,
-      'type': type,
+      'message': messageModel.message,
+      'theSender': messageModel.theSender,
+      'time': messageModel.time,
+      'messageId': messageModel.messageId,
+      'type': messageModel.type,
     });
   }
 
   void sendVoice({
-    required String phoneNumber,
-    required Timestamp time,
-    required String type,
-    required String myPhoneNumber,
-    required String voicePath,
-    required String messageId,
-    required List<double> waveData,
-    required int maxDuration,
+    required String sortedNumber,
+    required MessageModel messageModel,
   }) {
-    final String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
     getChatsCollection().doc(sortedNumber).collection('messages').doc().set({
       'isSeen': '',
       'reactEmoji': '',
-      'message': voicePath,
-      'theSender': myPhoneNumber,
-      'time': time,
-      'messageId': messageId,
-      'type': type,
-      'waveData': waveData,
-      'maxDuration': maxDuration,
+      'message': messageModel.message,
+      'theSender': messageModel.theSender,
+      'time': messageModel.time,
+      'messageId': messageModel.messageId,
+      'type': messageModel.type,
+      'waveData': messageModel.waveData,
+      'maxDuration': messageModel.maxDuration,
     });
   }
 
   void sendReplyMessage({
-    required String phoneNumber,
-    required String originalMessage,
-    required String message,
-    required String replyOriginalName,
-    required String theSender,
-    required String type,
-    required Timestamp time,
-    required String messageId,
+    required String sortedNumber,
+    required MessageModel messageModel,
   }) {
-    String sortedNumber = GlFunctions.sortPhoneNumbers(phoneNumber, theSender);
     final messageDocument = getChatsCollection().doc(sortedNumber).collection('messages').doc();
     messageDocument.set({
       'isSeen': '',
       'reactEmoji': '',
-      'originalMessage': originalMessage,
-      'message': message,
-      'replyOriginalName': replyOriginalName,
-      'theSender': theSender,
-      'time': time,
-      'messageId': messageId,
-      'type': type,
+      'originalMessage': messageModel.originalMessage,
+      'message': messageModel.message,
+      'replyOriginalName': messageModel.replyOriginalName,
+      'theSender': messageModel.theSender,
+      'time': messageModel.time,
+      'messageId': messageModel.messageId,
+      'type': messageModel.type,
     });
   }
 
