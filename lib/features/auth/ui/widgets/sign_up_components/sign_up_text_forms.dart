@@ -121,7 +121,7 @@ class _SignUpTextFormsState extends State<SignUpTextForms> {
                     password: widget.passwordController.text.trim(),
                     phoneNumber: widget.phoneNumberController.text.trim(),
                     isOnline: false,
-                    lastSeen: Timestamp(0, 0),
+                    lastActive: 0,
                   ),
                 );
               }

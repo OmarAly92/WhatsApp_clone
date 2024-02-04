@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:whats_app_clone/core/networking/model/chat_model/message_model.dart';
 
 import '../../../../../core/functions/global_functions.dart';
 import '../../../data/repository/chat_details_repository.dart';
@@ -33,14 +34,25 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   }) async {
     try {
       final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+      final String sortedNumbers = GlFunctions.sortPhoneNumbers(phoneNumber, myPhoneNumber);
 
-      _chatDetailsRepository.sendMessage(
-        phoneNumber: phoneNumber,
+      final MessageModel messageModel = MessageModel(
+        isSeen: '',
+        emojiReact: '',
         message: message,
-        myPhoneNumber: myPhoneNumber,
-        type: type,
         time: time,
         messageId: _uuid.v4(),
+        theSender: myPhoneNumber,
+        type: type,
+        waveData: const [],
+        maxDuration: 0,
+        originalMessage: '',
+        replyOriginalName: '',
+      );
+
+      _chatDetailsRepository.sendMessage(
+        sortedNumbers: sortedNumbers,
+        messageModel: messageModel,
       );
     } catch (failureMessage) {
       emit(SendMessagesFailure(failureMessage: '$failureMessage Failed to sendMessage'));

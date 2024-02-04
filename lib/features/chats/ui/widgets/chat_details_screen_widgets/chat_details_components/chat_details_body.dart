@@ -54,6 +54,13 @@ class _ChatDetailsBodyState extends State<ChatDetailsBody> {
         ),
       ),
       child: BlocBuilder<GetMessagesCubit, GetMessagesState>(
+        buildWhen: (previous, current) {
+          if (current is GetUserInfo) {
+            return false;
+          } else {
+            return true;
+          }
+        },
         builder: (context, state) {
           if (state is GetMessagesLoading) {
             return const Center(child: CircularProgressIndicator());

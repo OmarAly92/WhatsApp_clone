@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/functions/global_functions.dart';
 import '../../../../core/networking/model/chat_model/chat_model.dart';
 import '../../../../core/networking/model/chat_model/message_model.dart';
-import '../../../../core/networking/model/user_model/user_model.dart';
 import '../../data/repository/chats_repository.dart';
 
 part 'chats_state.dart';
@@ -27,7 +26,7 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   Future<void> _getChats() async {
-    final String myPhoneNumber =await GlFunctions.getMyPhoneNumber();
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
     var chats = await _chatsRepository.getChats(myPhoneNumber);
     chats.listen((chats) {
       var result = _getOtherUser(myPhoneNumber, chats);
@@ -45,26 +44,24 @@ class ChatsCubit extends Cubit<ChatsState> {
     return chats;
   }
 
-  Future<UserModel> checkUserNameIsNotEmpty() async {
-    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
-    return _chatsRepository.checkUserNameIsNotEmpty(myPhoneNumber);
-  }
-
   void sendUserName(String userName) {
     _chatsRepository.sendUserName;
   }
 
-  void getLastMessage({required String hisNumber})async {
-    final String myPhoneNumber =await  GlFunctions.getMyPhoneNumber();
+  void getLastMessage({required String hisNumber}) async {
+    final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
     var lastMessage = _chatsRepository.getLastMessage(
       hisNumber: hisNumber,
       myPhoneNumber: myPhoneNumber,
     );
     lastMessage.listen((lastMessage) {
       if (lastMessage.toList().singleOrNull != null) {
-        emit(ListenToLastMessage(lastMessage: lastMessage.single));
+        emit(ListenToLastMessage(lastMessage: lastMessage.first));
       }
     });
   }
 
+  Future<void> updateActiveStatus({required bool isOnline}) async {
+    await _chatsRepository.updateActiveStatus(isOnline: isOnline);
+  }
 }

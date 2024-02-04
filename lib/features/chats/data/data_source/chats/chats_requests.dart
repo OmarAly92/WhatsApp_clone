@@ -67,6 +67,9 @@ class ChatsRequest {
             'userName': myContactUserModel.userName,
             'userPhone': myContactUserModel.userPhone,
             'profileImage': myContactUserModel.profilePicture,
+            'lastActive': myContactUserModel.lastActive,
+            'userEmail': myContactUserModel.userEmail,
+            'pushToken': myContactUserModel.pushToken,
           },
           friendContactUserModel.userPhone: {
             'isOnline': myContactUserModel.isOnline,
@@ -74,6 +77,9 @@ class ChatsRequest {
             'userName': friendContactUserModel.userName,
             'userPhone': friendContactUserModel.userPhone,
             'profileImage': friendContactUserModel.profilePicture,
+            'lastActive': friendContactUserModel.lastActive,
+            'userEmail': friendContactUserModel.userEmail,
+            'pushToken': friendContactUserModel.pushToken,
           },
         },
         'usersPhoneNumber': [
@@ -85,7 +91,18 @@ class ChatsRequest {
   }
 
   void sendUserName(String userName) {
-    var userQuerySnapshot = getUserCollection().doc();
+    final userQuerySnapshot = getUserCollection().doc();
     userQuerySnapshot.update({'userName': userName});
+  }
+
+  Future<void> updateActiveStatus({
+    required bool isOnline,
+  }) async {
+    final String email = await GlFunctions.getMyEmail();
+    final userQuerySnapshot = getUserCollection().doc(email);
+    await userQuerySnapshot.update({
+      'isOnline': isOnline,
+      'lastActive': DateTime.now().millisecondsSinceEpoch,
+    });
   }
 }

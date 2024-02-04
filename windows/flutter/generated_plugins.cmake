@@ -4,10 +4,12 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
+  cloud_firestore
   emoji_picker_flutter
   file_selector_windows
   firebase_auth
   firebase_core
+  firebase_storage
   permission_handler_windows
   record_windows
 )

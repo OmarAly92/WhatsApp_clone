@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../core/themes/theme_color.dart';
 import '../logic/chat_details_cubit/get_messages/get_messages_cubit.dart';
@@ -10,15 +11,11 @@ class ChatDetailsScreen extends StatefulWidget {
   const ChatDetailsScreen({
     Key? key,
     required this.themeColors,
-    required this.hisPhoneNumber,
-    required this.hisName,
-    required this.hisProfilePicture,
+    required this.userModel,
   }) : super(key: key);
 
   final ThemeColors themeColors;
-  final String hisPhoneNumber;
-  final String hisName;
-  final String hisProfilePicture;
+  final UserModel userModel;
 
   @override
   State<ChatDetailsScreen> createState() => _ChatDetailsScreenState();
@@ -38,7 +35,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
   @override
   void initState() {
-    getMessagesCubit().getMessages(hisPhoneNumber: widget.hisPhoneNumber);
+    getMessagesCubit().getMessages(hisPhoneNumber: widget.userModel.userPhone);
+    getMessagesCubit().getUserInfo(email: widget.userModel.userEmail);
     super.initState();
   }
 
@@ -57,16 +55,16 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           slivers: [
             ChatDetailsAppBar(
               themeColors: widget.themeColors,
-              hisName: widget.hisName,
-              hisProfilePicture: widget.hisProfilePicture,
-              hisPhoneNumber: widget.hisPhoneNumber,
+              hisName: widget.userModel.userName,
+              hisProfilePicture: widget.userModel.profilePicture,
+              hisPhoneNumber: widget.userModel.userPhone,
             ),
             SliverFillRemaining(
               child: ChatDetailsBody(
                 themeColors: widget.themeColors,
-                hisPhoneNumber: widget.hisPhoneNumber,
-                hisProfilePicture: widget.hisProfilePicture,
-                hisName: widget.hisName,
+                hisPhoneNumber: widget.userModel.userPhone,
+                hisProfilePicture: widget.userModel.profilePicture,
+                hisName: widget.userModel.userName,
               ),
             ),
           ],

@@ -116,7 +116,7 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
     });
 
     currentDurationChangedSubscription = audioPlayerController.onCurrentDurationChanged.listen((milliseconds) {
-      final String formattedTime = GlFunctions.timeFormatUsingMillisecond(milliseconds);
+      final String formattedTime = GlFunctions.timeFormatUsingMillisecondVoiceOnly(milliseconds);
 
       emit(VoiceBubblePlayerState(isPlaying: true, duration: formattedTime));
     });

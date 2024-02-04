@@ -59,7 +59,7 @@ class Buttons extends StatelessWidget {
                           password: passwordController.text.trim(),
                           phoneNumber: phoneNumberController.text.trim(),
                           isOnline: false,
-                          lastSeen: Timestamp(0, 0),
+                          lastActive: 0,
                         ),
                       );
                     }

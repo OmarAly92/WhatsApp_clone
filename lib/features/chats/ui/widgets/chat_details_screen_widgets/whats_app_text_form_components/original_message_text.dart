@@ -40,7 +40,7 @@ class _OriginalMessageText extends StatelessWidget {
           ),
           SizedBox(width: 2.w),
           Text(
-            'Voice message (${GlFunctions.timeFormatUsingMillisecond(messageModel.maxDuration)})',
+            'Voice message (${GlFunctions.timeFormatUsingMillisecondVoiceOnly(messageModel.maxDuration)})',
             style: Styles.textStyle14.copyWith(
               color: themeColors.replyOriginalMessageColor,
               fontWeight: FontWeight.bold,

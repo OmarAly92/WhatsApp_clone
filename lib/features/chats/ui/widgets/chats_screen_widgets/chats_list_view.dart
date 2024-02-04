@@ -30,9 +30,7 @@ class ChatsListView extends StatelessWidget {
               context,
               AppRouter.chatDetailScreen,
               arguments: {
-                'hisPicture': itemUserChat.values.first.profilePicture,
-                'hisPhoneNumber': itemUserChat.values.first.userPhone,
-                'hisName': itemUserChat.values.first.userName,
+                'userModel': itemUserChat.values.first,
               },
             );
           },

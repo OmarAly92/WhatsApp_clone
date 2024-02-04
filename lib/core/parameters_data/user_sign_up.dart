@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class UserSignUpData extends Equatable {
   final bool isOnline;
-  final Timestamp lastSeen;
+  final int lastActive;
   final String name;
   final String userImage;
   final String emailAddress;
@@ -12,7 +11,7 @@ class UserSignUpData extends Equatable {
 
   const UserSignUpData({
     required this.isOnline,
-    required this.lastSeen,
+    required this.lastActive,
     required this.userImage,
     required this.name,
     required this.emailAddress,
@@ -23,7 +22,7 @@ class UserSignUpData extends Equatable {
   @override
   List<Object> get props => [
         isOnline,
-        lastSeen,
+        lastActive,
         userImage,
         name,
         emailAddress,

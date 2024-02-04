@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/core/networking/global_requests/global_requests.dart';
 
 import '../../../../core/themes/theme_color.dart';
-import '../../../core/networking/model/user_model/user_model.dart';
 import '../logic/chats_cubit/chats_cubit.dart';
-import 'widgets/chats_screen_widgets/chat_screen_user_name_alert_dialog.dart';
 import 'widgets/chats_screen_widgets/chats_list_view.dart';
 
 class ChatsScreen extends StatefulWidget {
@@ -18,35 +18,27 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
-  void checkUserNameIsNotEmpty({
-    required UserModel userModel,
-    required ThemeColors themeColors,
-  }) async {
-    if (userModel.userName.isEmpty) {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return UserNameAlertDialogWidget(
-            themeColors: themeColors,
-            userModel: userModel,
-          );
-        },
-      );
-    }
-  }
-
-  Future<void> getUserModel() async {
-    UserModel userModel = await BlocProvider.of<ChatsCubit>(context).checkUserNameIsNotEmpty();
-    checkUserNameIsNotEmpty(
-      userModel: userModel,
-      themeColors: widget.themeColors,
-    );
-  }
-
   @override
   void initState() {
-    getUserModel();
+    GlobalRequests.getFirebaseMessagingToken();
+    updateActiveStatus();
     super.initState();
+  }
+
+  void updateActiveStatus() {
+    BlocProvider.of<ChatsCubit>(context).updateActiveStatus(isOnline: true);
+    SystemChannels.lifecycle.setMessageHandler((message) {
+      if (message.toString().contains('resume')) {
+        BlocProvider.of<ChatsCubit>(context).updateActiveStatus(isOnline: true);
+      } else if (message.toString().contains('pause')) {
+        BlocProvider.of<ChatsCubit>(context).updateActiveStatus(isOnline: false);
+      } else if (message.toString().contains('inactive')) {
+        BlocProvider.of<ChatsCubit>(context).updateActiveStatus(isOnline: false);
+      } else {
+        BlocProvider.of<ChatsCubit>(context).updateActiveStatus(isOnline: false);
+      }
+      return Future.value(message);
+    });
   }
 
   @override

@@ -31,9 +31,7 @@ class ListViewOfContactsInSelectContactBody extends StatelessWidget {
               friendContactUserModel: userModelList[index],
             );
             Navigator.pushNamed(context, AppRouter.chatDetailScreen, arguments: {
-              'hisPicture': userModelList[index].profilePicture,
-              'hisPhoneNumber': userModelList[index].userPhone,
-              'hisName': userModelList[index].userName,
+              'userModel': userModelList[index],
             });
           },
         );

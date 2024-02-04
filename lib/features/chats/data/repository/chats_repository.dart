@@ -5,7 +5,6 @@ import '../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../core/networking/model/user_model/user_model.dart';
 import '../data_source/chats/chats_requests.dart';
 
-
 class ChatsRepository {
   final ChatsRequest chatsRequest;
 
@@ -65,5 +64,11 @@ class ChatsRepository {
 
   void sendUserName(String userName) {
     chatsRequest.sendUserName;
+  }
+
+  Future<void> updateActiveStatus({
+    required bool isOnline,
+  }) async {
+    await chatsRequest.updateActiveStatus(isOnline: isOnline);
   }
 }

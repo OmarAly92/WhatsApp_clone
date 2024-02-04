@@ -68,7 +68,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       final userId = _firebaseAuth.currentUser!.uid;
       createUser.doc(userSignUpData.emailAddress).set({
         'isOnline': userSignUpData.isOnline,
-        'lastSeen': userSignUpData.lastSeen,
+        'lastActive': userSignUpData.lastActive,
         'userId': userId,
         'userName': userSignUpData.name,
         'userEmail': userSignUpData.emailAddress,

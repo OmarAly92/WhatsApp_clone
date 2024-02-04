@@ -121,9 +121,7 @@ class AppRouter {
               ],
               child: ChatDetailsScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
-                hisPhoneNumber: arguments['hisPhoneNumber'],
-                hisProfilePicture: arguments['hisPicture'],
-                hisName: arguments['hisName'],
+                userModel: arguments['userModel'],
               ),
             );
           },

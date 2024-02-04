@@ -43,7 +43,7 @@ class LastMessageText extends StatelessWidget {
           ),
           SizedBox(width: 2.w),
           Text(
-            GlFunctions.timeFormatUsingMillisecond(state.lastMessage.maxDuration),
+            GlFunctions.timeFormatUsingMillisecondVoiceOnly(state.lastMessage.maxDuration),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Styles.textStyle14.copyWith(

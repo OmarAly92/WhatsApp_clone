@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:whats_app_clone/core/functions/global_functions.dart';
 
 import '../../../../../../core/networking/model/chat_model/message_model.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../logic/chat_details_cubit/chat_detail_parent_cubit.dart';
+import '../../../../logic/chat_details_cubit/get_messages/get_messages_cubit.dart';
 
 class ChatDetailsAppBar extends StatelessWidget {
   const ChatDetailsAppBar({
@@ -24,7 +26,6 @@ class ChatDetailsAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double iconSize = 25.r;
-
     return BlocBuilder<ChatDetailParentCubit, ChatDetailParentState>(
       buildWhen: (previous, current) {
         if (current is ChatDetailParentReplying) {
@@ -57,7 +58,6 @@ class ChatDetailsAppBar extends StatelessWidget {
   ) {
     int selectedItemCount = BlocProvider.of<ChatDetailParentCubit>(context).selectedItemCount;
     List<String>? globalMessageType;
-
     List<Widget> actions = [
       IconButton(
         onPressed: () {},
@@ -187,7 +187,7 @@ class ChatDetailsAppBar extends StatelessWidget {
         ),
       ),
     ];
-    if ( globalMessageType?.single == 'deleted') {
+    if (globalMessageType?.single == 'deleted') {
       return [
         IconButton(
           onPressed: () async {
@@ -233,27 +233,68 @@ class ChatDetailsAppBar extends StatelessWidget {
                 ),
               ),
             )
-          : SizedBox(
-              key: const Key('else'),
-              height: 50.h,
-              width: double.infinity,
-              child: InkWell(
-                onTap: () {},
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 4),
-                    child: Text(
-                      hisName,
-                      style: Styles.textStyle18.copyWith(
-                        color: themeColors.privateChatAppBarColor,
+          : BlocBuilder<GetMessagesCubit, GetMessagesState>(
+              buildWhen: (previous, current) {
+                if (current is GetUserInfo) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              builder: (context, state) {
+                return SizedBox(
+                  key: const Key('else'),
+                  height: 50.h,
+                  width: double.infinity,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 3.5.w),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              hisName,
+                              style: Styles.textStyle18.copyWith(
+                                color: themeColors.privateChatAppBarColor,
+                              ),
+                            ),
+                            SizedBox(height: 1.h),
+                            userActiveStatusText(state)
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
     );
+  }
+
+  Widget userActiveStatusText(GetMessagesState state) {
+    if (state is GetUserInfo) {
+      return (state.userInfo.isOnline)
+          ? Text(
+              'Online',
+              style: Styles.textStyle12.copyWith(
+                color: themeColors.privateChatAppBarColor,
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          : Text(
+              'last seen today at ${GlFunctions.timeFormatUsingMillisecondHM(state.userInfo.lastActive)}',
+              style: Styles.textStyle12.copyWith(
+                color: themeColors.privateChatAppBarColor,
+                fontWeight: FontWeight.w500,
+              ),
+            );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   AnimatedSwitcher buildLeadingOnState(ChatDetailParentState state, BuildContext context) {

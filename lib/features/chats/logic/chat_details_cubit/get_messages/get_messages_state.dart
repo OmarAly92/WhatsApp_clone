@@ -1,4 +1,3 @@
-
 part of 'get_messages_cubit.dart';
 
 abstract class GetMessagesState extends Equatable {
@@ -10,14 +9,13 @@ class GetMessagesInitial extends GetMessagesState {
   List<Object> get props => [];
 }
 
-
 class GetMessagesLoading extends GetMessagesState {
-
   const GetMessagesLoading();
 
   @override
   List<Object> get props => [];
 }
+
 class GetMessagesSuccess extends GetMessagesState {
   final List<MessageModel> messages;
   final String myPhoneNumber;
@@ -26,6 +24,15 @@ class GetMessagesSuccess extends GetMessagesState {
 
   @override
   List<Object> get props => [messages, myPhoneNumber];
+}
+
+class GetUserInfo extends GetMessagesState {
+  final UserModel userInfo;
+
+  const GetUserInfo({required this.userInfo});
+
+  @override
+  List<Object> get props => [userInfo];
 }
 
 class GetMessagesFailure extends GetMessagesState {

@@ -22,7 +22,7 @@ class _AudioWaveVoiceDurationAndVoiceTimeState extends State<_AudioWaveVoiceDura
   @override
   void initState() {
     super.initState();
-    duration = GlFunctions.timeFormatUsingMillisecond(widget.messageModel.maxDuration);
+    duration = GlFunctions.timeFormatUsingMillisecondVoiceOnly(widget.messageModel.maxDuration);
 
     waveData = widget.messageModel.waveData.cast<double>();
 

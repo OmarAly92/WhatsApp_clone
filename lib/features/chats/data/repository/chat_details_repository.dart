@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../core/networking/model/chat_model/message_model.dart';
 import '../data_source/chats/chat_details_requests.dart';
-
 
 class ChatDetailsRepository {
   final ChatDetailsRequests chatDetailsRequests;
@@ -19,20 +19,12 @@ class ChatDetailsRepository {
   }
 
   Future<void> sendMessage({
-    required String phoneNumber,
-    required String message,
-    required String myPhoneNumber,
-    required String type,
-    required Timestamp time,
-    required String messageId,
+    required String sortedNumbers,
+    required MessageModel messageModel,
   }) async {
     chatDetailsRequests.sendMessage(
-      phoneNumber: phoneNumber,
-      message: message,
-      myPhoneNumber: myPhoneNumber,
-      type: type,
-      time: time,
-      messageId: messageId,
+      sortedNumbers:  sortedNumbers,
+      messageModel: messageModel,
     );
   }
 
@@ -107,4 +99,15 @@ class ChatDetailsRepository {
       messageId: messageId,
     );
   }
+
+  Stream<List<UserModel>> getUserInfo({
+    required String email,
+  }) {
+    final rawUserInfo = chatDetailsRequests.getUserInfo(email: email);
+    return rawUserInfo.snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => UserModel.fromQueryDocumentSnapshot(doc)).toList();
+    });
+  }
+
+
 }
