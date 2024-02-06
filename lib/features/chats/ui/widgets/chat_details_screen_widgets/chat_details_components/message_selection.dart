@@ -101,7 +101,7 @@ class _MessageSelectionState extends State<_MessageSelection> {
   @override
   Widget build(BuildContext context) {
     final Color replyColor = widget.isTheSender ? const Color(0xff068D72) : const Color(0xff8d7ed8);
-    final String hisName = widget.isTheSender ? 'You' : widget.hisUserModel.userName;
+    final String hisName = widget.isTheSender ? 'You' : widget.hisUserModel.name;
     return SwipePlus(
       onDragComplete: () {
         if (widget.messageModel.type != 'deleted') {

@@ -31,8 +31,8 @@ class GetMessagesCubit extends Cubit<GetMessagesState> {
     });
   }
 
-  void getUserInfo({required String email}) async {
-    chatDetailsRepository.getUserInfo(email: email).listen((userInfo) {
+  void getUserInfo({required String phoneNumber}) async {
+    chatDetailsRepository.getUserInfo(phoneNumber: phoneNumber).listen((userInfo) {
       emit(GetUserInfo(userInfo: userInfo.first));
     });
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 import 'package:whats_app_clone/features/auth/logic/authentication_cubit.dart';
 
 import '../../features/auth/logic/old/authentication_old_cubit.dart';
@@ -113,6 +114,7 @@ class AppRouter {
           builder: (context) {
             bool isDarkMode = _checkThemeMode(context);
             final Map arguments = settings.arguments as Map;
+            final UserModel hisUserModel= arguments['userModel'];
             return MultiBlocProvider(
               providers: [
                 BlocProvider(create: (context) => getMessagesCubit),
@@ -121,7 +123,7 @@ class AppRouter {
               ],
               child: ChatDetailsScreen(
                 themeColors: ThemeColors(isDarkMode: isDarkMode),
-                hisUserModel: arguments['userModel'],
+                hisUserModel: hisUserModel,
               ),
             );
           },

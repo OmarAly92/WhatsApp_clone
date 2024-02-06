@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/networking/global_requests/global_requests.dart';
 
 import '../../../../core/themes/theme_color.dart';
+import '../../../notification_component.dart';
 import '../logic/chats_cubit/chats_cubit.dart';
 import 'widgets/chats_screen_widgets/chats_list_view.dart';
 
@@ -19,13 +19,17 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
+
+
   @override
   void initState() {
+
+
+    FirebaseNotification.initNotifications(context);
+
     GlobalRequests.getFirebaseMessagingToken();
-
-
-
     updateActiveStatus();
+
     super.initState();
   }
 

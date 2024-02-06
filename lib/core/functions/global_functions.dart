@@ -45,6 +45,14 @@ abstract class GlFunctions {
     final String myPhoneNumber = userModel.phoneNumber;
     return myPhoneNumber;
   }
+  static Future<UserModel> getMyUserData() async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    final String myEmail = firebaseAuth.currentUser!.email!;
+    final userDoc = await firebaseFirestore.collection('users').where('userEmail', isEqualTo: myEmail).get();
+    final userModel = UserModel.fromQueryDocumentSnapshot(userDoc.docs.first);
+    return userModel;
+  }
 
   static Future<String> getMyEmail() async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;

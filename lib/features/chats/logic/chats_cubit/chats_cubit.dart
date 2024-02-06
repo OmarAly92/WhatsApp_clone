@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../core/functions/global_functions.dart';
+import '../../../../core/networking/global_requests/global_requests.dart';
 import '../../../../core/networking/model/chat_model/chat_model.dart';
 import '../../../../core/networking/model/chat_model/message_model.dart';
 import '../../data/repository/chats_repository.dart';
@@ -67,5 +68,7 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   Future<void> updateActiveStatus({required bool isOnline}) async {
     await _chatsRepository.updateActiveStatus(isOnline: isOnline);
+    await  GlobalRequests.getFirebaseMessagingToken();
+
   }
 }

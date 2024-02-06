@@ -18,12 +18,15 @@ class ChatDetailsRepository {
 
   Future<void> globalSendMessage({
     required String sortedNumber,
+    required UserModel myUserModel,
+    required String hisPushToken,
     required MessageModel messageModel,
-    required UserModel hisUserModel,
   }) async {
     chatDetailsRequests.globalSendingMessage(
       sortedNumber: sortedNumber,
-      messageModel: messageModel, hisUserModel: hisUserModel,
+      messageModel: messageModel,
+      myUserModel: myUserModel,
+      hisPushToken:hisPushToken,
     );
   }
 
@@ -38,9 +41,9 @@ class ChatDetailsRepository {
   }
 
   Stream<List<UserModel>> getUserInfo({
-    required String email,
+    required String phoneNumber,
   }) {
-    final rawUserInfo = chatDetailsRequests.getUserInfo(email: email);
+    final rawUserInfo = chatDetailsRequests.getUserInfo(phoneNumber: phoneNumber);
     return rawUserInfo.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => UserModel.fromQueryDocumentSnapshot(doc)).toList();
     });

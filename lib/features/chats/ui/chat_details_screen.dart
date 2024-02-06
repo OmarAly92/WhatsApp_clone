@@ -36,7 +36,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   @override
   void initState() {
     getMessagesCubit().getMessages(hisPhoneNumber: widget.hisUserModel.phoneNumber);
-    getMessagesCubit().getUserInfo(email: widget.hisUserModel.userEmail);
+    getMessagesCubit().getUserInfo(phoneNumber: widget.hisUserModel.phoneNumber);
     super.initState();
   }
 
@@ -55,7 +55,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           slivers: [
             ChatDetailsAppBar(
               themeColors: widget.themeColors,
-              hisName: widget.hisUserModel.userName,
+              hisName: widget.hisUserModel.name,
               hisProfilePicture: widget.hisUserModel.profilePicture,
               hisPhoneNumber: widget.hisUserModel.phoneNumber,
             ),

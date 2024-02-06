@@ -38,7 +38,7 @@ class SettingsProfileSuccess extends StatelessWidget {
                 const SizedBox(width: 20),
                 CustomBodyTitlesWidget(
                   textTitle: Text(
-                    state.user.userName,
+                    state.user.name,
                     style: Styles.textStyle18,
                   ),
                   textSubTitle: Text(

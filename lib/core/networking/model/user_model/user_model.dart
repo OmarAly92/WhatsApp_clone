@@ -4,9 +4,9 @@ import 'package:equatable/equatable.dart';
 class UserModel extends Equatable {
   final bool isOnline;
   final int lastActive;
-  final String userName;
+  final String name;
   final String profilePicture;
-  final String userEmail;
+  final String email;
   final String phoneNumber;
   final String userId;
   final String pushToken;
@@ -16,8 +16,8 @@ class UserModel extends Equatable {
     required this.lastActive,
     required this.userId,
     required this.pushToken,
-    required this.userName,
-    required this.userEmail,
+    required this.name,
+    required this.email,
     required this.phoneNumber,
     required this.profilePicture,
   });
@@ -28,8 +28,8 @@ class UserModel extends Equatable {
       isOnline: json['isOnline'],
       lastActive: json['lastActive'],
       userId: json['userId'],
-      userName: json['userName'],
-      userEmail: json['userEmail'] ?? '',
+      name: json['userName'],
+      email: json['userEmail'] ?? '',
       phoneNumber: json['userPhone'],
       profilePicture: json['profileImage'],
       pushToken: json['pushToken'] ,
@@ -42,8 +42,8 @@ class UserModel extends Equatable {
       isOnline: json['isOnline'],
       lastActive: json['lastActive'],
       userId: json['userId'],
-      userName: json['userName'],
-      userEmail: json['userEmail'] ?? '',
+      name: json['userName'],
+      email: json['userEmail'] ?? '',
       phoneNumber: json['userPhone'],
       profilePicture: json['profileImage'],
       pushToken: json['pushToken'] ,
@@ -55,8 +55,8 @@ class UserModel extends Equatable {
       isOnline: json['isOnline'],
       lastActive: json['lastActive'] ?? 0,
       userId: json['userId'],
-      userName: json['userName'],
-      userEmail: json['userEmail'] ?? '',
+      name: json['userName'],
+      email: json['userEmail'] ?? '',
       phoneNumber: json['userPhone'],
       profilePicture: json['profileImage'],
       pushToken: json['pushToken'] ,
@@ -67,10 +67,10 @@ class UserModel extends Equatable {
   List<Object> get props => [
         isOnline,
         userId,
-        userName,
+        name,
         phoneNumber,
         profilePicture,
         lastActive,
-        userEmail,
+        email,
       ];
 }

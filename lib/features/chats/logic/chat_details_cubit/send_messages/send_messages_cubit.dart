@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:audio_waveforms/audio_waveforms.dart';
@@ -21,9 +22,19 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     _initialiseController();
   }
 
+  StreamSubscription? hisUserDataSub;
+
   final ChatDetailsRepository _chatDetailsRepository;
   final Uuid _uuid = const Uuid();
   late final RecorderController _recorderController;
+
+  // late UserModel hisUserModel;
+
+  // void getHisUserData({required String hisPhoneNumber}) {
+  //   hisUserDataSub = _chatDetailsRepository.getUserInfo(phoneNumber: hisPhoneNumber).listen((userModel) {
+  //     hisUserModel = userModel.first;
+  //   });
+  // }
 
   void sendMessage({
     required UserModel hisUserModel,
@@ -32,8 +43,8 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required Timestamp time,
   }) async {
     try {
-      final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
-      final String sortedNumbers = GlFunctions.sortPhoneNumbers(hisUserModel.phoneNumber, myPhoneNumber);
+      final myUserData = await GlFunctions.getMyUserData();
+      final String sortedNumbers = GlFunctions.sortPhoneNumbers(hisUserModel.phoneNumber, myUserData.phoneNumber);
 
       final MessageModel messageModel = MessageModel(
         isSeen: '',
@@ -41,20 +52,20 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         message: message,
         time: time,
         messageId: _uuid.v4(),
-        theSender: myPhoneNumber,
+        theSender: myUserData.phoneNumber,
         type: type,
         waveData: const [],
         maxDuration: 0,
         originalMessage: '',
         replyOriginalName: '',
-        senderName: '',
+        senderName: myUserData.name,
       );
 
       _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumbers,
         messageModel: messageModel,
-        hisUserModel: hisUserModel,
-
+        hisPushToken: hisUserModel.pushToken,
+        myUserModel: myUserData,
       );
     } catch (failureMessage) {
       emit(SendMessagesFailure(failureMessage: '$failureMessage Failed to sendMessage'));
@@ -70,8 +81,8 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required Timestamp time,
   }) async {
     try {
-      final myPhoneNumber = await GlFunctions.getMyPhoneNumber();
-      final sortedNumber = GlFunctions.sortPhoneNumbers(hisUserModel.phoneNumber, myPhoneNumber);
+      final myUserData = await GlFunctions.getMyUserData();
+      final sortedNumber = GlFunctions.sortPhoneNumbers(hisUserModel.phoneNumber, myUserData.phoneNumber);
 
       MessageModel messageModel = MessageModel(
         isSeen: '',
@@ -79,20 +90,20 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         message: message,
         time: time,
         messageId: _uuid.v4(),
-        theSender: myPhoneNumber,
+        theSender: myUserData.phoneNumber,
         type: type,
         waveData: const [],
         maxDuration: 0,
         originalMessage: originalMessage,
         replyOriginalName: replyOriginalName,
-        senderName: '',
+        senderName: myUserData.name,
       );
 
       _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
-        hisUserModel: hisUserModel,
-
+        hisPushToken: hisUserModel.pushToken,
+        myUserModel: myUserData,
       );
     } catch (failureMessage) {
       emit(SendMessagesFailure(failureMessage: '$failureMessage Failed to send reply message'));
@@ -105,11 +116,11 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     required String type,
   }) async {
     try {
-      final myPhoneNumber = await GlFunctions.getMyPhoneNumber();
-      final sortedNumber = GlFunctions.sortPhoneNumbers(hisUserModel.phoneNumber, myPhoneNumber);
+      final myUserData = await GlFunctions.getMyUserData();
+      final sortedNumber = GlFunctions.sortPhoneNumbers(hisUserModel.phoneNumber, myUserData.phoneNumber);
 
       final String imagePath = await _getImagePathFromStorage(
-          myPhoneNumber: myPhoneNumber, phoneNumber: hisUserModel.phoneNumber, time: time);
+          myPhoneNumber: myUserData.phoneNumber, phoneNumber: hisUserModel.phoneNumber, time: time);
 
       MessageModel messageModel = MessageModel(
         isSeen: '',
@@ -117,19 +128,20 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         message: imagePath,
         time: time,
         messageId: _uuid.v4(),
-        theSender: myPhoneNumber,
+        theSender: myUserData.phoneNumber,
         type: type,
         waveData: const [],
         maxDuration: 0,
         originalMessage: '',
         replyOriginalName: '',
-        senderName: '',
+        senderName: myUserData.name,
       );
 
       _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
-        hisUserModel: hisUserModel,
+        hisPushToken: hisUserModel.pushToken,
+        myUserModel: myUserData,
       );
     } catch (e) {
       emit(const SendMessagesFailure(failureMessage: 'Failed to upload the Image'));
@@ -152,16 +164,16 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
   }) async {
     List<double> waveData = _recorderController.waveData.toList();
 
-    String? path = await _recorderController.stop();
-    String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
+    final String? path = await _recorderController.stop();
+    final UserModel myUserData = await GlFunctions.getMyUserData();
 
     try {
-      var finalPath = await _uploadVoiceToStorage(
-          myPhoneNumber: myPhoneNumber,
+      final finalPath = await _uploadVoiceToStorage(
+          myPhoneNumber: myUserData.phoneNumber,
           phoneNumber: hisUserModel.phoneNumber,
           time: time,
           voicePathFromStopMethod: path!);
-      final String sortedNumber = GlFunctions.sortPhoneNumbers(hisUserModel.phoneNumber, myPhoneNumber);
+      final String sortedNumber = GlFunctions.sortPhoneNumbers(hisUserModel.phoneNumber, myUserData.phoneNumber);
 
       final MessageModel messageModel = MessageModel(
         isSeen: '',
@@ -169,20 +181,20 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
         message: finalPath,
         time: time,
         messageId: _uuid.v4(),
-        theSender: myPhoneNumber,
+        theSender: myUserData.phoneNumber,
         type: 'voice',
         waveData: waveData,
         maxDuration: maxDuration,
         originalMessage: '',
         replyOriginalName: '',
-        senderName: '',
+        senderName: myUserData.name,
       );
 
       _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
-        hisUserModel: hisUserModel,
-
+        hisPushToken: hisUserModel.pushToken,
+        myUserModel: myUserData,
       );
 
       emit(SendMessagesInitial());
@@ -272,5 +284,11 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     final voicePath = await storageReference.getDownloadURL();
 
     return voicePath;
+  }
+
+  @override
+  Future<void> close() {
+    hisUserDataSub?.cancel();
+    return super.close();
   }
 }

@@ -20,7 +20,7 @@ class ListViewOfContactsInSelectContactBody extends StatelessWidget {
       itemCount: userModelList.length,
       itemBuilder: (context, index) {
         return LocalMobileContactsItem(
-          contactName: userModelList[index].userName,
+          contactName: userModelList[index].name,
           contactDescription: '',
           contactImage: Image.network(
             userModelList[index].profilePicture,

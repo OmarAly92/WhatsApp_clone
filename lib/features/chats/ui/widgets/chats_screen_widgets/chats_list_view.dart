@@ -41,7 +41,7 @@ class ChatsListView extends StatelessWidget {
               create: (context) => ChatsCubit(sl()),
               child: ChatItem(
                 themeColors: themeColors,
-                contactName:users[index].userName,
+                contactName:users[index].name,
                 profileImage: users[index].profilePicture,
                 hisPhoneNumber: users[index].phoneNumber,
               ),

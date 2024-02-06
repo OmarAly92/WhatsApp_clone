@@ -17,7 +17,7 @@ class GlobalRequests {
   }
 
   static Future<void> getFirebaseMessagingToken() async {
-    await messaging.requestPermission();
+    await FirebaseMessaging.instance.requestPermission();
     final String? pushToken = await messaging.getToken();
     if (pushToken != null) {
       final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
@@ -27,13 +27,6 @@ class GlobalRequests {
       });
     }
 
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   log('Got a message whilst in the foreground!');
-    //   log('Message data: ${message.data}');
-    //
-    //   if (message.notification != null) {
-    //     log('Message also contained a notification: ${message.notification}');
-    //   }
-    // });
+
   }
 }

@@ -55,8 +55,8 @@ class ChatDetailsRequests {
         .update({'isSeen': DateTime.now().millisecondsSinceEpoch.toString()});
   }
 
-  Query<Map<String, dynamic>> getUserInfo({required String email}) {
-    return getUserCollection().where('userEmail', isEqualTo: email);
+  Query<Map<String, dynamic>> getUserInfo({required String phoneNumber}) {
+    return getUserCollection().where('userPhone', isEqualTo: phoneNumber);
   }
 
   Future<void> sendMessage({required String sortedNumber, required MessageModel messageModel}) async {
@@ -66,6 +66,7 @@ class ChatDetailsRequests {
       'reactEmoji': '',
       'message': messageModel.message,
       'theSender': messageModel.theSender,
+      'senderName': messageModel.senderName,
       'time': messageModel.time,
       'messageId': messageModel.messageId,
       'type': messageModel.type,
@@ -81,6 +82,7 @@ class ChatDetailsRequests {
       'reactEmoji': '',
       'message': messageModel.message,
       'theSender': messageModel.theSender,
+      'senderName': messageModel.senderName,
       'time': messageModel.time,
       'messageId': messageModel.messageId,
       'type': messageModel.type,
@@ -96,6 +98,7 @@ class ChatDetailsRequests {
       'reactEmoji': '',
       'message': messageModel.message,
       'theSender': messageModel.theSender,
+      'senderName': messageModel.senderName,
       'time': messageModel.time,
       'messageId': messageModel.messageId,
       'type': messageModel.type,
@@ -116,6 +119,7 @@ class ChatDetailsRequests {
       'message': messageModel.message,
       'replyOriginalName': messageModel.replyOriginalName,
       'theSender': messageModel.theSender,
+      'senderName': messageModel.senderName,
       'time': messageModel.time,
       'messageId': messageModel.messageId,
       'type': messageModel.type,
@@ -124,11 +128,13 @@ class ChatDetailsRequests {
 
   void globalSendingMessage({
     required String sortedNumber,
+
+    required UserModel myUserModel,
+    required String hisPushToken,
     required MessageModel messageModel,
-    required UserModel hisUserModel,
   }) async {
     if (messageModel.type == 'message') {
-      await sendMessage(sortedNumber: sortedNumber, messageModel: messageModel);
+       sendMessage(sortedNumber: sortedNumber, messageModel: messageModel);
     } else if (messageModel.type == 'voice') {
       await sendVoice(sortedNumber: sortedNumber, messageModel: messageModel);
     } else if (messageModel.type == 'image') {
@@ -137,15 +143,19 @@ class ChatDetailsRequests {
       await sendReplyMessage(sortedNumber: sortedNumber, messageModel: messageModel);
     }
 
-    log('${hisUserModel.pushToken} OMARTOKEN');
 
-    pushNotification(hisUserModel.pushToken, messageModel);
+  await  pushNotification(
+      myUserModel: myUserModel,
+      hisPushToken: hisPushToken,
+      messageModel: messageModel,
+    );
   }
 
-  Future<void> pushNotification(
-    String userPushToken,
-    MessageModel messageModel,
-  ) async {
+  Future<void> pushNotification({
+    required UserModel myUserModel,
+    required String hisPushToken,
+    required MessageModel messageModel,
+  }) async {
     try {
       Dio dio = Dio();
       const String pushApi = 'https://fcm.googleapis.com/fcm/send';
@@ -155,23 +165,28 @@ class ChatDetailsRequests {
             'Bearer AAAAQk7oPtM:APA91bHylG7LFeOCu548jYKk-ZnE8h1AM3pS3WrMLdYVeKJFEATHw9kB-IaT03dCrYihwGeTZBh6Xe3KGb9rpObAdwxN2OpmpIiDgiNcdjlQXQ--HrpacgiogjoFzwCdoXDnVQ-nJ8vC'
       };
       final data = json.encode({
-        "to": userPushToken,
-        "notification": {
-          "title": messageModel.senderName,
-          "body": messageModel.message,
-          "android_channel_id": "chats",
-        },
-      "data": {
-      "some_data" : "User ID: ${messageModel.theSender}",
-      }
+        "to": hisPushToken,
+        "data": {
+          "title" : messageModel.senderName,
+          "body" :  messageModel.message,
+          "isOnline": myUserModel.isOnline,
+          "lastActive": myUserModel.lastActive,
+          "name": myUserModel.name,
+          "profilePicture": myUserModel.profilePicture,
+          "email": myUserModel.email,
+          "phoneNumber": myUserModel.phoneNumber,
+          "userId": myUserModel.userId,
+          "pushToken": myUserModel.pushToken,
+          "path": 'chatDetail',
+        }
       });
-      var response = await dio.post(
+      final response = await dio.post(
         options: Options(headers: headers),
         pushApi,
         data: data,
       );
       if (response.statusCode == 200) {
-        log('OMAR TEST WORK');
+        log('OMAR Push Successful');
       }
     } catch (e) {
       log('-----------------------$e-----------------------');

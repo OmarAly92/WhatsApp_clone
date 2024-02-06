@@ -35,7 +35,7 @@ class ProfileBody extends StatelessWidget {
                             themeColors: themeColors,
                             leadingIcon: Icons.person,
                             title: 'Name',
-                            subTitle: state.user.userName,
+                            subTitle: state.user.name,
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 45.w),
