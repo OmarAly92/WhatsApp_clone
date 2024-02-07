@@ -1,31 +1,29 @@
+import 'dart:async';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'notification_state.dart';
+import '../../../core/app_router/app_router.dart';
+import '../../../core/networking/model/user_model/user_model.dart';
 
-class NotificationCubit extends Cubit<NotificationState> {
-  NotificationCubit() : super(NotificationInitial()) {
-    initNotifications();
-  }
+class NotificationCubit extends Cubit<String> {
+  NotificationCubit() : super('There is no states');
 
-  int _id = 1;
+  static StreamSubscription? onMessageSub;
+  static StreamSubscription? onMessageOpenedAppSub;
 
-  final _firebaseMessaging = FirebaseMessaging.instance;
+  static int id = 1;
 
-  void initNotifications() {
-    _initPushNotification();
-  }
+  static final _firebaseMessaging = FirebaseMessaging.instance;
 
-  Future<void> handleBackgroundMessage(RemoteMessage message) async {
-    emit(NotificationReceived(data: message.data));
-    _id += _id;
+  static Future<void> handleBackgroundMessage(RemoteMessage message) async {
+    id += id;
     AwesomeNotifications().createNotification(
         content: NotificationContent(
           groupKey: 'chats_channel',
-          id: _id,
+          id: id,
           channelKey: 'chats_channel',
           title: message.data['title'],
           body: message.data['body'],
@@ -43,12 +41,29 @@ class NotificationCubit extends Cubit<NotificationState> {
         ]);
   }
 
-  void _handleMessage(RemoteMessage? message) {
+  static void handleMessage(RemoteMessage? message, BuildContext context) {
     if (message == null) return;
-    if (message.data['path'] == 'chatDetail') {}
+    if (message.data['path'] == 'chatDetail') {
+      Navigator.pushNamed(
+        context,
+        AppRouter.chatDetailScreen,
+        arguments: {
+          'userModel': UserModel(
+            isOnline: bool.parse(message.data['isOnline']),
+            lastActive: int.parse(message.data['lastActive']),
+            userId: message.data['userId'],
+            pushToken: message.data['pushToken'],
+            name: message.data['name'],
+            email: message.data['email'],
+            phoneNumber: message.data['phoneNumber'],
+            profilePicture: message.data['profilePicture'],
+          ),
+        },
+      );
+    }
   }
 
-  Future _initPushNotification() async {
+  static Future _initPushNotification(BuildContext context) async {
     await _firebaseMessaging.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
@@ -56,18 +71,22 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
 
     _firebaseMessaging.getInitialMessage().then(
-          (message) => _handleMessage(message),
-        );
-    FirebaseMessaging.onMessageOpenedApp.listen(
-      (message) => _handleMessage(message),
+      (message) {
+        handleMessage(message, context);
+      },
     );
-    FirebaseMessaging.onMessage.listen((message) {
-      emit(NotificationReceived(data: message.data));
-
+    onMessageOpenedAppSub = FirebaseMessaging.onMessageOpenedApp.listen(
+      (message) {
+        handleMessage(message, context);
+      },
+    );
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+    onMessageSub = FirebaseMessaging.onMessage.listen((message) {
+      id += id;
       AwesomeNotifications().createNotification(
           content: NotificationContent(
             groupKey: 'chats_channel',
-            id: 2,
+            id: id,
             channelKey: 'chats_channel',
             title: message.data['title'],
             body: message.data['body'],
@@ -84,7 +103,16 @@ class NotificationCubit extends Cubit<NotificationState> {
             NotificationActionButton(key: 'Mute', label: 'Mute'),
           ]);
     });
+  }
 
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+  static void initNotifications(BuildContext context) {
+    _initPushNotification(context);
+  }
+
+  @override
+  Future<void> close() {
+    onMessageSub?.cancel();
+    onMessageOpenedAppSub?.cancel();
+    return super.close();
   }
 }

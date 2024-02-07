@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/app_router/app_router.dart';
 import 'package:whats_app_clone/core/dependency_injection/get_it.dart';
+import 'package:whats_app_clone/features/home/logic/notification_cubit.dart';
 
 import 'core/themes/themes.dart';
 import 'firebase_options.dart';
@@ -32,11 +34,10 @@ void main() async {
       ),
     ],
   );
-  WidgetsFlutterBinding.ensureInitialized();
 
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseMessaging.instance.requestPermission();
-
   ServicesLocator.init();
 
   FirebaseAuth.instance.authStateChanges().listen((user) {
@@ -50,34 +51,30 @@ void main() async {
   runApp(MyApp(appRouter: sl()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.appRouter});
 
   final AppRouter appRouter;
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-
-  @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 690),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) =>
-          MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'WhatsApp Clone',
-            themeMode: ThemeMode.system,
-            theme: MyThemes.lightTheme,
-            darkTheme: MyThemes.darkTheme,
-            onGenerateRoute: widget.appRouter.generateRoute,
-            initialRoute: initialScreen,
-            // home: MyTest(themeColors: ThemeColors(isDarkMode: true)),
-          ),
+    return BlocProvider(
+      create: (context) => NotificationCubit(),
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'WhatsApp Clone',
+          themeMode: ThemeMode.system,
+          theme: MyThemes.lightTheme,
+          darkTheme: MyThemes.darkTheme,
+          onGenerateRoute: appRouter.generateRoute,
+          initialRoute: initialScreen,
+          // home: MyTest(themeColors: ThemeColors(isDarkMode: true)),
+        ),
+      ),
     );
   }
 }
