@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'package:fast_contacts/fast_contacts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../../core/functions/global_functions.dart';
@@ -29,7 +29,7 @@ class ChatsRequest {
   Future<List<Contact>> getLocalContact() async {
     final PermissionStatus status = await Permission.contacts.request();
     if (status.isGranted) {
-      return await ContactsService.getContacts();
+      return await FastContacts.getAllContacts();
     } else {
       throw Exception();
     }

@@ -64,16 +64,17 @@ class MyApp extends StatelessWidget {
         designSize: const Size(360, 690),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context, child) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'WhatsApp Clone',
-          themeMode: ThemeMode.system,
-          theme: MyThemes.lightTheme,
-          darkTheme: MyThemes.darkTheme,
-          onGenerateRoute: appRouter.generateRoute,
-          initialRoute: initialScreen,
-          // home: MyTest(themeColors: ThemeColors(isDarkMode: true)),
-        ),
+        builder: (context, child) =>
+            MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'WhatsApp Clone',
+              themeMode: ThemeMode.system,
+              theme: MyThemes.lightTheme,
+              darkTheme: MyThemes.darkTheme,
+              onGenerateRoute: appRouter.generateRoute,
+              initialRoute: initialScreen,
+              //   child: const TestContactsWidget(),
+            ),
       ),
     );
   }

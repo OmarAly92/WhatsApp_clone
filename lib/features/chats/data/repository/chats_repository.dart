@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'package:fast_contacts/fast_contacts.dart';
 
 import '../../../../core/networking/model/chat_model/chat_model.dart';
 import '../../../../core/networking/model/chat_model/message_model.dart';

@@ -17,10 +17,14 @@ class SelectContactCubit extends Cubit<SelectContactState> {
     try {
       final localContacts = await _chatsRepository.getLocalContact();
 
+      final finalContacts = localContacts.where((element) => element.phones.isNotEmpty).toList();
+
       final fireBaseUserData = await _chatsRepository.getFireBaseUserData();
 
-      final List<String?> localContactPhoneNumbers =
-          localContacts.map((e) => (e.phones!.first.value).toString().replaceAll(' ', '')).toList();
+      // .replaceAll('+3', '')
+      final List<String?> localContactPhoneNumbers = finalContacts
+          .map((e) => (e.phones[0].number).toString().replaceAll(' ', '').replaceAll('+2', ''))
+          .toList();
 
       final List<UserModel> result =
           fireBaseUserData.where((element) => localContactPhoneNumbers.contains(element.phoneNumber)).toList();
@@ -36,7 +40,6 @@ class SelectContactCubit extends Cubit<SelectContactState> {
     final String myPhoneNumber = await GlFunctions.getMyPhoneNumber();
     final hisDoc = _chatsRepository.getSingleUserDoc(phoneNumber: friendContactUserModel.phoneNumber);
     final myDoc = _chatsRepository.getSingleUserDoc(phoneNumber: myPhoneNumber);
-
     _chatsRepository.creatingChatRoom(
       hisDoc: hisDoc,
       myDoc: myDoc,
