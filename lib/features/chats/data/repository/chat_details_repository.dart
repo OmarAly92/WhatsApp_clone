@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../core/networking/model/chat_model/message_model.dart';
@@ -7,6 +8,7 @@ class ChatDetailsRepository {
   final ChatDetailsRequests chatDetailsRequests;
 
   ChatDetailsRepository(this.chatDetailsRequests);
+
 
 
   Stream<List<MessageModel>> getMessages({required String hisPhoneNumber, required String myPhoneNumber}) {
@@ -47,5 +49,14 @@ class ChatDetailsRepository {
     return rawUserInfo.snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => UserModel.fromQueryDocumentSnapshot(doc)).toList();
     });
+  }
+
+
+  Stream<dynamic> getHisPushToken({required String phoneNumber}) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(phoneNumber)
+        .snapshots()
+        .map((snapshot) => snapshot['pushToken']);
   }
 }

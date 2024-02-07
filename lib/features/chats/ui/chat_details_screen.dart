@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
+import 'package:whats_app_clone/features/chats/logic/chat_details_cubit/send_messages/send_messages_cubit.dart';
 
 import '../../../../core/themes/theme_color.dart';
 import '../logic/chat_details_cubit/get_messages/get_messages_cubit.dart';
@@ -35,6 +36,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
   @override
   void initState() {
+    BlocProvider.of<SendMessagesCubit>(context).getHisPushToken(hisPhoneNumber: widget.hisUserModel.phoneNumber);
     getMessagesCubit().getMessages(hisPhoneNumber: widget.hisUserModel.phoneNumber);
     getMessagesCubit().getUserInfo(phoneNumber: widget.hisUserModel.phoneNumber);
     super.initState();
@@ -62,7 +64,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             SliverFillRemaining(
               child: ChatDetailsBody(
                 themeColors: widget.themeColors,
-                hisUserModel:  widget.hisUserModel,
+                hisUserModel: widget.hisUserModel,
               ),
             ),
           ],

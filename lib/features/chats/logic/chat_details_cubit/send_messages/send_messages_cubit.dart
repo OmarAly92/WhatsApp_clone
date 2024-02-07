@@ -22,19 +22,19 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
     _initialiseController();
   }
 
-  StreamSubscription? hisUserDataSub;
+  StreamSubscription? pushTokenSub;
 
   final ChatDetailsRepository _chatDetailsRepository;
   final Uuid _uuid = const Uuid();
   late final RecorderController _recorderController;
 
-  // late UserModel hisUserModel;
+  late String pushToken;
 
-  // void getHisUserData({required String hisPhoneNumber}) {
-  //   hisUserDataSub = _chatDetailsRepository.getUserInfo(phoneNumber: hisPhoneNumber).listen((userModel) {
-  //     hisUserModel = userModel.first;
-  //   });
-  // }
+  void getHisPushToken({required String hisPhoneNumber}) {
+    pushTokenSub = _chatDetailsRepository.getHisPushToken(phoneNumber: hisPhoneNumber).listen((pushToken) {
+      this.pushToken = pushToken;
+    });
+  }
 
   void sendMessage({
     required UserModel hisUserModel,
@@ -64,7 +64,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
       _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumbers,
         messageModel: messageModel,
-        hisPushToken: hisUserModel.pushToken,
+        hisPushToken: pushToken,
         myUserModel: myUserData,
       );
     } catch (failureMessage) {
@@ -102,7 +102,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
       _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
-        hisPushToken: hisUserModel.pushToken,
+        hisPushToken: pushToken,
         myUserModel: myUserData,
       );
     } catch (failureMessage) {
@@ -140,7 +140,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
       _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
-        hisPushToken: hisUserModel.pushToken,
+        hisPushToken: pushToken,
         myUserModel: myUserData,
       );
     } catch (e) {
@@ -193,7 +193,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
       _chatDetailsRepository.globalSendMessage(
         sortedNumber: sortedNumber,
         messageModel: messageModel,
-        hisPushToken: hisUserModel.pushToken,
+        hisPushToken: pushToken,
         myUserModel: myUserData,
       );
 
@@ -288,7 +288,7 @@ class SendMessagesCubit extends Cubit<SendMessagesState> {
 
   @override
   Future<void> close() {
-    hisUserDataSub?.cancel();
+    pushTokenSub?.cancel();
     return super.close();
   }
 }
