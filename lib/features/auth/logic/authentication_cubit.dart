@@ -34,9 +34,17 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           .get();
       final userModel = userDoc.docs.map((e) => UserModel.fromQueryDocumentSnapshot(e));
       if (userDoc.docs.isEmpty || userSignUpData.phoneNumber != userModel.single.phoneNumber) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
           email: userSignUpData.emailAddress,
           password: userSignUpData.password,
+        )
+            .timeout(
+          const Duration(seconds: 15),
+          onTimeout: ()async {
+            emit(const AuthenticationFailure(failureMessage: 'Time out please try again'));
+            throw Exception('Timeout');
+          },
         );
         await _createUserProfileDoc(userSignUpData: userSignUpData);
         emit(AuthenticationSuccess());
@@ -87,6 +95,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
           .timeout(
         const Duration(seconds: 15),
         onTimeout: () {
+          emit(const AuthenticationFailure(failureMessage: 'Time out please try again'));
           throw Exception('Timeout');
         },
       );
