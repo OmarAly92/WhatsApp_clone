@@ -41,15 +41,27 @@ class ChatsCubit extends Cubit<ChatsState> {
   }
 
   Future<List<UserModel>> fetchUserDoc(List<ChatsModel> chats, String myPhoneNumber) async {
+    final Set<String> userPhoneNumbers = {};
     final List<UserModel> users = [];
-    for (var element in chats) {
-      final userDocOne = await element.usersDocs[0].get();
-      final userDocTwo = await element.usersDocs[1].get();
-      final userModelOne = UserModel.fromQueryDocumentSnapshot(userDocOne);
-      final userModelTwo = UserModel.fromQueryDocumentSnapshot(userDocTwo);
-      final userModel = userModelOne.phoneNumber != myPhoneNumber ? userModelOne : userModelTwo;
+
+    for (var chat in chats) {
+      userPhoneNumbers.add(chat.usersDocs[0].id);
+      userPhoneNumbers.add(chat.usersDocs[1].id);
+    }
+
+    userPhoneNumbers.remove(myPhoneNumber);
+
+    final List<Future<DocumentSnapshot<Map<String, dynamic>>>> userDocFutures = userPhoneNumbers
+        .map((phoneNumber) => FirebaseFirestore.instance.collection('users').doc(phoneNumber).get())
+        .toList();
+
+    final List<DocumentSnapshot<Map<String, dynamic>>> userDocs = await Future.wait(userDocFutures);
+
+    for (final userDoc in userDocs) {
+      final userModel = UserModel.fromQueryDocumentSnapshot(userDoc);
       users.add(userModel);
     }
+
     return users;
   }
 
@@ -68,7 +80,6 @@ class ChatsCubit extends Cubit<ChatsState> {
 
   Future<void> updateActiveStatus({required bool isOnline}) async {
     await _chatsRepository.updateActiveStatus(isOnline: isOnline);
-    await  GlobalRequests.getFirebaseMessagingToken();
-
+    await GlobalRequests.getFirebaseMessagingToken();
   }
 }
