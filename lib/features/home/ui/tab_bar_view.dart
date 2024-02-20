@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/utils/app_router.dart';
-import '../../../core/themes/text_style/text_styles.dart';
 import '../../../core/themes/theme_color.dart';
+import '../../../core/utils/app_router.dart';
+import '../../../testing/custom_tab_bar.dart';
 import 'widgets/tab_bar_view_body.dart';
 import 'widgets/tabs_floating_action_button.dart';
 
@@ -17,44 +16,45 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+  late PageController pageController;
+  int currentPageIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-    _tabController.addListener(_handleTabChange);
+    pageController = PageController();
+    pageController.addListener(() {
+      setState(() {
+        currentPageIndex = pageController.page!.round();
+      });
+    });
   }
 
   @override
   void dispose() {
-    _tabController.removeListener(_handleTabChange);
-    _tabController.dispose();
+    pageController.removeListener(handleTabChange);
+    pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        floatingActionButton: TabsFloatingActionButton(
-            tabController: _tabController, themeColors: widget.themeColors),
-        appBar: _buildHomeAppBar(),
-        body: TabBarViewBody(
-          themeColors: widget.themeColors,
-          tabController: _tabController,
-        ),
+    return Scaffold(
+      floatingActionButton:
+          TabsFloatingActionButton(currentPageIndex: currentPageIndex, themeColors: widget.themeColors),
+      appBar: buildHomeAppBar(),
+      body: TabBarViewBody(
+        themeColors: widget.themeColors,
+        pageController: pageController,
       ),
     );
   }
 
-  AppBar _buildHomeAppBar() {
+  AppBar buildHomeAppBar() {
     List<Widget> actions = [
       IconButton(onPressed: () {}, icon: const Icon(Icons.camera_alt_outlined)),
-      _tabController.index == 1
+      currentPageIndex == 1
           ? const SizedBox()
           : IconButton(
               onPressed: () {},
@@ -69,48 +69,42 @@ class _HomeScreenState extends State<HomeScreen>
     return AppBar(
       title: const Text('WhatsApp'),
       actions: actions,
-      bottom: _tabBar(),
+      bottom: buildCustomTabBar(),
     );
   }
 
-  TabBar _tabBar() {
-    return TabBar(
-      controller: _tabController,
-      unselectedLabelColor: widget.themeColors.appbarTextColor,
-      indicatorSize: TabBarIndicatorSize.tab,
+  CustomTabBar buildCustomTabBar() {
+    return CustomTabBar(
       tabs: [
-        Tab(
-          child: Text(
-            'Chats',
-            style: Styles.textStyle14.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: 15.sp,
-            ),
-          ),
+        // TabItem(
+        //   index: 0,
+        //   isActive: currentPageIndex == 0,
+        //   icon: Icons.groups,
+        //   pageController: pageController,
+        // ),
+        TabItem(
+          index: 0,
+          isActive: currentPageIndex == 0,
+          text: 'Chats',
+          pageController: pageController,
         ),
-        Tab(
-          child: Text(
-            'Updates',
-            style: Styles.textStyle14.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: 15.sp,
-            ),
-          ),
+        TabItem(
+          index: 1,
+          isActive: currentPageIndex == 1,
+          text: 'Updates',
+          pageController: pageController,
         ),
-        Tab(
-          child: Text(
-            'Calls',
-            style: Styles.textStyle14.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: 15.sp,
-            ),
-          ),
+        TabItem(
+          index: 2,
+          isActive: currentPageIndex == 2,
+          text: 'Calls',
+          pageController: pageController,
         ),
       ],
     );
   }
 
-  void _handleTabChange() {
+  void handleTabChange() {
     setState(() {});
   }
 }

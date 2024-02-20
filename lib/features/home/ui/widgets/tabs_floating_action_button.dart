@@ -9,18 +9,18 @@ import 'updates_floating_action_button.dart';
 class TabsFloatingActionButton extends StatelessWidget {
   const TabsFloatingActionButton({
     super.key,
-    required TabController tabController,
+    required this.currentPageIndex ,
     required this.themeColors,
-  }) : _tabController = tabController;
+  }) ;
 
-  final TabController _tabController;
+  final int currentPageIndex;
   final ThemeColors themeColors;
 
   @override
   Widget build(BuildContext context) {
-    if (_tabController.index == 0) {
+    if (currentPageIndex == 0) {
       return ChatsFloatingActionButton(themeColors: themeColors);
-    } else if (_tabController.index == 1) {
+    } else if (currentPageIndex == 1) {
       return UpdatesFloatingActionButton(themeColors: themeColors);
     } else {
       return CallsFloatingActionButton(themeColors: themeColors);
