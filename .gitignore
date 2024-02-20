@@ -44,5 +44,5 @@ app.*.map.json
 /android/app/release
 
 # Testing files
-test_animated_container.dart
-test_voice_wave.dart
+lib/test_voice_wave.dart
+lib/test_animated_container.dart
