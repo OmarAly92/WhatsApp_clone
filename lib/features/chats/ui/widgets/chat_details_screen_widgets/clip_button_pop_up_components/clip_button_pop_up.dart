@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
-import '../../../../../../core/app_router/app_router.dart';
+import '../../../../../../core/utils/app_router.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../logic/chat_details_cubit/send_messages/send_messages_cubit.dart';
 import 'icon_item_widget.dart';

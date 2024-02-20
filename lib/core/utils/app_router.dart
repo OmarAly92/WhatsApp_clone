@@ -19,7 +19,7 @@ import '../../features/home/ui/tab_bar_view.dart';
 import '../../features/settings/logic/settings_cubit.dart';
 import '../../features/settings/ui/profile_screen.dart';
 import '../../features/settings/ui/settings_screen.dart';
-import '../dependency_injection/get_it.dart';
+import 'dependency_injection.dart';
 import '../themes/theme_color.dart';
 
 class AppRouter {

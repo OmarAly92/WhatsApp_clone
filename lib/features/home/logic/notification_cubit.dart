@@ -5,7 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/app_router/app_router.dart';
+import '../../../core/utils/app_router.dart';
 import '../../../core/networking/model/user_model/user_model.dart';
 
 class NotificationCubit extends Cubit<String> {

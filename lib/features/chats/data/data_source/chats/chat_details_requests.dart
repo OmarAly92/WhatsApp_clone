@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:whats_app_clone/core/networking/model/chat_model/message_model.dart';
 
-import '../../../../../core/functions/global_functions.dart';
+import '../../../../../core/utils/global_functions.dart';
 import '../../../../../core/networking/model/user_model/user_model.dart';
 
 class ChatDetailsRequests {

@@ -13,7 +13,7 @@ import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:intl/intl.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
-import '../../../../../../core/dependency_injection/get_it.dart';
+import '../../../../../../core/utils/dependency_injection.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
 import '../../../../logic/chat_details_cubit/chat_detail_parent_cubit.dart';

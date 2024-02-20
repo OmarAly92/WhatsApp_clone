@@ -2,7 +2,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../functions/global_functions.dart';
+import '../../utils/global_functions.dart';
+
+
 
 class GlobalRequests {
   static final FirebaseMessaging messaging = FirebaseMessaging.instance;

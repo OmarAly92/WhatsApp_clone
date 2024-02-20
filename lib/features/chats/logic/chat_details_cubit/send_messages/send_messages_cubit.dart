@@ -12,7 +12,7 @@ import 'package:uuid/uuid.dart';
 import 'package:whats_app_clone/core/networking/model/chat_model/message_model.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
-import '../../../../../core/functions/global_functions.dart';
+import '../../../../../core/utils/global_functions.dart';
 import '../../../data/repository/chat_details_repository.dart';
 
 part 'send_messages_state.dart';

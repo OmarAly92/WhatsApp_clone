@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../../core/themes/theme_color.dart';
-import '../../../../../core/app_router/app_router.dart';
-import '../../../../../core/dependency_injection/get_it.dart';
+import '../../../../../core/utils/app_router.dart';
+import '../../../../../core/utils/dependency_injection.dart';
 import '../../../../../core/networking/model/chat_model/chat_model.dart';
 import '../../../logic/chats_cubit/chats_cubit.dart';
 import 'chat_item.dart';

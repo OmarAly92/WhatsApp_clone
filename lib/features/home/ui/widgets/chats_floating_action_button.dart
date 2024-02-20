@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_router/app_router.dart';
+import '../../../../core/utils/app_router.dart';
 import '../../../../core/themes/theme_color.dart';
 
 class ChatsFloatingActionButton extends StatelessWidget {

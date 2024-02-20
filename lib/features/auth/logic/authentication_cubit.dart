@@ -8,11 +8,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:whats_app_clone/core/utils/assets_data.dart';
 
+import '../../../core/networking/model/parameters_data/user_login_data.dart';
+import '../../../core/networking/model/parameters_data/user_sign_up.dart';
 import '../../../core/networking/model/user_model/user_model.dart';
-import '../../../core/parameters_data/user_login_data.dart';
-import '../../../core/parameters_data/user_sign_up.dart';
+import '../../../core/utils/assets_data.dart';
 
 part 'authentication_state.dart';
 

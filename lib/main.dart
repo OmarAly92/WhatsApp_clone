@@ -5,8 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/app_router/app_router.dart';
-import 'package:whats_app_clone/core/dependency_injection/get_it.dart';
+import 'package:whats_app_clone/core/utils/app_router.dart';
+import 'package:whats_app_clone/core/utils/dependency_injection.dart';
 import 'package:whats_app_clone/features/home/logic/notification_cubit.dart';
 
 import 'core/themes/themes.dart';

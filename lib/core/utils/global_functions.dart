@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 import 'package:whats_app_clone/features/chats/data/data_source/chats/chats_requests.dart';
 
-import '../dependency_injection/get_it.dart';
+import 'dependency_injection.dart';
 
 abstract class GlFunctions {
   ChatsRequest chatsRequest = sl();

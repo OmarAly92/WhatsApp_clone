@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/app_router/app_router.dart';
+import '../../../../../core/utils/app_router.dart';
 import '../../../../../core/networking/model/user_model/user_model.dart';
 import '../../../logic/select_contact_cubit/select_contact_cubit.dart';
 import 'local_mobile_contacts.dart';

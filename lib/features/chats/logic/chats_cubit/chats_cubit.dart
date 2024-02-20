@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
-import '../../../../core/functions/global_functions.dart';
+import '../../../../core/utils/global_functions.dart';
 import '../../../../core/networking/global_requests/global_requests.dart';
 import '../../../../core/networking/model/chat_model/chat_model.dart';
 import '../../../../core/networking/model/chat_model/message_model.dart';

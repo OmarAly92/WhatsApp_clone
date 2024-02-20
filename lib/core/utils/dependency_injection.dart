@@ -4,7 +4,7 @@ import '../../features/chats/data/data_source/chats/chat_details_requests.dart';
 import '../../features/chats/data/data_source/chats/chats_requests.dart';
 import '../../features/chats/data/repository/chat_details_repository.dart';
 import '../../features/chats/data/repository/chats_repository.dart';
-import '../app_router/app_router.dart';
+import 'app_router.dart';
 
 final sl = GetIt.instance;
 

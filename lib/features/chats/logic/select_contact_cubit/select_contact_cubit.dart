@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/functions/global_functions.dart';
+import '../../../../core/utils/global_functions.dart';
 import '../../../../core/networking/model/user_model/user_model.dart';
 import '../../data/repository/chats_repository.dart';
 

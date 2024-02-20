@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app_clone/core/themes/theme_color.dart';
+
+import '../../../../core/themes/theme_color.dart';
 
 class CustomTextForm extends StatelessWidget {
   const CustomTextForm({

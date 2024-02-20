@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../../core/app_router/app_router.dart';
+import '../../../../core/utils/app_router.dart';
 import '../../../../core/themes/theme_color.dart';
 import '../../logic/old/authentication_old_cubit.dart';
 import 'otp_intro_text.dart';

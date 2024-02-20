@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../../../../core/functions/global_functions.dart';
+import '../../../../../core/utils/global_functions.dart';
 
 part 'image_bubble_state.dart';
 

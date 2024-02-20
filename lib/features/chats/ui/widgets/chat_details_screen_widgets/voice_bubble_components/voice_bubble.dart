@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:whats_app_clone/core/functions/global_functions.dart';
+import 'package:whats_app_clone/core/utils/global_functions.dart';
 import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../../core/networking/model/chat_model/message_model.dart';
