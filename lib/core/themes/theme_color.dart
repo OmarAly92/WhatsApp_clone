@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/assets_data.dart';
+import '../utils/constants.dart';
 
 // class ThemeColors {
 //   final bool isDarkMode;

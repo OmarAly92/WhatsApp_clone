@@ -32,9 +32,7 @@ class TabBarViewBody extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 19.h),
-            child: UpdatesScreen(
-              themeColors: themeColors,
-            ),
+            child: UpdatesScreen(themeColors: themeColors),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 19.h),

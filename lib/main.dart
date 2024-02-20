@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:whats_app_clone/core/utils/app_router.dart';
-import 'package:whats_app_clone/core/utils/dependency_injection.dart';
-import 'package:whats_app_clone/features/home/logic/notification_cubit.dart';
 import 'package:whats_app_clone/testing/test_widget.dart';
 
 import 'core/themes/themes.dart';
+import 'core/utils/app_router.dart';
+import 'core/utils/dependency_injection.dart';
+import 'features/home/logic/notification_cubit.dart';
 import 'firebase_options.dart';
 
 late String initialScreen;

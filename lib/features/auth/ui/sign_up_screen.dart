@@ -10,7 +10,7 @@ import '../../../core/utils/app_router.dart';
 import '../../../core/networking/model/parameters_data/user_sign_up.dart';
 import '../../../core/themes/theme_color.dart';
 import '../../../core/utils/global_functions.dart';
-import '../../../core/utils/assets_data.dart';
+import '../../../core/utils/constants.dart';
 import '../logic/authentication_cubit.dart';
 import 'widgets/auth_button.dart';
 import 'widgets/custom_text_form.dart';

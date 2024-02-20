@@ -12,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/networking/model/parameters_data/user_login_data.dart';
 import '../../../core/networking/model/parameters_data/user_sign_up.dart';
 import '../../../core/networking/model/user_model/user_model.dart';
-import '../../../core/utils/assets_data.dart';
+import '../../../core/utils/constants.dart';
 
 part 'authentication_state.dart';
 
