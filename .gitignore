@@ -43,6 +43,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Testing files
-lib/test_voice_wave.dart
-lib/test_animated_container.dart
+# Testing Dir
+/lib/testing/
+
