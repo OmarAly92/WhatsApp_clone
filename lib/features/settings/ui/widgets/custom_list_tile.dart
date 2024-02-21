@@ -22,12 +22,12 @@ class CustomListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon, color: themeColors.bodyTextColor),
-      title: Text(title, style: Styles.textStyle16.copyWith(
+      title: Text(title, style: Styles.textStyle18().copyWith(
         fontSize: titleFontSize
       )),
       subtitle: Text(
         subtitle,
-        style: Styles.textStyle12.copyWith(
+        style: Styles.textStyle14().copyWith(
           color: themeColors.bodyTextColor,
           fontSize:subtitleFontSize,
         ),

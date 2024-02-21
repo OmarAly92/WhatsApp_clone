@@ -58,7 +58,7 @@ class _ImageBubbleBody extends StatelessWidget {
               children: [
                 Text(
                   GlFunctions.timeFormat(messageModel.time),
-                  style: Styles.textStyle12.copyWith(
+                  style: Styles.textStyle14().copyWith(
                     fontWeight: FontWeight.w500,
                     color: isTheSender ? Colors.white : themeColors.hisMessageTime,
                   ),

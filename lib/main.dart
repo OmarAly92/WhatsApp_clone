@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -6,13 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:whats_app_clone/testing/test_widget.dart';
-
 import 'core/themes/themes.dart';
 import 'core/utils/app_router.dart';
 import 'core/utils/dependency_injection.dart';
 import 'features/home/logic/notification_cubit.dart';
 import 'firebase_options.dart';
+import 'testing/test_widget.dart';
 
 late String initialScreen;
 
@@ -50,7 +50,14 @@ void main() async {
     }
   });
 
-  runApp(MyApp(appRouter: sl()));
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (context) {
+        return MyApp(appRouter: sl());
+      },
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -66,17 +73,22 @@ class MyApp extends StatelessWidget {
         designSize: const Size(360, 690),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context, child) =>
-            MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'WhatsApp Clone',
-              themeMode: ThemeMode.system,
-              theme: MyThemes.lightTheme,
-              darkTheme: MyThemes.darkTheme,
-              onGenerateRoute: appRouter.generateRoute,
-              initialRoute: initialScreen,
-              // home: const TestWidget(),
-            ),
+        builder: (context, child) => MaterialApp(
+          ///=======DevicePreview settings=======
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+
+          ///=======DevicePreview settings=======
+
+          debugShowCheckedModeBanner: false,
+          title: 'WhatsApp Clone',
+          themeMode: ThemeMode.system,
+          theme: MyThemes.lightTheme,
+          darkTheme: MyThemes.darkTheme,
+          onGenerateRoute: appRouter.generateRoute,
+          initialRoute: initialScreen,
+          // home: const TestWidget(),
+        ),
       ),
     );
   }

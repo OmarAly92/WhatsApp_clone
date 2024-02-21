@@ -20,9 +20,9 @@ class TheAuthor extends StatelessWidget {
         SizedBox(height: 18.h),
         Text('from',
             style:
-                Styles.textStyle14.copyWith(color: themeColors.bodyTextColor)),
+                Styles.textStyle16().copyWith(color: themeColors.bodyTextColor)),
         Text('EG0',
-            style: Styles.textStyle14.copyWith(
+            style: Styles.textStyle16().copyWith(
                 color: themeColors.theAuthorTextColor, fontSize: 15.spMin)),
         SizedBox(height: 40.h),
       ],

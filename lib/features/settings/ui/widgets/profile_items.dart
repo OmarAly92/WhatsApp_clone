@@ -35,13 +35,13 @@ class ProfileItems extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Styles.textStyle14.copyWith(
+                  style: Styles.textStyle16().copyWith(
                     color: themeColors.bodyTextColor,
                   ),
                 ),
                 Text(
                   subTitle,
-                  style: Styles.textStyle16,
+                  style: Styles.textStyle18(),
                 ),
               ],
             ),

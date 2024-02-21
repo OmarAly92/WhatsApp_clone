@@ -41,7 +41,7 @@ class ProfileBody extends StatelessWidget {
                             padding: EdgeInsets.only(left: 45.w),
                             child: Text(
                               'This is not your username or pin. This name will be visible to your WhatsApp contacts.',
-                              style: Styles.textStyle12.copyWith(
+                              style: Styles.textStyle14().copyWith(
                                 color: themeColors.bodyTextColor,
                               ),
                             ),

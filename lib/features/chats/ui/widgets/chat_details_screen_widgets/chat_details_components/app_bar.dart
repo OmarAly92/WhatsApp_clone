@@ -224,7 +224,7 @@ class ChatDetailsAppBar extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 4),
                     child: Text(
                       '${state.selectedItemCount}',
-                      style: Styles.textStyle24.copyWith(
+                      style: Styles.textStyle26().copyWith(
                         color: themeColors.privateChatAppBarColor,
                         fontWeight: FontWeight.w500,
                       ),
@@ -258,7 +258,7 @@ class ChatDetailsAppBar extends StatelessWidget {
                           children: [
                             Text(
                               hisName,
-                              style: Styles.textStyle18.copyWith(
+                              style: Styles.textStyle20().copyWith(
                                 color: themeColors.privateChatAppBarColor,
                               ),
                             ),
@@ -280,14 +280,14 @@ class ChatDetailsAppBar extends StatelessWidget {
       return (state.userInfo.isOnline)
           ? Text(
               'Online',
-              style: Styles.textStyle12.copyWith(
+              style: Styles.textStyle14().copyWith(
                 color: themeColors.privateChatAppBarColor,
                 fontWeight: FontWeight.w400,
               ),
             )
           : Text(
               'last seen today at ${GlFunctions.timeFormatUsingMillisecondHM(state.userInfo.lastActive)}',
-              style: Styles.textStyle12.copyWith(
+              style: Styles.textStyle14().copyWith(
                 color: themeColors.privateChatAppBarColor,
                 fontWeight: FontWeight.w500,
               ),

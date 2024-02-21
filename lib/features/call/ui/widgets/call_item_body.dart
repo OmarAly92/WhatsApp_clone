@@ -19,7 +19,7 @@ class CallItemBody extends StatelessWidget {
       children: [
         Text(
           'Eng Kareem😎',
-          style: Styles.textStyle16.copyWith(
+          style: Styles.textStyle18().copyWith(
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -32,7 +32,7 @@ class CallItemBody extends StatelessWidget {
             ),
             Text(
               'August 2, 11:45 PM',
-              style: Styles.textStyle14.copyWith(
+              style: Styles.textStyle16().copyWith(
                 color: themeColors.bodyTextColor,
                 fontWeight: FontWeight.w500,
               ),

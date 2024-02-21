@@ -23,7 +23,7 @@ class CallBodySection extends StatelessWidget {
         SizedBox(height: 17.h),
         Text(
           'Recent',
-          style: Styles.textStyle16.copyWith(
+          style: Styles.textStyle18().copyWith(
             fontWeight: FontWeight.w500,
           ),
         ),

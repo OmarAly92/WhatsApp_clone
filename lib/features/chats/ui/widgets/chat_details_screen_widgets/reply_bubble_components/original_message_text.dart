@@ -23,7 +23,7 @@ class _OriginalMessageText extends StatelessWidget {
           SizedBox(width: 2.w),
           Text(
             'Photo',
-            style: Styles.textStyle14.copyWith(
+            style: Styles.textStyle16().copyWith(
               color: themeColors.replyOriginalMessageColor,
               fontWeight: FontWeight.w500,
             ),
@@ -41,7 +41,7 @@ class _OriginalMessageText extends StatelessWidget {
           SizedBox(width: 2.w),
           Text(
             'Voice message (${GlFunctions.timeFormatUsingMillisecondVoiceOnly(messageModel.maxDuration)})',
-            style: Styles.textStyle14.copyWith(
+            style: Styles.textStyle16().copyWith(
               color: themeColors.replyOriginalMessageColor,
               fontWeight: FontWeight.bold,
             ),
@@ -53,7 +53,7 @@ class _OriginalMessageText extends StatelessWidget {
         messageModel.originalMessage,
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
-        style: Styles.textStyle14.copyWith(
+        style: Styles.textStyle16().copyWith(
           color: themeColors.replyOriginalMessageColor,
           fontWeight: FontWeight.bold,
         ),

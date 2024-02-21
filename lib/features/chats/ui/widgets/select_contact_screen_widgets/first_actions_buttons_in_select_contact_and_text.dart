@@ -33,7 +33,7 @@ class FirstActionsButtonsInSelectContactAndText extends StatelessWidget {
                 children: [
                   Text(
                     'New contact',
-                    style: Styles.textStyle18.copyWith(
+                    style: Styles.textStyle20().copyWith(
                       fontSize: 17.spMin,
                       fontWeight: FontWeight.w500,
                     ),
@@ -74,7 +74,7 @@ class FirstActionsButtonsInSelectContactAndText extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 13.w),
             child: Text(
               'Contacts on WhatsApp',
-              style: Styles.textStyle12.copyWith(
+              style: Styles.textStyle14().copyWith(
                 color: const Color(0xff8c99a1),
                 fontSize: 13.spMin,
               ),

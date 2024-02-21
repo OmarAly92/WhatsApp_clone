@@ -18,7 +18,7 @@ class WelcomeTitleAndSubtitleSection extends StatelessWidget {
       children: [
         Text(
           'Welcome to WhatsApp Clone',
-          style: Styles.textStyle22.copyWith(fontWeight: FontWeight.w600),
+          style: Styles.textStyle24().copyWith(fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10.h),
         RichText(
@@ -27,28 +27,28 @@ class WelcomeTitleAndSubtitleSection extends StatelessWidget {
             children: [
               TextSpan(
                 text: 'Read our ',
-                style: Styles.textStyle14.copyWith(
-                    color: themeColors.bodyTextColor, fontSize: 13.spMin),
+                style: Styles.textStyle16().copyWith(
+                    color: themeColors.bodyTextColor),
               ),
               TextSpan(
                 text: 'Privacy Policy',
-                style: Styles.textStyle14.copyWith(
-                    color: const Color(0xff50b2e1), fontSize: 13.spMin),
+                style: Styles.textStyle16().copyWith(
+                    color: const Color(0xff50b2e1)),
               ),
               TextSpan(
                 text: '. Tap "Agree and continue" to accept the ',
-                style: Styles.textStyle14.copyWith(
-                    color: themeColors.bodyTextColor, fontSize: 13.spMin),
+                style: Styles.textStyle16().copyWith(
+                    color: themeColors.bodyTextColor),
               ),
               TextSpan(
                 text: 'Terms of Service',
-                style: Styles.textStyle14.copyWith(
-                    color: const Color(0xff50b2e1), fontSize: 13.spMin),
+                style: Styles.textStyle16().copyWith(
+                    color: const Color(0xff50b2e1)),
               ),
               TextSpan(
                 text: '.',
-                style: Styles.textStyle14.copyWith(
-                    color: themeColors.bodyTextColor, fontSize: 13.spMin),
+                style: Styles.textStyle16().copyWith(
+                    color: themeColors.bodyTextColor),
               ),
             ],
           ),

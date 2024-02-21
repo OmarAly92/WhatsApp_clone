@@ -27,7 +27,7 @@ class UpdatesScreen extends StatelessWidget {
         SizedBox(height: 8.h),
         Text(
           'Recent updates',
-          style: Styles.textStyle12.copyWith(
+          style: Styles.textStyle14().copyWith(
             color: themeColors.bodyTextColor,
             fontWeight: FontWeight.w500,
           ),

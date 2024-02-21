@@ -21,7 +21,7 @@ class OTPIntroText extends StatelessWidget {
       children: [
         Text(
           'Verify your phone number',
-          style: Styles.textStyle24.copyWith(
+          style: Styles.textStyle26().copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -31,13 +31,13 @@ class OTPIntroText extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: 'Enter your 6 digit code number sent to ',
-              style: Styles.textStyle18
+              style: Styles.textStyle20()
                   .copyWith(height: 1.4, color: themeColors.regularTextColor),
               children: <TextSpan>[
                 TextSpan(
                   // text: phoneNumber,
                   text: phoneNumber,
-                  style: Styles.textStyle14.copyWith(
+                  style: Styles.textStyle16().copyWith(
                     color: const Color(0xff66b6d9),
                   ),
                 ),

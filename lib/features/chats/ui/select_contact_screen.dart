@@ -32,7 +32,7 @@ class SelectContactScreen extends StatelessWidget {
         children: [
           Text(
             'Select Contact',
-            style: Styles.textStyle18.copyWith(
+            style: Styles.textStyle20().copyWith(
               fontSize: 17.spMin,
               fontWeight: FontWeight.w500,
               color: Colors.white,
@@ -40,7 +40,7 @@ class SelectContactScreen extends StatelessWidget {
           ),
           // Text(
           //   '100 contacts',
-          //   style: Styles.textStyle14.copyWith(
+          //   style: Styles.textStyle14().copyWith(
           //     fontWeight: FontWeight.w500,
           //     color: Colors.white,
           //   ),

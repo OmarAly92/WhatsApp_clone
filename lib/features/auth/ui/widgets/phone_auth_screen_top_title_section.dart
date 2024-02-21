@@ -21,11 +21,11 @@ class PhoneAuthScreenTopTitleSection extends StatelessWidget {
           children: [
             Text(
               '      ',
-              style: Styles.textStyle18,
+              style: Styles.textStyle20(),
             ),
             Text(
               'Enter your phone number',
-              style: Styles.textStyle18,
+              style: Styles.textStyle20(),
             ),
             IconButton(
               onPressed: () {},
@@ -42,12 +42,12 @@ class PhoneAuthScreenTopTitleSection extends StatelessWidget {
             children: [
               TextSpan(
                 text: 'WhatsApp will need to verify your account. ',
-                style: Styles.textStyle12
+                style: Styles.textStyle14()
                     .copyWith(color: themeColors.regularTextColor),
               ),
               TextSpan(
                 text: 'What\'s my number?',
-                style: Styles.textStyle12.copyWith(
+                style: Styles.textStyle14().copyWith(
                   color: const Color(0xff66b6d9),
                 ),
               ),

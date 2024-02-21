@@ -297,7 +297,7 @@ class _WhatsAppTextFormAndMicButtonState extends State<WhatsAppTextFormAndMicBut
                 hisUserModel: widget.hisUserModel,
               ),
               hintText: 'Message',
-              hintStyle: Styles.textStyle18.copyWith(
+              hintStyle: Styles.textStyle20().copyWith(
                 color: widget.themeColors.bodyTextColor,
               ),
               border: InputBorder.none,

@@ -37,10 +37,10 @@ class ChatItemBody extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(contactName, style: Styles.textStyle16),
+                  Text(contactName, style: Styles.textStyle18()),
                   Text(
                     (state is ListenToLastMessage) ? GlFunctions.timeFormat(state.lastMessage.time) : '',
-                    style: Styles.textStyle12.copyWith(
+                    style: Styles.textStyle14().copyWith(
                       color: themeColors.bodyTextColor,
                     ),
                   ),

@@ -51,9 +51,8 @@ class _DeletedMessageBubbleBody extends StatelessWidget {
           Text(
             isTheSender ? 'You deleted this message' : 'This message was deleted',
             softWrap: true,
-            style: Styles.textStyle16.copyWith(
+            style: Styles.textStyle18().copyWith(
               color: deletedMessageColor,
-              fontSize: 17.spMin,
               fontWeight: FontWeight.w500,
               fontStyle: FontStyle.italic,
             ),
@@ -62,7 +61,7 @@ class _DeletedMessageBubbleBody extends StatelessWidget {
             padding: EdgeInsets.only(top: 7.h, left: 5.5.w),
             child: Text(
               time,
-              style: Styles.textStyle12.copyWith(
+              style: Styles.textStyle14().copyWith(
                 fontWeight: FontWeight.w500,
                 color: isTheSender ? themeColors.myMessageTime : themeColors.hisMessageTime,
               ),

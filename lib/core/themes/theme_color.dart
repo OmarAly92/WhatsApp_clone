@@ -58,6 +58,9 @@ class ThemeColors {
 
   late final Color updatesEditIconColor;
 
+
+  late final Color activeTabBarColor;
+
   late final Color contactScreenContainerColor;
   late final Color contactScreenIconColor;
 
@@ -124,6 +127,7 @@ class ThemeColors {
 
     myReplyMessage = isDarkMode ? const Color(0xff025043) : const Color(0xffDEF6D4);
     hisReplyMessage = isDarkMode ? const Color(0xff1E292F) : const Color(0xffF5F7F6);
+    activeTabBarColor = isDarkMode ? const Color(0xff00a884) : const Color(0xffFFFFFF);
 
     replyOriginalMessageColor = isDarkMode ? const Color(0xff7B8B94) : const Color(0xff738088);
 

@@ -43,7 +43,7 @@ class _MessageBubbleBody extends StatelessWidget {
           Text(
             messageModel.message,
             softWrap: true,
-            style: Styles.textStyle16.copyWith(fontWeight: FontWeight.w500),
+            style: Styles.textStyle18().copyWith(fontWeight: FontWeight.w500),
           ),
           Padding(
             padding: EdgeInsets.only(top: 7.h, left: 5.5.w),
@@ -52,7 +52,7 @@ class _MessageBubbleBody extends StatelessWidget {
               children: [
                 Text(
                   GlFunctions.timeFormat(messageModel.time),
-                  style: Styles.textStyle12.copyWith(
+                  style: Styles.textStyle14().copyWith(
                     fontWeight: FontWeight.w500,
                     color: isTheSender ? themeColors.myMessageTime : themeColors.hisMessageTime,
                   ),

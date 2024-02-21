@@ -53,7 +53,7 @@ class WelcomeButtonsSection extends StatelessWidget {
               const SizedBox(width: 9),
               Text(
                 'English',
-                style: Styles.textStyle14.copyWith(
+                style: Styles.textStyle16().copyWith(
                   color: themeColors.greenButton,
                   fontWeight: FontWeight.w500,
                 ),

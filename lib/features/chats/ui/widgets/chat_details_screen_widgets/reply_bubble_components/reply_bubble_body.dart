@@ -72,7 +72,7 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
                       padding: EdgeInsets.only(top: 3.h, bottom: 2.h),
                       child: Text(
                         messageModel.replyOriginalName,
-                        style: Styles.textStyle14.copyWith(fontSize: 13.spMin, color: replyColor),
+                        style: Styles.textStyle16().copyWith(fontSize: 13.spMin, color: replyColor),
                       ),
                     ),
                     _OriginalMessageText(
@@ -92,7 +92,7 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
                   child: Text(
                     messageModel.message,
                     softWrap: true,
-                    style: Styles.textStyle16.copyWith(fontWeight: FontWeight.w500),
+                    style: Styles.textStyle18().copyWith(fontWeight: FontWeight.w500),
                   ),
                 ),
                 Padding(
@@ -101,7 +101,7 @@ class _ReplyBubbleBodyComponent extends StatelessWidget {
                     children: [
                       Text(
                         time,
-                        style: Styles.textStyle12.copyWith(
+                        style: Styles.textStyle14().copyWith(
                           fontWeight: FontWeight.w500,
                           color: isTheSender ? themeColors.myMessageTime : themeColors.hisMessageTime,
                         ),

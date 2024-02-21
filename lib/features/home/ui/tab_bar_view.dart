@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/themes/theme_color.dart';
 import '../../../core/utils/app_router.dart';
-import '../../../testing/custom_tab_bar.dart';
+import 'widgets/custom_tab_bar.dart';
 import 'widgets/tab_bar_view_body.dart';
 import 'widgets/tabs_floating_action_button.dart';
 
@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    MediaQuery.sizeOf(context).width;
     return Scaffold(
       floatingActionButton:
           TabsFloatingActionButton(currentPageIndex: currentPageIndex, themeColors: widget.themeColors),
@@ -87,18 +88,24 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           isActive: currentPageIndex == 0,
           text: 'Chats',
           pageController: pageController,
+          activeColor: widget.themeColors.activeTabBarColor,
+          inActiveColor: widget.themeColors.appbarTextColor,
         ),
         TabItem(
           index: 1,
           isActive: currentPageIndex == 1,
           text: 'Updates',
           pageController: pageController,
+          activeColor: widget.themeColors.activeTabBarColor,
+          inActiveColor: widget.themeColors.appbarTextColor,
         ),
         TabItem(
           index: 2,
           isActive: currentPageIndex == 2,
           text: 'Calls',
           pageController: pageController,
+          activeColor: widget.themeColors.activeTabBarColor,
+          inActiveColor: widget.themeColors.appbarTextColor,
         ),
       ],
     );

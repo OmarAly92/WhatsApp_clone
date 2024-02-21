@@ -95,7 +95,7 @@ class SettingsItem extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.people_rounded, color: themeColors.bodyTextColor),
-          title: Text('Invite a friend', style: Styles.textStyle16),
+          title: Text('Invite a friend', style: Styles.textStyle18()),
           minLeadingWidth: 28.w,
           onTap: () {},
         ),
@@ -105,7 +105,7 @@ class SettingsItem extends StatelessWidget {
             leading: const Icon(Icons.people_rounded, color: Colors.red),
             title: Text(
               'Logout',
-              style: Styles.textStyle16.copyWith(
+              style: Styles.textStyle18().copyWith(
                 color: Colors.red,
               ),
             ),

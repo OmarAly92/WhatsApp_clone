@@ -75,7 +75,7 @@ class _AudioWaveVoiceDurationAndVoiceTimeState extends State<_AudioWaveVoiceDura
                     },
                     child: Text(
                       duration,
-                      style: Styles.textStyle12.copyWith(
+                      style: Styles.textStyle14().copyWith(
                         fontWeight: FontWeight.w500,
                         color: widget.isTheSender
                             ? widget.themeColors.myMessageTime
@@ -88,7 +88,7 @@ class _AudioWaveVoiceDurationAndVoiceTimeState extends State<_AudioWaveVoiceDura
                   children: [
                     Text(
                       GlFunctions.timeFormat(widget.messageModel.time),
-                      style: Styles.textStyle12.copyWith(
+                      style: Styles.textStyle14().copyWith(
                         fontWeight: FontWeight.w500,
                         color: widget.isTheSender
                             ? widget.themeColors.myMessageTime

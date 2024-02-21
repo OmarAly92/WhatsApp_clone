@@ -39,11 +39,11 @@ class SettingsProfileSuccess extends StatelessWidget {
                 CustomBodyTitlesWidget(
                   textTitle: Text(
                     state.user.name,
-                    style: Styles.textStyle18,
+                    style: Styles.textStyle20(),
                   ),
                   textSubTitle: Text(
                     'Available',
-                    style: Styles.textStyle12.copyWith(color: themeColors.bodyTextColor),
+                    style: Styles.textStyle14().copyWith(color: themeColors.bodyTextColor),
                   ),
                   themeColors: themeColors,
                 ),

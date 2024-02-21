@@ -32,7 +32,7 @@ class AuthButton extends StatelessWidget {
       ),
       child: Text(
         buttonName,
-        style: Styles.textStyle14.copyWith(
+        style: Styles.textStyle16().copyWith(
           color: themeColors.backgroundColor,
         ),
       ),

@@ -34,13 +34,13 @@ class CreateCallLinkWidget extends StatelessWidget {
           children: [
             Text(
               'Create call link',
-              style: Styles.textStyle16.copyWith(
+              style: Styles.textStyle18().copyWith(
                 fontWeight: FontWeight.w500,
               ),
             ),
             Text(
               'Share a link for your WhatsApp call',
-              style: Styles.textStyle14.copyWith(
+              style: Styles.textStyle16().copyWith(
                 color: themeColors.bodyTextColor,
                 fontWeight: FontWeight.w500,
               ),

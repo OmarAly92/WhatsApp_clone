@@ -10,7 +10,7 @@ abstract class MyThemes {
     appBarTheme: AppBarTheme(
       backgroundColor: DarkThemeColors.appbarColor,
       actionsIconTheme: const IconThemeData(color: DarkThemeColors.textColor),
-      titleTextStyle: Styles.textStyle20.copyWith(
+      titleTextStyle: Styles.textStyle22().copyWith(
           color: DarkThemeColors.textColor, fontWeight: FontWeight.w500),
     ),
     colorScheme: const ColorScheme.dark().copyWith(
@@ -28,7 +28,7 @@ abstract class MyThemes {
     appBarTheme: AppBarTheme(
         backgroundColor: LightThemeColors.appbarColor,
         actionsIconTheme: const IconThemeData(color: Colors.white),
-        titleTextStyle: Styles.textStyle20),
+        titleTextStyle: Styles.textStyle22()),
     colorScheme: const ColorScheme.light().copyWith(
         primary: LightThemeColors.backgroundColor,
         primaryContainer: LightThemeColors.greenColor),

@@ -104,7 +104,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                     SizedBox(height: 20.h),
                     Text(
                       'Carrier charges may apply',
-                      style: Styles.textStyle14.copyWith(
+                      style: Styles.textStyle16().copyWith(
                         color: widget.themeColors.bodyTextColor,
                       ),
                     ),
@@ -149,7 +149,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             child: Center(
               child: Text(
                 '${generateCountryFlag(countryCode: 'eg')} +2',
-                style: Styles.textStyle18.copyWith(
+                style: Styles.textStyle20().copyWith(
                   letterSpacing: 2.0,
                 ),
               ),
@@ -168,7 +168,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
             ),
             child: TextFormField(
               controller: phoneNumberController,
-              style: Styles.textStyle18,
+              style: Styles.textStyle20(),
               decoration: const InputDecoration(
                 border: InputBorder.none,
               ),

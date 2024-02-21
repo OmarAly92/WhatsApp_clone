@@ -29,10 +29,10 @@ class StatusItem extends StatelessWidget {
           width: 4.w,
         ),
         CustomBodyTitlesWidget(
-          textTitle: Text(textTitle, style: Styles.textStyle16),
+          textTitle: Text(textTitle, style: Styles.textStyle18()),
           textSubTitle: Text(
             textSubTitle,
-            style: Styles.textStyle14.copyWith(
+            style: Styles.textStyle16().copyWith(
               color: themeColors.bodyTextColor,
               fontWeight: FontWeight.w500,
             ),

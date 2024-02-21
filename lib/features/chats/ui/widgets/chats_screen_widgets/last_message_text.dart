@@ -26,7 +26,7 @@ class LastMessageText extends StatelessWidget {
           SizedBox(width: 2.w),
           Text(
             'Photo',
-            style: Styles.textStyle14.copyWith(
+            style: Styles.textStyle16().copyWith(
               color: themeColors.bodyTextColor,
             ),
           ),
@@ -46,7 +46,7 @@ class LastMessageText extends StatelessWidget {
             GlFunctions.timeFormatUsingMillisecondVoiceOnly(state.lastMessage.maxDuration),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: Styles.textStyle14.copyWith(
+            style: Styles.textStyle16().copyWith(
               color: themeColors.bodyTextColor,
             ),
           ),
@@ -65,7 +65,7 @@ class LastMessageText extends StatelessWidget {
           Text(
             'This message was deleted',
             overflow: TextOverflow.ellipsis,
-            style: Styles.textStyle14.copyWith(
+            style: Styles.textStyle16().copyWith(
               color: themeColors.bodyTextColor,
               fontStyle: FontStyle.italic,
             ),
@@ -77,7 +77,7 @@ class LastMessageText extends StatelessWidget {
         state.lastMessage.message,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: Styles.textStyle14.copyWith(
+        style: Styles.textStyle16().copyWith(
           color: themeColors.bodyTextColor,
         ),
       );

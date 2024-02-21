@@ -16,7 +16,7 @@ class UpdateRowStatusAndIcon extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Status', style: Styles.textStyle20),
+        Text('Status', style: Styles.textStyle22()),
         IconButton(
           onPressed: () {},
           icon: Icon(Icons.more_vert, color: themeColors.bodyTextColor),

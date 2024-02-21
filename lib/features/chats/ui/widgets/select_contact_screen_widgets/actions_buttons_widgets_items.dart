@@ -30,7 +30,7 @@ class ActionsButtonsWidgetsItems extends StatelessWidget {
       child: ListTile(
         title: Text(
           title,
-          style: Styles.textStyle18.copyWith(
+          style: Styles.textStyle20().copyWith(
             fontSize: 17.spMin,
             fontWeight: FontWeight.w500,
           ),

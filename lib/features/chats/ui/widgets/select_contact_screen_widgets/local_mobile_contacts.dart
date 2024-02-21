@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/themes/text_style/text_styles.dart';
 
-
 class LocalMobileContactsItem extends StatelessWidget {
   const LocalMobileContactsItem(
-      {Key? key, required this.contactName, required this.contactDescription, required this.contactImage, required this.onTap})
+      {Key? key,
+      required this.contactName,
+      required this.contactDescription,
+      required this.contactImage,
+      required this.onTap})
       : super(key: key);
   final String contactName;
   final String contactDescription;
@@ -39,7 +42,7 @@ class LocalMobileContactsItem extends StatelessWidget {
                 children: [
                   Text(
                     contactName,
-                    style: Styles.textStyle18.copyWith(
+                    style: Styles.textStyle20().copyWith(
                       fontSize: 17.spMin,
                       fontWeight: FontWeight.w500,
                     ),
@@ -48,8 +51,10 @@ class LocalMobileContactsItem extends StatelessWidget {
                       ? const SizedBox.shrink()
                       : Text(
                           contactDescription,
-                          style: Styles.textStyle16
-                              .copyWith(fontWeight: FontWeight.w500, color: const Color(0xff8c99a1)),
+                          style: Styles.textStyle18().copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xff8c99a1),
+                          ),
                         ),
                 ],
               ),

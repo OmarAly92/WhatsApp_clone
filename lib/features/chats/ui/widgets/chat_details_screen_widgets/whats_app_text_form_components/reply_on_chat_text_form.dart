@@ -59,7 +59,7 @@ class ReplyOnChatTextForm extends StatelessWidget {
                 children: [
                   Text(
                     replyName,
-                    style: Styles.textStyle14.copyWith(fontSize: 13.spMin, color: replyColor),
+                    style: Styles.textStyle16().copyWith( color: replyColor),
                   ),
                   InkWell(
                     onTap: () {

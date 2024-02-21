@@ -47,10 +47,9 @@ class IconItemWidget extends StatelessWidget {
         SizedBox(height: 5.h),
         Text(
           title,
-          style: Styles.textStyle14.copyWith(
+          style: Styles.textStyle16().copyWith(
             color: themeColors.bodyTextColor,
             fontWeight: FontWeight.w500,
-            fontSize: 13.spMin,
           ),
         ),
       ],
