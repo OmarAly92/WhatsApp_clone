@@ -3,11 +3,12 @@ part of 'voice_bubble.dart';
 class _CircleImage extends StatelessWidget {
   const _CircleImage({
     required this.isTheSender,
-    required this.hisProfilePicture,
+    required this.hisProfilePicture, required this.myProfilePicture,
   });
 
   final bool isTheSender;
   final String hisProfilePicture;
+  final String myProfilePicture;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class _CircleImage extends StatelessWidget {
         width: 44.5.r,
         child: CustomCircleImage(
           profileImage: isTheSender
-              ? 'https://th.bing.com/th/id/OIP.LEdWiNYXu4hW21hWPIaXwwHaEo?rs=1&pid=ImgDetMain'
+              ? myProfilePicture
               : hisProfilePicture,
         ),
       ),

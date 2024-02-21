@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../core/utils/global_functions.dart';
 
@@ -88,6 +89,7 @@ class VoiceBubbleCubit extends Cubit<VoiceBubbleState> {
       emit(VoiceBubbleError(errorMessage: 'Failed to download voice file: $error'));
     }
   }
+
 
   void playAndPause({
     required String voiceUrl,

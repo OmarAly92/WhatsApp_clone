@@ -28,6 +28,7 @@ class _MessageSelection extends StatefulWidget {
 class _MessageSelectionState extends State<_MessageSelection> {
   int isSelected = -1;
   int isSelectedLongPress = -1;
+  late UserModel myUserData;
 
   void triggerReadStatusMethod() {
     if (widget.messageModel.isSeen.isEmpty) {
@@ -39,6 +40,12 @@ class _MessageSelectionState extends State<_MessageSelection> {
       }
     }
   }
+@override
+  void initState() {
+    super.initState();
+    myUserData = BlocProvider.of<ChatDetailParentCubit>(context).myUserData;
+}
+
 
   Widget messageSelection() {
     triggerReadStatusMethod();
@@ -63,6 +70,7 @@ class _MessageSelectionState extends State<_MessageSelection> {
           isFirstMessage: widget.isFirstMessage,
           messageModel: widget.messageModel,
           backgroundBlendMode: backgroundBlendMode,
+          myUserData: myUserData,
         ),
       );
     } else if (widget.messageModel.type == 'image') {

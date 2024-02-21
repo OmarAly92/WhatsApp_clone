@@ -5,15 +5,20 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
-import '../../../../core/utils/global_functions.dart';
 import '../../../../core/networking/model/chat_model/message_model.dart';
+import '../../../../core/utils/global_functions.dart';
 
 part 'chat_detail_parent_state.dart';
 
 class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
-  ChatDetailParentCubit() : super(const ChatDetailParentInitial());
+  ChatDetailParentCubit() : super(const ChatDetailParentInitial()){
+    getMyUserData();
+  }
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  late UserModel myUserData;
 
   int selectedItemCount = 0;
   List<String> messagesId = [];
@@ -34,6 +39,10 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
     } else {
       emit(ChatDetailParentLongPressedAppbar(selectedItemCount: selectedItemCount));
     }
+  }
+
+  void getMyUserData() async {
+    myUserData = await GlFunctions.getMyUserData();
   }
 
   void closeLongPressedAppbar() {
@@ -97,7 +106,8 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
     required String messageId,
     required String chatCollectionDocId,
   }) async {
-    final String messageDocId = await _getDocIdForDelete(messageId: messageId, chatCollectionDocId: chatCollectionDocId);
+    final String messageDocId =
+        await _getDocIdForDelete(messageId: messageId, chatCollectionDocId: chatCollectionDocId);
 
     await FirebaseFirestore.instance
         .collection('chats')
@@ -120,6 +130,4 @@ class ChatDetailParentCubit extends Cubit<ChatDetailParentState> {
     String messageDocId = data.docs.first.id;
     return messageDocId;
   }
-
-
 }

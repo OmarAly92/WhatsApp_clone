@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:whats_app_clone/core/utils/global_functions.dart';
-import 'package:whats_app_clone/core/networking/model/user_model/user_model.dart';
 
 import '../../../../../../core/networking/model/chat_model/message_model.dart';
+import '../../../../../../core/networking/model/user_model/user_model.dart';
 import '../../../../../../core/themes/text_style/text_styles.dart';
 import '../../../../../../core/themes/theme_color.dart';
+import '../../../../../../core/utils/global_functions.dart';
 import '../../../../../../core/widgets/custom_circle_image.dart';
+import '../../../../logic/chat_details_cubit/chat_detail_parent_cubit.dart';
 import '../../../../logic/chat_details_cubit/voice_bubble_cubit/voice_bubble_cubit.dart';
 import '../custom_bubble_parent.dart';
 
@@ -29,7 +30,7 @@ class VoiceBubble extends StatefulWidget {
     required this.isFirstMessage,
     required this.hisUserModel,
     required this.messageModel,
-    required this.backgroundBlendMode,
+    required this.backgroundBlendMode, required this.myUserData,
   }) : super(key: key);
   final ThemeColors themeColors;
   final bool isTheSender;
@@ -37,19 +38,26 @@ class VoiceBubble extends StatefulWidget {
   final UserModel hisUserModel;
   final MessageModel messageModel;
   final BlendMode backgroundBlendMode;
-
+  final UserModel myUserData;
   @override
   State<VoiceBubble> createState() => _VoiceBubbleState();
 }
 
 class _VoiceBubbleState extends State<VoiceBubble> {
+
+
+///todo fixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
   @override
   void initState() {
     super.initState();
+
     BlocProvider.of<VoiceBubbleCubit>(context).checkIfFileExistsAndPlayOrDownload(
       voiceUrl: widget.messageModel.message,
       hisPhoneNumber: widget.hisUserModel.phoneNumber,
     );
+
   }
 
   @override
@@ -75,7 +83,7 @@ class _VoiceBubbleState extends State<VoiceBubble> {
                 widget.isTheSender
                     ? _CircleImage(
                         hisProfilePicture: widget.hisUserModel.profilePicture,
-                        isTheSender: widget.isTheSender,
+                        isTheSender: widget.isTheSender, myProfilePicture:widget.myUserData.profilePicture,
                       )
                     : const SizedBox.shrink(),
                 _VoiceButtonStates(
@@ -92,8 +100,8 @@ class _VoiceBubbleState extends State<VoiceBubble> {
                 widget.isTheSender
                     ? const SizedBox.shrink()
                     : _CircleImage(
-                        hisProfilePicture: widget.hisUserModel.phoneNumber,
-                        isTheSender: widget.isTheSender,
+                        hisProfilePicture: widget.hisUserModel.profilePicture,
+                        isTheSender: widget.isTheSender, myProfilePicture: widget.myUserData.profilePicture,
                       ),
               ],
             ),
